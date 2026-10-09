@@ -1,0 +1,187 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/TheSeasons-Reg.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/TheSeasons-Bd.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'The Seasons';
+  src: url('/fonts/TheSeasons-BdIt.ttf') format('truetype');
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Sloop Script Pro';
+  src: url('/fonts/SloopScriptPro-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --azul-marino: #1a3256;
+  --azul-principal: #2c4a7c;
+  --azul-acero: #7a94b5;
+  --azul-dresscode: #6b88b5;
+  --crema: #f5f0e8;
+  --blanco: #ffffff;
+  --boton: #5b7ba6;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--crema);
+  /* textura papel sutil con CSS */
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(26, 50, 86, 0.04), transparent 55%),
+    radial-gradient(ellipse at 85% 30%, rgba(26, 50, 86, 0.035), transparent 50%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.19 0 0 0 0 0.34 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  color: var(--azul-marino);
+  font-family: 'The Seasons', 'Cormorant Garamond', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  min-height: 100vh;
+  background: transparent;
+  overflow-x: clip;
+  box-shadow: 0 0 50px rgba(26, 50, 86, 0.12);
+}
+
+.page > main {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+.bg-fondo-0 {
+  background-image: url('/assets/fondo0.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-fondo-1 {
+  background-image: url('/assets/fondo1.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-fondo-2 {
+  background-image: url('/assets/fondo2.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.bg-fondo-3 {
+  background-image: url('/assets/fondo3.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+section.bloque {
+  position: relative;
+  padding: 2.5rem 1.4rem;
+  text-align: center;
+}
+
+.font-script {
+  font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+  font-weight: 400;
+}
+
+.font-serif { font-family: 'The Seasons', 'Cormorant Garamond', serif; }
+.font-playfair { font-family: 'Playfair Display', serif; font-style: italic; }
+
+.titulo-script {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 12vw, 3.6rem);
+  color: var(--azul-marino);
+  line-height: 1.1;
+  margin: 0.4rem 0 1rem;
+}
+
+/* marco de volutas en esquinas (SVG inline por componente) */
+.marco {
+  position: relative;
+  border: 1px solid rgba(26, 50, 86, 0.35);
+  border-radius: 2px;
+  padding: 2rem 1.2rem;
+}
+.marco::before,
+.marco::after {
+  content: '❧';
+  position: absolute;
+  font-size: 1.4rem;
+  color: var(--azul-principal);
+  background: var(--crema);
+  padding: 0 0.4rem;
+  line-height: 1;
+}
+.marco::before { top: -0.8rem; left: 50%; transform: translateX(-50%) rotate(90deg); }
+.marco::after { bottom: -0.8rem; left: 50%; transform: translateX(-50%) rotate(-90deg); }
+
+.corner { position: absolute; width: 56px; height: 56px; color: var(--azul-principal); opacity: 0.85; pointer-events: none; }
+.corner.tl { top: 6px; left: 6px; }
+.corner.tr { top: 6px; right: 6px; transform: scaleX(-1); }
+.corner.bl { bottom: 6px; left: 6px; transform: scaleY(-1); }
+.corner.br { bottom: 6px; right: 6px; transform: scale(-1); }
+
+.floral-divider {
+  color: var(--azul-acero);
+  letter-spacing: 0.6em;
+  font-size: 0.9rem;
+  margin: 1.2rem 0;
+  opacity: 0.8;
+}
+
+.btn-ak {
+  display: block;
+  width: 100%;
+  background: var(--boton);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  padding: 0.9rem 1rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.btn-ak:hover { filter: brightness(1.07); }
+.btn-ak:active { transform: scale(0.99); }
+.btn-ak:disabled { opacity: 0.6; cursor: wait; }
+
+.foto-marco {
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(26, 50, 86, 0.18);
+}
+.foto-marco img { display: block; width: 100%; height: auto; }
+
+.fade-up { opacity: 0; transform: translateY(18px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-up.visible { opacity: 1; transform: none; }
+
+.dot { width: 34px; height: 34px; border-radius: 999px; display: inline-block; border: 1px solid rgba(26,50,86,.25); }

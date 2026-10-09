@@ -1,0 +1,77 @@
+---
+// S1 — SAVE THE DATE (Hero / Portada). Fiel a la referencia:
+// monograma arriba, marco de esquinas con título+fecha+versículo,
+// hidrangea arriba-izq, tallo arriba-der, peonía grande abajo-izq.
+---
+<section class="hero" id="save-the-date" aria-label="Save the date de Ángel y Kenia">
+  <img class="fl-tl" src="/assets/arreglo_floral_esquina.webp" alt="" fetchpriority="high" />
+  <img class="fl-tr" src="/assets/flor_tallo_hortensia.webp" alt="" fetchpriority="high" />
+
+  <img class="monograma" src="/assets/monograma.webp" alt="Monograma Ángel y Kenia" fetchpriority="high" />
+
+  <div class="marco">
+    <img class="esq esq-tl" src="/assets/corner_tl.webp" alt="" />
+    <img class="esq esq-tr" src="/assets/corner_tr.webp" alt="" />
+    <img class="esq esq-bl" src="/assets/corner_bl.webp" alt="" />
+    <img class="esq esq-br" src="/assets/corner_br.webp" alt="" />
+    <img class="titulo" src="/assets/save_the_date_title.webp" alt="Save the Date" fetchpriority="high" />
+    <p class="fecha">04.04.27</p>
+    <p class="versiculo">1 Corintios 13:13</p>
+  </div>
+
+  <img class="peonia" src="/assets/flor_peonia_hero.webp" alt="Peonía ilustrada en azul" fetchpriority="high" />
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.2rem 1.5rem 0;
+    background: #f7f4ec url('/assets/fondo0.webp') center / cover no-repeat;
+    color: #1e3765;
+  }
+  .fl-tl {
+    position: absolute; top: -14px; left: -14px;
+    width: 46%; max-width: 200px; height: auto;
+    pointer-events: none;
+  }
+  .fl-tr {
+    position: absolute; top: -10px; right: -8px;
+    width: 30%; max-width: 130px; height: auto;
+    pointer-events: none;
+  }
+  .monograma {
+    display: block; width: 104px; height: auto;
+    margin: 0.6rem auto 0.9rem;
+  }
+  .marco {
+    position: relative;
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 1.6rem 1.2rem 1.1rem;
+  }
+  .marco::before, .marco::after { content: none; }
+  .esq { position: absolute; width: 88px; height: 88px; object-fit: contain; pointer-events: none; }
+  .esq-tl { top: 0; left: 0; }
+  .esq-tr { top: 0; right: 0; }
+  .esq-bl { bottom: 0; left: 0; }
+  .esq-br { bottom: 0; right: 0; }
+  .titulo { display: block; width: 168px; height: auto; margin: 0 auto; }
+  .fecha {
+    margin: 0.55rem 0 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-weight: 700; font-size: 1.35rem; letter-spacing: 0.06em;
+  }
+  .versiculo {
+    margin: 0.5rem 0 0; text-align: right;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+  }
+  .peonia {
+    display: block;
+    width: 88%; max-width: 340px; height: auto;
+    margin: -1.2rem auto 0 -1.5rem;
+    pointer-events: none;
+  }
+</style>

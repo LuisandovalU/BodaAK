@@ -1,0 +1,92 @@
+---
+// S4 — Regalos / Mesa de regalos
+---
+<section class="bloque bg-fondo-3 relative overflow-hidden" id="regalos" style="padding: 2.5rem 1.4rem 3rem;">
+  <!-- Florales en esquinas superiores (como el PDF) -->
+  <div class="absolute -left-5 -top-3 w-28 sm:w-32 opacity-90 pointer-events-none select-none">
+    <img src="/assets/boda_asset_01.webp" alt="" class="w-full h-auto" />
+  </div>
+  <div class="absolute -right-4 top-0 w-24 sm:w-28 opacity-90 pointer-events-none select-none">
+    <img src="/assets/boda_asset_15.webp" alt="" class="w-full h-auto" />
+  </div>
+
+  <!-- Título Regalos en caligrafía original -->
+  <div class="flex justify-center my-4 pt-6">
+    <img
+      src="/assets/caligrafia_regalos.webp"
+      alt="Regalos"
+      class="w-52 sm:w-60 h-auto object-contain select-none"
+    />
+  </div>
+
+  <p class="font-serif text-[#1a3256] text-base leading-relaxed max-w-[34ch] mx-auto mb-3">
+    Su presencia es, sin duda, el mejor regalo que podríamos recibir.
+  </p>
+
+  <p class="font-serif text-[#2c4a7c] text-sm leading-relaxed max-w-[36ch] mx-auto mb-6">
+    Si desean acompañarnos con un detalle, pueden hacerlo mediante
+    <span class="italic underline font-medium">transferencia</span> o, si lo prefieren, también será bien recibido un sobre en
+    <span class="italic underline font-medium">efectivo</span> el día de la celebración.
+  </p>
+
+  <!-- Datos bancarios con moño ilustrado y líneas finas (diseño PDF, sin tarjeta) -->
+  <div class="relative max-w-[340px] mx-auto my-8 min-h-[160px]">
+    <!-- Cajas de regalo arriba a la derecha -->
+    <img
+      src="/assets/regalo_cajas.png"
+      alt=""
+      class="absolute right-0 -top-7 w-24 sm:w-28 h-auto select-none pointer-events-none"
+    />
+
+    <!-- Moño + líneas guía -->
+    <div class="absolute left-0 top-0 w-[132px] h-full pointer-events-none">
+      <span class="absolute left-[57px] -top-3 bottom-1 w-px bg-[#1a3256]/70"></span>
+      <span class="absolute left-0 top-[96px] w-[150px] h-px bg-[#1a3256]/70"></span>
+      <img
+        src="/assets/regalo_moño.png"
+        alt=""
+        class="absolute -left-px top-[6px] w-[132px] h-auto select-none"
+      />
+    </div>
+
+    <!-- Datos -->
+    <div class="pl-[150px] pt-6 font-serif text-[#1a3256] text-sm leading-relaxed">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="font-semibold">CLABE Interbancaria</span>
+        <span class="font-mono text-[0.8rem] font-bold">638180010146605599</span>
+        <button
+          id="btn-copiar"
+          class="bg-[#5b7ba6] hover:bg-[#4a6994] text-white px-2 py-0.5 rounded text-[0.65rem] font-medium tracking-wide transition-colors flex items-center gap-1 cursor-pointer"
+          aria-label="Copiar número CLABE"
+        >
+          <span>Copiar</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="m-0 mt-2"><span class="font-semibold">Nombre:</span> Ángel Adrián Zamora Morales</p>
+      <p class="m-0"><span class="font-semibold">Banco:</span> NU</p>
+      <p class="m-0"><span class="font-semibold">Concepto:</span> BODA</p>
+      <p id="copiado-msg" class="text-xs text-[#2c4a7c] font-semibold min-h-[1.2em] m-0 mt-1"></p>
+    </div>
+  </div>
+
+  <p class="font-serif italic text-[#1a3256] text-sm tracking-wide text-center mt-6 mb-0">
+    Agradecemos de corazón cada muestra de cariño.
+  </p>
+</section>
+
+<script>
+  document.getElementById('btn-copiar')?.addEventListener('click', async () => {
+    const msg = document.getElementById('copiado-msg');
+    try {
+      await navigator.clipboard.writeText('638180010146605599');
+      if (msg) msg.textContent = '¡CLABE copiada al portapapeles! ✓';
+      setTimeout(() => { if (msg) msg.textContent = ''; }, 3000);
+    } catch {
+      if (msg) msg.textContent = 'CLABE: 638180010146605599';
+    }
+  });
+</script>

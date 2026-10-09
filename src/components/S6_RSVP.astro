@@ -1,0 +1,132 @@
+---
+// S6 — RSVP / Confirmación de asistencia
+---
+<section class="bloque bg-fondo-1 relative overflow-hidden" id="rsvp" style="padding: 2.5rem 1.4rem 3rem;">
+  <!-- Hidrangea superior derecha (como el PDF) -->
+  <img
+    src="/assets/flor_tallo_hortensia.webp"
+    alt=""
+    class="absolute -right-6 -top-3 w-36 sm:w-44 h-auto opacity-90 pointer-events-none select-none"
+  />
+
+  <!-- Monograma grande alineado a la izquierda, como en el PDF -->
+  <div class="relative z-10 mb-2">
+    <img
+      src="/assets/monograma.webp"
+      alt="A y K"
+      class="w-36 sm:w-44 h-auto object-contain select-none"
+    />
+  </div>
+
+  <!-- Fotografía enmarcada de la pareja, como en el PDF -->
+  <div class="foto-rsvp relative mx-auto my-4 max-w-[320px] p-4">
+    <img src="/assets/corner_tl.webp" alt="" class="absolute top-0 left-0 w-10 h-10 object-contain pointer-events-none select-none" />
+    <img src="/assets/corner_tr.webp" alt="" class="absolute top-0 right-0 w-10 h-10 object-contain pointer-events-none select-none" />
+    <img src="/assets/corner_bl.webp" alt="" class="absolute bottom-0 left-0 w-10 h-10 object-contain pointer-events-none select-none" />
+    <img src="/assets/corner_br.webp" alt="" class="absolute bottom-0 right-0 w-10 h-10 object-contain pointer-events-none select-none" />
+    <img src="/assets/foto_rsvp.webp" alt="Ángel y Kenia durante su sesión de fotos" class="block w-full h-auto object-cover" />
+  </div>
+
+  <p class="font-serif text-[#1a3256] text-lg font-bold tracking-[0.2em] mt-6 mb-0 uppercase">
+    CONFIRMACIÓN DE
+  </p>
+  <p class="font-script text-4xl sm:text-5xl text-[#1a3256] my-1">
+    asistencia
+  </p>
+
+  <p class="font-serif text-[#2c4a7c] text-sm leading-relaxed max-w-[36ch] mx-auto mt-3 mb-6">
+    Les agradecemos confirmar su asistencia a través del formulario indicado aquí abajo,
+    a más tardar en la fecha <strong class="text-[#1a3256]">15 de diciembre de 2026</strong>.
+    Su confirmación nos ayudará a preparar cada detalle con el cariño y cuidado que esta celebración merece.
+  </p>
+
+  <form id="rsvp-form" class="mx-auto max-w-[340px] space-y-3.5 text-left">
+    <div>
+      <label class="font-serif text-sm font-semibold text-[#1a3256] block mb-1">Nombre completo</label>
+      <input
+        name="nombre"
+        required
+        placeholder="Escribe tu nombre completo"
+        autocomplete="name"
+        class="w-full px-3.5 py-2.5 rounded bg-white/90 border border-[#2c4a7c]/30 text-base font-serif text-[#1a3256] focus:outline-none focus:ring-1 focus:ring-[#2c4a7c]"
+      />
+    </div>
+
+    <div>
+      <label class="font-serif text-sm font-semibold text-[#1a3256] block mb-1">Número de adultos</label>
+      <input
+        name="adultos"
+        type="number"
+        min="1"
+        max="10"
+        value="1"
+        required
+        class="w-full px-3.5 py-2.5 rounded bg-white/90 border border-[#2c4a7c]/30 text-base font-serif text-[#1a3256] focus:outline-none focus:ring-1 focus:ring-[#2c4a7c]"
+      />
+    </div>
+
+    <p id="rsvp-error" class="font-serif text-xs text-red-700 min-h-[1.2em] m-0 text-center"></p>
+
+    <div class="space-y-2 pt-2">
+      <button
+        class="btn-ak w-full bg-[#5b7ba6] hover:bg-[#4a6994] text-white py-3 rounded font-serif text-lg font-semibold tracking-wider transition-colors cursor-pointer shadow-xs"
+        type="submit"
+        data-asistencia="si"
+        id="btn-si"
+      >
+        Confirmo
+      </button>
+
+      <button
+        class="w-full bg-transparent hover:bg-[#1a3256]/5 text-[#2c4a7c] border border-[#2c4a7c]/40 py-2.5 rounded font-serif text-base font-semibold tracking-wider transition-colors cursor-pointer"
+        type="button"
+        data-asistencia="no"
+        id="btn-no"
+      >
+        No podré asistir
+      </button>
+    </div>
+  </form>
+</section>
+
+<style>
+  .foto-rsvp { width: min(100%, 320px); }
+  .foto-rsvp > img:last-child {
+    aspect-ratio: 0.86;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+</style>
+
+<script>
+  import { submitRSVP } from '../lib/firebase.ts';
+  const form = document.getElementById('rsvp-form') as HTMLFormElement | null;
+  const err = document.getElementById('rsvp-error');
+  const btnSi = document.getElementById('btn-si') as HTMLButtonElement | null;
+  const btnNo = document.getElementById('btn-no') as HTMLButtonElement | null;
+
+  async function enviar(asistencia: 'si' | 'no') {
+    if (!form) return;
+    if (err) err.textContent = '';
+    const data = new FormData(form);
+    const nombre = String(data.get('nombre') || '').trim();
+    const adultos = Number(data.get('adultos') || 1);
+    if (!nombre) { if (err) err.textContent = 'Por favor escribe tu nombre completo.'; return; }
+    if (!(adultos >= 1 && adultos <= 10)) { if (err) err.textContent = 'Indica entre 1 y 10 adultos.'; return; }
+    if (btnSi) btnSi.disabled = true;
+    if (btnNo) btnNo.disabled = true;
+    try {
+      await submitRSVP({ nombre, adultos, asistencia });
+      try { localStorage.setItem('ak-rsvp', JSON.stringify({ nombre, adultos, asistencia })); } catch {}
+      document.dispatchEvent(new CustomEvent('ak:rsvp-ok', { detail: { asistencia } }));
+      document.getElementById('gracias')?.scrollIntoView({ behavior: 'smooth' });
+    } catch (e) {
+      if (err) err.textContent = 'No se pudo enviar. Intenta de nuevo.';
+      if (btnSi) btnSi.disabled = false;
+      if (btnNo) btnNo.disabled = false;
+    }
+  }
+
+  form?.addEventListener('submit', (e) => { e.preventDefault(); enviar('si'); });
+  btnNo?.addEventListener('click', () => enviar('no'));
+</script>

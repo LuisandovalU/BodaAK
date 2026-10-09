@@ -1,0 +1,71 @@
+---
+// S9 — Post-confirmación (Thank You), condicional
+---
+<section class="bloque bg-fondo-0 relative overflow-hidden" id="gracias" style="padding: 2.5rem 1.4rem 3rem;">
+  <div class="max-w-[340px] mx-auto text-center">
+    <h2 class="font-serif text-[#1a3256] text-2xl font-bold mb-3 tracking-wide">¡Gracias por tu confirmación!</h2>
+    <p class="font-serif text-[#2c4a7c] text-sm mb-6">Tu respuesta nos ayuda a preparar cada detalle con mucho cariño.</p>
+
+    <!-- Opciones de Grupo -->
+    <div id="ak-grupos" class="space-y-3 mb-6">
+      <button
+        class="w-full bg-[#5b7ba6] hover:bg-[#4a6994] text-white py-3 px-4 rounded font-serif text-base font-semibold tracking-wider transition-colors cursor-pointer shadow-xs"
+        data-grupo="familia"
+      >
+        Soy familiar de Ángel y Kenia
+      </button>
+
+      <button
+        class="w-full bg-[#2c4a7c] hover:bg-[#1a3256] text-white py-3 px-4 rounded font-serif text-base font-semibold tracking-wider transition-colors cursor-pointer shadow-xs"
+        data-grupo="amistad"
+      >
+        Soy amistad de Ángel y Kenia
+      </button>
+    </div>
+
+    <div id="grupo-info" class="hidden my-4 p-4 rounded-lg bg-white/70 border border-[#2c4a7c]/20 text-left font-serif text-sm text-[#1a3256]">
+      <p id="grupo-msg" class="font-bold text-[#1a3256] text-center mb-2"></p>
+      <div id="cuenta-amistad" class="hidden space-y-1 text-xs">
+        <p class="m-0"><strong class="text-[#2c4a7c]">CLABE:</strong> 638180010146605599</p>
+        <p class="m-0"><strong class="text-[#2c4a7c]">Nombre:</strong> Ángel Adrián Zamora Morales</p>
+        <p class="m-0"><strong class="text-[#2c4a7c]">Banco:</strong> NU</p>
+        <p class="mt-2 text-[#2c4a7c] italic text-center">Envía tu comprobante al WhatsApp de los novios.</p>
+      </div>
+    </div>
+
+    <p class="font-serif text-[#1a3256] font-bold tracking-[0.2em] text-lg mt-8 uppercase">
+      ¡NOS VEMOS ESE DÍA!
+    </p>
+
+    <div class="flex justify-center mt-6">
+      <img
+        src="/assets/monograma.webp"
+        alt="A y K"
+        class="w-20 h-auto object-contain select-none"
+      />
+    </div>
+  </div>
+</section>
+
+<script>
+  const sec = document.getElementById('gracias');
+  const grupoInfo = document.getElementById('grupo-info');
+  const grupoMsg = document.getElementById('grupo-msg');
+  const cuentaAmistad = document.getElementById('cuenta-amistad');
+
+  document.querySelectorAll('#ak-grupos [data-grupo]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const g = (b as HTMLElement).dataset.grupo;
+      if (grupoInfo && grupoMsg) {
+        grupoInfo.classList.remove('hidden');
+        if (g === 'familia') {
+          grupoMsg.textContent = '¡Qué alegría contar con nuestra familia! 💙';
+          cuentaAmistad?.classList.add('hidden');
+        } else {
+          grupoMsg.textContent = '¡Qué honor compartir este día con ustedes, amigos! 💙';
+          cuentaAmistad?.classList.remove('hidden');
+        }
+      }
+    });
+  });
+</script>
