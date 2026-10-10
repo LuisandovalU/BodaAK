@@ -1,21 +1,66 @@
 ---
 /**
- * Hero.astro — Versión basada en la captura del PDF (page‑01.png).
- * El fondo del hero es la imagen exacta del PDF, por lo que la posición
- * de los elementos visuales (hortensias, marco, peonía, etc.) queda idéntica.
- * Sobre él se añaden solo los textos necesarios (SAVE the DATE, fecha,
- * versículo y datos del evento) con tipografías locales.
+ * Hero.astro — Portada fiel al PDF original
  */
-import SaveDateTitle from "./SaveDateTitle.astro";
 ---
-<section class="hero" aria-label="Save the date – Ángel y Kenia">
-  <div class="overlay">
-    <SaveDateTitle />
-    <p class="fecha">04.04.27</p>
-    <p class="versiculo">1 Corintios 13:13</p>
-    <p class="evento__fecha">Domingo 04 | Abril 2027</p>
-    <p class="evento__hora">15:30 HRS</p>
-    <p class="evento__lugar">Salón Bamboo</p>
+import SaveDateTitle from "./SaveDateTitle.astro";
+
+<section class="hero" id="save-the-date" aria-label="Save the date de Angel y Kenia">
+  <!-- Flor superior izquierda -->
+    <img
+      src="/images/flower-top-left.png"
+      alt=""
+      aria-hidden="true"
+      class="flor flor--tl floating-flower"
+    />
+
+  <!-- Flor superior derecha (espejada para simetría) -->
+    <img
+      src="/images/flower-top-right.png"
+      alt=""
+      aria-hidden="true"
+      class="flor flor--tr floating-flower"
+      style="--float-delay: 1s;"
+    />
+
+  <div class="hero__inner">
+    <!-- Monograma -->
+    <img
+      src="/images/monograma.png"
+      alt="Monograma de Angel y Kenia"
+      class="monograma"
+      fetchpriority="high"
+    />
+
+    <!-- Marco ornamental y textos principales -->
+    <div class="marco">
+      <img src="/images/marco-tl.png" alt="" aria-hidden="true" class="esq esq--tl" />
+      <img src="/images/marco-tr.png" alt="" aria-hidden="true" class="esq esq--tr" />
+      <img src="/images/marco-bl.png" alt="" aria-hidden="true" class="esq esq--bl" />
+      <img src="/images/marco-br.png" alt="" aria-hidden="true" class="esq esq--br" />
+
+      <SaveDateTitle />
+
+      <p class="fecha">04.04.27</p>
+
+      <p class="versiculo">1 Corintios 13:13</p>
+    </div>
+
+    <!-- Peonía inferior integrada -->
+    <img
+      src="/images/flower-peony.png"
+      alt=""
+      aria-hidden="true"
+      class="peonia floating-flower"
+      style="--float-delay: 1.6s;"
+    />
+
+    <!-- Información de fecha y lugar -->
+    <div class="evento">
+      <p class="evento__fecha">Domingo 04 | Abril 2027</p>
+      <p class="evento__hora">15:30 HRS</p>
+      <p class="evento__lugar">Salón Bamboo</p>
+    </div>
   </div>
 </section>
 
@@ -23,37 +68,149 @@ import SaveDateTitle from "./SaveDateTitle.astro";
   .hero {
     position: relative;
     width: 100%;
-    max-width: var(--ak-card-max);
-    height: 900px;               /* altura aproximada del hero del PDF */
-    margin: 0 auto;
-    background: url('/scratch/pdf_pages/page-01.png') top center / contain no-repeat;
-    background-color: var(--ak-card-bg);
+    box-sizing: border-box;
+    padding: 6rem 1.5rem 3rem;   /* espacio superior para el racimo grande */
     overflow: hidden;
-  }
-  .overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--ak-marino);
     text-align: center;
-    padding: 2rem;
+    background: transparent;
   }
+
+  /* Esquinas florales absolutas */
+  .flor {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    width: 45%;
+    max-width: 300px;
+    height: auto;
+  }
+  .flor--tl {
+    top: 0;
+    left: 0;
+    width: 45%;
+    max-width: 300px;
+  }
+  .flor--tr {
+    top: 0;
+    right: 0;
+    width: 45%;
+    max-width: 300px;
+    transform: scaleX(-1);
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;   /* mayor anchura para acercar monograma y marco */
+    margin: 0 auto;
+  }
+  .monograma {
+    display: block;
+    width: 160px;
+    height: auto;
+    margin: 0 auto 1.5rem;
+  }
+
+  .monograma {
+    display: block;
+    width: 110px;
+    height: auto;
+    margin: 0 auto 1.5rem;
+  }
+
+  /* Marco ornamental limpio */
+  .marco {
+    position: relative;
+    padding: 2.2rem 1.5rem 1.5rem;   /* más espacio interno para que el texto quede centrado como en PDF */
+    border: 1px solid rgba(38, 56, 117, 0.35);
+  }
+  .esq {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    pointer-events: none;
+  }
+  .esq--tl { top: -25px; left: -25px; }
+  .esq--tr { top: -25px; right: -25px; }
+  .esq--bl { bottom: -25px; left: -25px; }
+  .esq--br { bottom: -25px; right: -25px; }
+
+  /* Tipografía exacta SAVE the DATE */
   .save-date {
     display: flex;
-    gap: .4rem;
-    font-family: 'Sloop Script Pro','Dancing Script',cursive;
-    font-weight: 700;
-    color: var(--ak-marino);
-    margin-bottom: .5rem;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0;
+    color: var(--ak-marino, #263875);
   }
   .save-date__save,
-  .save-date__date { font-size: 1.6rem; letter-spacing: .25em; }
-  .save-date__the { font-size: 2.2rem; }
-  .save-date-title { max-width: 100%; height: auto; margin-bottom: .5rem; }
-  .fecha { font-family: 'The Seasons','Cormorant Garamond',serif; font-size: 2rem; font-weight:700; margin:.5rem 0; }
-  .versiculo { font-family: 'The Seasons','Cormorant Garamond',serif; font-size:.85rem; font-style:italic; margin-bottom:1rem; }
-  .evento__fecha,.evento__hora,.evento__lugar { font-family: 'The Seasons','Cormorant Garamond',serif; font-size:1rem; margin:.2rem 0; }
+  .save-date__date {
+    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+  }
+  .save-date__the {
+    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+    font-size: 2.2rem;
+    line-height: 1;
+  }
+
+  .fecha {
+    margin: 0.9rem 0 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--ak-marino, #263875);
+  }
+
+  .versiculo {
+    margin: 0.8rem 0 0;
+    text-align: right;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    letter-spacing: 0.12em;
+    color: var(--ak-marino, #263875);
+  }
+
+  /* Peonía inferior */
+  .peonia {
+    display: block;
+    width: 90%;
+    max-width: 320px;
+    height: auto;
+    margin: -1.5rem auto 0.5rem -1.2rem;
+  }
+
+  /* Evento */
+  .evento {
+    margin-top: 2rem;
+  }
+  .evento__fecha,
+  .evento__hora,
+  .evento__lugar {
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    color: var(--ak-marino, #263875);
+    margin: 0;
+  }
+  .evento__fecha {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .evento__hora {
+    margin-top: 0.3rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .evento__lugar {
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
 </style>
