@@ -7,13 +7,10 @@
  * versículo y datos del evento) con tipografías locales.
  */
 ---
+import SaveDateTitle from "./SaveDateTitle.astro";
 <section class="hero" aria-label="Save the date – Ángel y Kenia">
   <div class="overlay">
-    <h1 class="save-date">
-      <span class="save-date__save">SAVE</span>
-      <span class="save-date__the">the</span>
-      <span class="save-date__date">DATE</span>
-    </h1>
+    <SaveDateTitle />
     <p class="fecha">04.04.27</p>
     <p class="versiculo">1 Corintios 13:13</p>
     <p class="evento__fecha">Domingo 04 | Abril 2027</p>
@@ -55,6 +52,7 @@
   .save-date__save,
   .save-date__date { font-size: 1.6rem; letter-spacing: .25em; }
   .save-date__the { font-size: 2.2rem; }
+  .save-date-title { max-width: 100%; height: auto; margin-bottom: .5rem; }
   .fecha { font-family: 'The Seasons','Cormorant Garamond',serif; font-size: 2rem; font-weight:700; margin:.5rem 0; }
   .versiculo { font-family: 'The Seasons','Cormorant Garamond',serif; font-size:.85rem; font-style:italic; margin-bottom:1rem; }
   .evento__fecha,.evento__hora,.evento__lugar { font-family: 'The Seasons','Cormorant Garamond',serif; font-size:1rem; margin:.2rem 0; }
