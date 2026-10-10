@@ -90,3 +90,8 @@
 {"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}
 {"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}
 {"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}
+{"message":"[200] / 9ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css, /src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 60ms","label":null,"level":"info"}
