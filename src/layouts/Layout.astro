@@ -36,13 +36,7 @@ const {
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/images/photo-rsvp.jpg" />
 
-    <!-- Tipografías -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@1,400;1,500&display=swap"
-      rel="stylesheet"
-    />
+
   </head>
 
   <body>
@@ -127,22 +121,18 @@ const {
   /* ==========================================================================
      4. ANIMACIÓN FLOTANTE EN CSS PURO  (ciclo de 4s)
      ========================================================================== */
-  @keyframes floating {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    50% {
-      transform: translate3d(0, -12px, 0);
-    }
-    100% {
-      transform: translate3d(0, 0, 0);
-    }
+  @keyframes wind-breeze {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-1deg); }
+    50% { transform: rotate(1deg); }
+    75% { transform: rotate(-0.5deg); }
+    100% { transform: rotate(0deg); }
   }
 
+
   .floating-flower {
-    animation: floating 4s ease-in-out infinite;
-    /* Permite escalonar cada flor: style="--float-delay: 1.2s" */
-    animation-delay: var(--float-delay, 0s);
+    animation: floating 4s ease-in-out infinite, wind-breeze 8s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s), var(--float-delay, 0s);
     will-change: transform;
     pointer-events: none;
     user-select: none;
