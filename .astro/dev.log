@@ -56,3 +56,37 @@
 {"message":"[200] / 1ms","label":null,"level":"info"}
 {"message":"[200] / 1ms","label":null,"level":"info"}
 {"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 1ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 6ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 4ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"[200] / 3ms","label":null,"level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css, /src/styles/global.css","label":"watch","level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css, /src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 47ms","label":null,"level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css","label":"watch","level":"info"}

@@ -5,16 +5,16 @@
 ---
 <section class="hero" id="save-the-date" aria-label="Save the date de Angel y Kenia">
   <!-- Flor superior izquierda -->
-  <img
-    src="/images/flower-corner-left.png"
-    alt=""
-    aria-hidden="true"
-    class="flor flor--tl floating-flower"
-  />
+    <img
+      src="/images/flower-top-left.png"
+      alt=""
+      aria-hidden="true"
+      class="flor flor--tl floating-flower"
+    />
 
   <!-- Flor superior derecha (espejada para simetría) -->
     <img
-      src="/images/flower-side-right.png"
+      src="/images/flower-top-right.png"
       alt=""
       aria-hidden="true"
       class="flor flor--tr floating-flower"
@@ -71,7 +71,7 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    padding: 7rem 1.5rem 3rem;   /* más espacio superior para el racimo grande */
+    padding: 6rem 1.5rem 3rem;   /* espacio superior para el racimo grande */
     overflow: hidden;
     text-align: center;
     background: transparent;
@@ -82,21 +82,21 @@
     position: absolute;
     z-index: 0;
     pointer-events: none;
-    width: 38%;
-    max-width: 180px;
+    width: 45%;
+    max-width: 300px;
     height: auto;
   }
   .flor--tl {
     top: 0;
     left: 0;
-    width: 100%;
-    max-width: 340px;
+    width: 45%;
+    max-width: 300px;
   }
   .flor--tr {
     top: 0;
     right: 0;
-    width: 100%;
-    max-width: 340px;
+    width: 45%;
+    max-width: 300px;
     transform: scaleX(-1);
   }
 
@@ -151,20 +151,20 @@
   .save-date__save,
   .save-date__date {
     font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 700;
     letter-spacing: 0.25em;
   }
   .save-date__the {
     font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 2rem;
+    font-size: 2.2rem;
     line-height: 1;
   }
 
   .fecha {
-    margin: 0.8rem 0 0;
+    margin: 0.9rem 0 0;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: clamp(1.8rem, 8vw, 2.2rem);
+    font-size: clamp(1.9rem, 8vw, 2.4rem);
     font-weight: 700;
     letter-spacing: 0.2em;
     color: var(--ak-marino, #263875);
