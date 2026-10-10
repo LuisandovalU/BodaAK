@@ -1,24 +1,13 @@
 ---
 // S2 — Nombres + Countdown + Versículo
 ---
-<section class="bloque bg-fondo-1 relative overflow-hidden" id="nombres" style="padding: 2.5rem 1.4rem 3rem;">
+<section class="bloque relative overflow-hidden" id="nombres" style="padding: 2.5rem 1.4rem 3rem;">
   <!-- Ramo lateral decorativo flotante -->
   <div class="absolute -right-6 top-16 w-28 opacity-75 pointer-events-none select-none">
     <img src="/assets/ramo_vertical_lateral.webp" alt="" class="w-full h-auto" />
   </div>
-  <!-- Hidrangea lateral izquierda junto al countdown (como el PDF) -->
-  <div class="absolute left-[-1.6rem] top-[43%] w-24 opacity-80 pointer-events-none select-none">
-    <img src="/assets/boda_asset_16.webp" alt="" class="w-full h-auto" />
-  </div>
 
   <div class="relative z-10">
-    <p class="font-serif text-[#1a3256] text-xl font-medium tracking-wide m-0">Domingo 04 | Abril 2027</p>
-    <p class="font-serif text-[#2c4a7c] text-lg mt-1 mb-1 font-semibold">15:30 HRS</p>
-    <p class="font-serif text-[#2c4a7c] text-base mb-6 opacity-90 flex items-center justify-center gap-1">
-      <svg viewBox="0 0 24 24" fill="#1a3256" class="w-4 h-4" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
-      Salón Bamboo
-    </p>
-
     <!-- Nombres en caligrafía original -->
     <div class="my-6 flex justify-center">
       <img
@@ -30,8 +19,8 @@
 
     <!-- Cuenta regresiva -->
     <div class="mt-8 mb-4">
-      <p class="font-serif italic text-base text-[#2c4a7c] tracking-widest mb-1">the countdown</p>
-      <p class="font-script text-3xl text-[#1a3256] mb-4">Forever begins in</p>
+      <p class="font-serif italic text-base text-[#263875] tracking-widest mb-1">the countdown</p>
+      <p class="font-script text-3xl text-[#263875] mb-4">Forever begins in</p>
 
       <div
         id="countdown"
@@ -39,30 +28,30 @@
         class="grid grid-cols-4 gap-2.5 max-w-[320px] mx-auto"
       >
         <div class="flex flex-col items-center">
-          <div id="cd-d" class="w-full bg-[#7a94b5] text-white font-serif font-bold text-2xl py-3 rounded-xs shadow-sm">00</div>
-          <span class="font-serif text-xs text-[#1a3256] mt-1.5 tracking-wide font-semibold">Días</span>
+          <div id="cd-d" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
+          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Días</span>
         </div>
         <div class="flex flex-col items-center">
-          <div id="cd-h" class="w-full bg-[#7a94b5] text-white font-serif font-bold text-2xl py-3 rounded-xs shadow-sm">00</div>
-          <span class="font-serif text-xs text-[#1a3256] mt-1.5 tracking-wide font-semibold">Horas</span>
+          <div id="cd-h" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
+          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Horas</span>
         </div>
         <div class="flex flex-col items-center">
-          <div id="cd-m" class="w-full bg-[#7a94b5] text-white font-serif font-bold text-2xl py-3 rounded-xs shadow-sm">00</div>
-          <span class="font-serif text-xs text-[#1a3256] mt-1.5 tracking-wide font-semibold">Minutos</span>
+          <div id="cd-m" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
+          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Minutos</span>
         </div>
         <div class="flex flex-col items-center">
-          <div id="cd-s" class="w-full bg-[#7a94b5] text-white font-serif font-bold text-2xl py-3 rounded-xs shadow-sm">00</div>
-          <span class="font-serif text-xs text-[#1a3256] mt-1.5 tracking-wide font-semibold">Segundos</span>
+          <div id="cd-s" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
+          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Segundos</span>
         </div>
       </div>
     </div>
 
     <!-- Cita bíblica -->
     <div class="my-8 px-4">
-      <p class="font-serif italic text-base text-[#1a3256] leading-relaxed max-w-[32ch] mx-auto">
+      <p class="font-serif italic text-base text-[#263875] leading-relaxed max-w-[32ch] mx-auto">
         “Ahora, pues, permanecen la fe, la esperanza y el amor. Pero el amor es el más importante.”
       </p>
-      <p class="font-serif text-sm text-[#2c4a7c] tracking-widest mt-2 uppercase font-medium">
+      <p class="font-serif text-sm text-[#263875] tracking-widest mt-2 uppercase font-medium">
         1 Corintios 13:13
       </p>
     </div>

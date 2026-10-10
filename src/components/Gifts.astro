@@ -1,0 +1,191 @@
+---
+/**
+ * Gifts.astro — Regalos (fiel al PDF de referencia)
+ * ---------------------------------------------------------------------------
+ * - Título "Regalos" en script
+ * - Texto principal (exacto)
+ * - Datos bancarios DIRECTOS sobre el papel (sin tarjeta blanca), con
+ *   icono de copiar inline junto a la CLABE
+ * - Ornamentos: moño a la izquierda y cajas de regalo arriba a la derecha
+ * ---------------------------------------------------------------------------
+ */
+const clabe = '638180010146605599';
+---
+<section class="seccion regalos" id="regalos">
+  <h2 class="titulo-seccion">Regalos</h2>
+
+  <p class="texto texto--principal">
+    Su presencia es, sin duda, el mejor regalo que podríamos recibir. Si desean acompañarnos con un
+    detalle, pueden hacerlo mediante <em>transferencia</em> o, si lo prefieren, también será bien
+    recibido un sobre en <em>efectivo</em> el día de la celebración.
+  </p>
+
+  <!-- ===================== Datos bancarios sobre el papel ===================== -->
+  <div class="datos">
+    <img
+      src="/images/regalo-mono.png"
+      alt=""
+      aria-hidden="true"
+      class="ornato ornato--mono floating-flower"
+    />
+    <img
+      src="/images/regalo-cajas.png"
+      alt=""
+      aria-hidden="true"
+      class="ornato ornato--cajas floating-flower"
+      style="--float-delay: 1.4s"
+    />
+
+    <ul class="datos__lista">
+      <li class="dato">
+        <span class="dato__label">CLABE:</span>{' '}
+        <span class="dato__valor mono">{clabe}</span>{' '}
+        <button
+          type="button"
+          id="btn-copiar-clabe"
+          class="btn-copiar-icono"
+          aria-label="Copiar CLABE"
+          title="Copiar CLABE"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </li>
+      <li class="dato"><span class="dato__label">Nombre:</span> <span class="dato__valor">Ángel Adrián Zamora Morales</span></li>
+      <li class="dato"><span class="dato__label">Banco:</span> <span class="dato__valor">NU</span></li>
+      <li class="dato"><span class="dato__label">Concepto:</span> <span class="dato__valor">BODA</span></li>
+    </ul>
+
+    <p id="copiado-msg" class="copiado" role="status" aria-live="polite"></p>
+  </div>
+
+  <p class="despedida">Agradecemos de corazón cada muestra de cariño.</p>
+</section>
+
+<style>
+  .regalos {
+    padding-bottom: 3rem;
+  }
+
+  .texto--principal {
+    margin-top: 0.9rem;
+    max-width: 36ch;
+  }
+  .texto--principal em {
+    font-style: italic;
+    color: var(--ak-marino);
+  }
+
+  /* ---------- Datos bancarios ---------- */
+  .datos {
+    position: relative;
+    max-width: 320px;
+    margin: 2rem auto 0;
+    text-align: left;
+  }
+
+  .ornato {
+    position: absolute;
+    height: auto;
+    object-fit: contain;
+  }
+  .ornato--mono {
+    left: -64px;
+    top: 38%;
+    width: 130px;
+    opacity: 0.9;
+  }
+  .ornato--cajas {
+    right: -58px;
+    top: -52px;
+    width: 120px;
+    opacity: 0.9;
+  }
+
+  .datos__lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .dato {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .dato + .dato {
+    margin-top: 0.5rem;
+  }
+  .dato__label {
+    font-weight: 700;
+    color: var(--ak-marino);
+  }
+  .dato__valor {
+    color: var(--ak-marino);
+  }
+  .mono {
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-copiar-icono {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ak-marino);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+  .btn-copiar-icono svg {
+    width: 17px;
+    height: 17px;
+  }
+  .btn-copiar-icono:hover {
+    color: var(--ak-acero);
+  }
+
+  .copiado {
+    min-height: 1.2em;
+    margin: 0.6rem 0 0;
+    text-align: center;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--ak-marino);
+  }
+
+  .despedida {
+    margin: 1.85rem auto 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: var(--ak-marino);
+  }
+</style>
+
+<script>
+  const CLABE = '638180010146605599';
+  const boton = document.getElementById('btn-copiar-clabe');
+  const mensaje = document.getElementById('copiado-msg');
+
+  boton?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(CLABE);
+      if (mensaje) mensaje.textContent = '¡CLABE copiada! ✓';
+    } catch {
+      if (mensaje) mensaje.textContent = `CLABE: ${CLABE}`;
+    }
+    window.setTimeout(() => {
+      if (mensaje) mensaje.textContent = '';
+    }, 3000);
+  });
+</script>

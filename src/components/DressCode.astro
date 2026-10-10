@@ -1,0 +1,229 @@
+---
+/**
+ * DressCode.astro — Dress Code + Colores sugeridos (fiel al PDF de referencia)
+ * ---------------------------------------------------------------------------
+ * - Recuadro azul acero (#6b7d9e) con esquinas ornamentales y título en
+ *   script DENTRO del recuadro
+ * - "GALA" + siluetas blancas con etiquetas "Mujeres" / "Hombres" ENCIMA
+ * - "Colores sugeridos": 9 puntos en 2 grupos, etiqueta DEBAJO
+ * - Colores reservados: 6 puntos atravesados por UNA sola línea roja
+ * ---------------------------------------------------------------------------
+ */
+const sugeridos = [
+  { hex: '#D4A05A', nombre: 'Dorado' },
+  { hex: '#C9A0C9', nombre: 'Rosa' },
+  { hex: '#7B6FBF', nombre: 'Lavanda' },
+  { hex: '#F0E04A', nombre: 'Mostaza' },
+  { hex: '#5A6B35', nombre: 'Verde oliva' },
+  { hex: '#111111', nombre: 'Negro' },
+  { hex: '#5B3A1A', nombre: 'Café' },
+  { hex: '#7A7D6A', nombre: 'Gris' },
+  { hex: '#8B5E34', nombre: 'Bronce' },
+];
+
+const noUtilizar = [
+  { hex: '#1E2A38', nombre: 'Azul marino' },
+  { hex: '#4A5F7F', nombre: 'Azul principal' },
+  { hex: '#8FA0C0', nombre: 'Azul acero' },
+  { hex: '#C5D5E8', nombre: 'Azul claro' },
+  { hex: '#E8DCC8', nombre: 'Nude' },
+  { hex: '#FFFFFF', nombre: 'Blanco' },
+];
+---
+<section class="seccion dresscode" id="dress-code">
+  <!-- ============ Recuadro: la única zona con color sólido ============ -->
+  <div class="recuadro">
+    <img src="/images/dresscode-corner-1.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tl" />
+    <img src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tr" />
+    <img src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--bl" />
+    <img src="/images/dresscode-corner-1.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--br" />
+
+    <h2 class="recuadro__titulo">Dress Code</h2>
+    <p class="recuadro__gala">Gala</p>
+
+    <div class="siluetas">
+      <figure class="silueta">
+        <figcaption>Mujeres</figcaption>
+        <img src="/images/dresscode-women.png" alt="Silueta de vestido de gala" loading="lazy" />
+      </figure>
+      <figure class="silueta">
+        <figcaption>Hombres</figcaption>
+        <img src="/images/dresscode-men.png" alt="Silueta de traje de gala" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+
+  <!-- ============ Colores sugeridos (etiqueta debajo) ============ -->
+  <ul class="paleta" aria-label="Colores sugeridos">
+    {sugeridos.slice(0, 5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+    <li class="paleta__separador" aria-hidden="true" />
+    {sugeridos.slice(5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+  </ul>
+  <p class="paleta__etiqueta">Colores sugeridos</p>
+
+  <!-- ============ Colores reservados (una línea roja los cruza) ============ -->
+  <ul class="paleta paleta--no" aria-label="Colores para no utilizar">
+    {noUtilizar.map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+    <li class="paleta__tachado" aria-hidden="true" />
+  </ul>
+
+  <p class="aviso">
+    Colores para no utilizar este día. Serán los colores de la novia, el novio, damas y caballeros de honor.
+  </p>
+</section>
+
+<style>
+  .dresscode {
+    padding-bottom: 3.25rem;
+  }
+
+  /* ---------- Recuadro azul acero ---------- */
+  .recuadro {
+    position: relative;
+    max-width: 340px;
+    margin: 0 auto;
+    padding: 1.6rem 1.35rem 1.4rem;
+    border-radius: 10px;
+    background: var(--ak-dresscode);
+    color: #fff;
+    overflow: hidden;
+  }
+  .recuadro__esquina {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+  .recuadro__esquina--tl {
+    top: 8px;
+    left: 8px;
+  }
+  .recuadro__esquina--tr {
+    top: 8px;
+    right: 8px;
+  }
+  .recuadro__esquina--bl {
+    bottom: 8px;
+    left: 8px;
+  }
+  .recuadro__esquina--br {
+    bottom: 8px;
+    right: 8px;
+  }
+
+  .recuadro__titulo {
+    margin: 0;
+    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+    font-weight: 400;
+    font-size: 2.35rem;
+    line-height: 1.1;
+    color: #fff;
+  }
+
+  .recuadro__gala {
+    margin: 0.15rem 0 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  /* ---------- Siluetas (blancas sobre el recuadro, etiqueta encima) ---------- */
+  .siluetas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    align-items: end;
+    margin: 1.25rem auto 0;
+    max-width: 300px;
+  }
+  .silueta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+  .silueta figcaption {
+    margin-bottom: 0.55rem;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .silueta img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: clamp(150px, 42vw, 205px);
+    object-fit: contain;
+  }
+
+  /* ---------- Paletas de colores ---------- */
+  .paleta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    max-width: 320px;
+    margin: 2.1rem auto 0;
+    padding: 0;
+    list-style: none;
+  }
+  .paleta__separador {
+    width: 1.1rem;
+    list-style: none;
+  }
+
+  .color {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--c);
+    /* Hairline sutil solo para que el blanco y el nude se lean sobre el papel */
+    border: 1px solid rgba(38, 56, 117, 0.14);
+  }
+
+  .paleta__etiqueta {
+    margin: 0.85rem 0 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ak-marino);
+  }
+
+  /* ---------- No utilizar: UNA línea roja atraviesa los 6 puntos ---------- */
+  .paleta--no {
+    position: relative;
+    margin-top: 1.9rem;
+  }
+  .paleta__tachado {
+    position: absolute;
+    left: -0.3rem;
+    right: -0.3rem;
+    top: 50%;
+    height: 1.5px;
+    background: #c0392b;
+    transform: translateY(-50%);
+    list-style: none;
+    pointer-events: none;
+  }
+
+  .aviso {
+    max-width: 32ch;
+    margin: 1.5rem auto 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--ak-marino);
+  }
+</style>

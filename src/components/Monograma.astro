@@ -1,0 +1,30 @@
+---
+/**
+ * Monograma.astro — Monograma gigante "AyK" (sección 7 del PDF)
+ * ---------------------------------------------------------------------------
+ * En el PDF, antes de la galería de fotos hay un monograma enorme en script.
+ * ---------------------------------------------------------------------------
+ */
+---
+<section class="seccion monograma" id="monograma" aria-label="Monograma de Angel y Kenia">
+  <img
+    src="/images/monograma.png"
+    alt="Monograma de Angel y Kenia"
+    class="monograma__imagen"
+    loading="lazy"
+  />
+</section>
+
+<style>
+  .monograma {
+    padding-top: 2.4rem;
+    padding-bottom: 1.4rem;
+  }
+
+  .monograma__imagen {
+    display: block;
+    width: min(86%, 360px);
+    height: auto;
+    margin: 0 auto;
+  }
+</style>

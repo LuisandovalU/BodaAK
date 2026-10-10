@@ -1,10 +1,23 @@
 ---
+/**
+ * Layout.astro — envoltorio global del sitio
+ * ---------------------------------------------------------------------------
+ * 1. Fondo de papel ÚNICO en .mobile-card ->  /images/bg-paper-1.jpg
+ *    (textura empalmada sin costuras, se repite en vertical = pergamino continuo)
+ * 2. Tarjeta móvil centrada ->  max-width: 500px
+ * 3. @keyframes floating (ciclo de 4s) + clase .floating-flower
+ *    Es la ÚNICA animación del sitio: nada se anima al hacer scroll.
+ * ---------------------------------------------------------------------------
+ */
+import '../styles/global.css';
+
 interface Props {
   title?: string;
   description?: string;
 }
+
 const {
-  title = 'Ángel & Kenia — Nuestra Boda 04.04.27',
+  title = 'Ángel & Kenia — Nuestra Boda · 04.04.27',
   description = 'Con la bendición de Dios y el amor que nos une, te invitamos a celebrar nuestra boda. Domingo 04 de abril 2027, Salón Bamboo.',
 } = Astro.props;
 ---
@@ -12,12 +25,18 @@ const {
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#f5f0e8" />
+    <link rel="icon" type="image/png" href="/images/monograma.png" />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/photo-rsvp.jpg" />
+
+    <!-- Tipografías -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -25,13 +44,190 @@ const {
       rel="stylesheet"
     />
   </head>
+
   <body>
-    <div class="page">
-      <slot />
+    <div class="app-shell">
+      <main class="mobile-card">
+        <slot />
+      </main>
     </div>
   </body>
 </html>
 
 <style is:global>
-  @import '../styles/global.css';
+  /* ==========================================================================
+     1. TOKENS DE DISEÑO
+     ========================================================================== */
+  :root {
+    /* Paleta extraída del PDF de referencia (renderizado + muestreo) */
+    --ak-marino: #263875; /* texto, iconos, florales, monograma */
+    --ak-principal: #263875; /* texto secundario (mismo navy del PDF) */
+    --ak-acero: #6b7d9e; /* recuadro del Dress Code */
+    --ak-dresscode: #6b7d9e;
+    --ak-crema: #f2f0ea; /* tono del papel, fuera de la tarjeta */
+    --ak-boton: #526f9d; /* botones y cuadros del contador */
+    --ak-card-max: 500px;
+    --ak-card-bg: #f1eee9; /* fallback bajo la textura de papel */
+  }
+
+  /* ==========================================================================
+     2. FONDO CONTINUO
+     El mismo papel de la tarjeta se espeja en el body con el MISMO tamaño de
+     mosaico (min(500px, 100%)) y el mismo anclaje (arriba-centro). Así la
+     textura continúa sin parches blancos ni saltos debajo de la última
+     sección, en los laterales del escritorio y en el rebote del scroll.
+     ========================================================================== */
+  html {
+    background-color: var(--ak-crema);
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--ak-card-bg);
+    background-image: url('/images/bg-paper-1.jpg');
+    background-size: min(500px, 100%) auto;
+    background-position: center top;
+    background-repeat: repeat-y;
+    color: var(--ak-marino);
+  }
+
+  /* ==========================================================================
+     3. TARJETA MÓVIL  (max-width: 500px, centrada)
+     ========================================================================== */
+  .app-shell {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .mobile-card {
+    position: relative;
+    width: 100%;
+    max-width: var(--ak-card-max);
+    min-height: 100vh;
+    /* ÚNICO fondo de papel del sitio. Se repite en vertical como un pergamino
+       infinito; la textura está empalmada sin costuras, así que no aparece
+       ninguna línea de corte al pasar de una sección a otra. */
+    background-color: var(--ak-card-bg);
+    background-image: url('/images/bg-paper-1.jpg');
+    background-size: 100% auto;
+    background-position: center top;
+    background-repeat: repeat-y;
+    /* Sin box-shadow y sin bordes: nada debe leerse como una capa superpuesta. */
+    overflow: hidden;
+  }
+
+  @supports (min-height: 100dvh) {
+    .app-shell,
+    .mobile-card {
+      min-height: 100dvh;
+    }
+  }
+
+  /* ==========================================================================
+     4. ANIMACIÓN FLOTANTE EN CSS PURO  (ciclo de 4s)
+     ========================================================================== */
+  @keyframes floating {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -12px, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .floating-flower {
+    animation: floating 4s ease-in-out infinite;
+    /* Permite escalonar cada flor: style="--float-delay: 1.2s" */
+    animation-delay: var(--float-delay, 0s);
+    will-change: transform;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-flower {
+      animation: none;
+    }
+  }
+
+  /* ==========================================================================
+     5. UTILIDADES COMPARTIDAS POR LAS SECCIONES
+     ========================================================================== */
+  .seccion {
+    position: relative;
+    /* Transparente a propósito: el pergamino del Layout debe fluir sin cortes. */
+    background: transparent;
+    padding: 2.75rem 1.5rem;
+    text-align: center;
+  }
+
+  .titulo-seccion {
+    margin: 0 0 0.3rem;
+    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 13vw, 3.4rem);
+    line-height: 1.08;
+    color: var(--ak-marino);
+  }
+
+  .texto {
+    max-width: 34ch;
+    margin: 0 auto;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--ak-principal);
+  }
+
+  .btn-primario {
+    display: block;
+    width: 100%;
+    padding: 0.95rem 1.1rem;
+    border: 0;
+    /* El PDF usa botones planos de esquinas rectas, sin redondeo */
+    border-radius: 0;
+    background: var(--ak-boton);
+    color: #fff;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      filter 0.18s ease,
+      transform 0.18s ease;
+  }
+  .btn-primario:hover {
+    filter: brightness(1.08);
+  }
+  .btn-primario:active {
+    transform: scale(0.99);
+  }
+  .btn-primario:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .dato {
+    margin: 0;
+    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--ak-marino);
+  }
+  .dato__label {
+    font-weight: 700;
+    color: var(--ak-principal);
+  }
+  .dato__valor {
+    font-variant-numeric: tabular-nums;
+  }
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
 </style>

@@ -1,25 +1,39 @@
 ---
+/**
+ * index.astro — orden de las secciones dentro del pergamino (500px)
+ * ---------------------------------------------------------------------------
+ * Orden fiel al PDF de referencia (3 páginas de 810x5999pt en una tira):
+ *   Portada → Nombres+Contador → Detalles → Dress Code → Regalos →
+ *   Ubicación → Monograma → Galería → Confirmación de asistencia →
+ *   Importante → Foto final
+ *
+ * La lógica de confirmación vive completa en RSVP.astro.
+ * ---------------------------------------------------------------------------
+ */
 import Layout from '../layouts/Layout.astro';
-import S1Hero from '../components/S1_Hero.astro';
+
+import Hero from '../components/Hero.astro';
 import S2Names from '../components/S2_Names.astro';
-import S3Detalles from '../components/S3_Detalles.astro';
-import S4Regalos from '../components/S4_Regalos.astro';
+import Detalles from '../components/Detalles.astro';
+import DressCode from '../components/DressCode.astro';
+import Gifts from '../components/Gifts.astro';
 import S5Ubicacion from '../components/S5_Ubicacion.astro';
-import S6RSVP from '../components/S6_RSVP.astro';
-import S7Importante from '../components/S7_Importante.astro';
+import Monograma from '../components/Monograma.astro';
 import S8Galeria from '../components/S8_Galeria.astro';
-import S9ThankYou from '../components/S9_ThankYou.astro';
+import RSVP from '../components/RSVP.astro';
+import ImportantNotes from '../components/ImportantNotes.astro';
+import FotoFinal from '../components/FotoFinal.astro';
 ---
 <Layout>
-  <main>
-    <S1Hero />
-    <S2Names />
-    <S3Detalles />
-    <S4Regalos />
-    <S5Ubicacion />
-    <S6RSVP />
-    <S7Importante />
-    <S8Galeria />
-    <S9ThankYou />
-  </main>
+  <Hero />
+  <S2Names />
+  <Detalles />
+  <DressCode />
+  <Gifts />
+  <S5Ubicacion />
+  <Monograma />
+  <S8Galeria />
+  <RSVP />
+  <ImportantNotes />
+  <FotoFinal />
 </Layout>

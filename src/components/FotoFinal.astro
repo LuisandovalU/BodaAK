@@ -1,0 +1,57 @@
+---
+/**
+ * FotoFinal.astro — fotografía final a todo lo ancho (sección 10 del PDF)
+ * ---------------------------------------------------------------------------
+ * En el PDF, después de "Importante" cierra la invitación una foto grande con
+ * los nombres en caligrafía sobre un velo azul marino.
+ * ---------------------------------------------------------------------------
+ */
+---
+<section class="foto-final" aria-label="Ángel y Kenia caminando juntos">
+  <img
+    class="foto-final__imagen"
+    src="/assets/foto_pareja_entrada.webp"
+    alt="Ángel y Kenia caminando juntos por un jardín"
+    loading="lazy"
+  />
+  <img
+    class="foto-final__nombres"
+    src="/assets/nombres_angel_y_kenia.webp"
+    alt="Ángel y Kenia"
+    loading="lazy"
+  />
+</section>
+
+<style>
+  .foto-final {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 0.72;
+    overflow: hidden;
+    background: #243651;
+  }
+  .foto-final__imagen {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+  .foto-final::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(14, 27, 45, 0.42), transparent 30%);
+  }
+  .foto-final__nombres {
+    position: absolute;
+    z-index: 1;
+    top: 1.8rem;
+    left: 50%;
+    width: min(78%, 330px);
+    height: auto;
+    transform: translateX(-50%);
+    filter: brightness(0) invert(1);
+  }
+</style>

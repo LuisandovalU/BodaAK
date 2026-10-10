@@ -1,104 +1,106 @@
 ---
-// S8 — Galería de fotografías de Ángel y Kenia.
+/**
+ * S8_Galeria.astro — Galería de fotografías (fiel al PDF)
+ * ---------------------------------------------------------------------------
+ * Fotos escalonadas, cada una dentro de un marco fino con 4 esquinas de
+ * volutas ornamentales. La foto final se movió a FotoFinal.astro.
+ * ---------------------------------------------------------------------------
+ */
+const fotos = [
+  { src: '/assets/foto_pareja_espaldas.webp', alt: 'Ángel y Kenia abrazados de espaldas', clase: 'foto-espaldas' },
+  { src: '/assets/foto_pareja_baile.webp', alt: 'Ángel y Kenia bailando juntos', clase: 'foto-baile' },
+  { src: '/assets/foto_pareja_sonrisa.webp', alt: 'Ángel y Kenia sonriendo durante su sesión', clase: 'foto-sonrisa' },
+];
 ---
-<section class="bloque galeria-seccion bg-fondo-3 relative overflow-hidden" id="galeria" style="padding: 2.5rem 1.4rem 2rem;">
-  <!-- Florales laterales (como el PDF) -->
-  <img
-    src="/assets/flor_tallo_hortensia.webp"
-    alt=""
-    class="absolute right-[-1.75rem] top-24 w-28 sm:w-32 h-auto opacity-90 pointer-events-none select-none"
-  />
-  <img
-    src="/assets/flor_peonia_hero.webp"
-    alt=""
-    class="absolute left-[-1.5rem] bottom-24 w-24 sm:w-28 h-auto opacity-90 pointer-events-none select-none"
-  />
-
-  <div class="galeria-fotos relative z-10" aria-label="Fotografías de Ángel y Kenia">
-    <figure class="foto-galeria foto-espaldas">
-      <img src="/assets/foto_pareja_espaldas.webp" alt="Ángel y Kenia abrazados de espaldas" loading="lazy" />
-      <img class="adorno-foto adorno-superior" src="/assets/corner_tl.webp" alt="" />
-    </figure>
-    <figure class="foto-galeria foto-baile">
-      <img src="/assets/foto_pareja_baile.webp" alt="Ángel y Kenia bailando juntos" loading="lazy" />
-    </figure>
-    <figure class="foto-galeria foto-sonrisa">
-      <img src="/assets/foto_pareja_sonrisa.webp" alt="Ángel y Kenia sonriendo durante su sesión" loading="lazy" />
-      <img class="adorno-foto adorno-inferior" src="/assets/corner_br.webp" alt="" />
-    </figure>
+<section class="seccion galeria" id="galeria">
+  <div class="galeria-fotos" aria-label="Fotografías de Ángel y Kenia">
+    {
+      fotos.map((f) => (
+        <figure class={`foto ${f.clase}`}>
+          <img class="marco-esq marco-esq--tl" src="/images/marco-tl.png" alt="" aria-hidden="true" />
+          <img class="marco-esq marco-esq--tr" src="/images/marco-tr.png" alt="" aria-hidden="true" />
+          <img class="marco-esq marco-esq--bl" src="/images/marco-bl.png" alt="" aria-hidden="true" />
+          <img class="marco-esq marco-esq--br" src="/images/marco-br.png" alt="" aria-hidden="true" />
+          <img class="foto__imagen" src={f.src} alt={f.alt} loading="lazy" />
+        </figure>
+      ))
+    }
   </div>
 </section>
 
-<div class="foto-final" aria-label="Ángel y Kenia caminando juntos">
-  <img class="foto-final-imagen" src="/assets/foto_pareja_entrada.webp" alt="Ángel y Kenia caminando juntos por un jardín" loading="lazy" />
-  <img class="foto-final-nombres" src="/assets/nombres_angel_y_kenia.webp" alt="Ángel y Kenia" loading="lazy" />
-</div>
-
 <style>
+  .galeria {
+    padding-top: 2.25rem;
+    padding-bottom: 2.5rem;
+  }
+
   .galeria-fotos {
     display: flex;
-    width: min(100%, 350px);
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.7rem;
+    width: min(100%, 350px);
     margin: 0 auto;
   }
-  .foto-galeria {
+
+  .foto {
     position: relative;
     width: 57%;
     margin: 0;
+    padding: 7px;
+    border: 1px solid rgba(38, 56, 117, 0.4);
+    background: transparent;
   }
-  .foto-galeria > img:first-child {
+  .foto-espaldas {
+    align-self: flex-start;
+    margin-left: 7%;
+  }
+  .foto-baile {
+    align-self: flex-end;
+    margin-right: 7%;
+  }
+  .foto-sonrisa {
+    align-self: flex-start;
+    margin-left: 18%;
+  }
+
+  .foto__imagen {
     display: block;
     width: 100%;
     height: auto;
     object-fit: cover;
   }
-  .foto-espaldas > img:first-child { aspect-ratio: 0.78; }
-  .foto-baile > img:first-child { aspect-ratio: 0.9; }
-  .foto-sonrisa > img:first-child { aspect-ratio: 0.86; }
-  .adorno-foto {
+  .foto-espaldas .foto__imagen {
+    aspect-ratio: 0.78;
+  }
+  .foto-baile .foto__imagen {
+    aspect-ratio: 0.9;
+  }
+  .foto-sonrisa .foto__imagen {
+    aspect-ratio: 0.86;
+  }
+
+  .marco-esq {
     position: absolute;
     z-index: 1;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
     pointer-events: none;
   }
-  .adorno-superior { top: -7px; left: -7px; }
-  .adorno-inferior { right: -7px; bottom: -7px; }
-  .foto-espaldas { align-self: flex-start; margin-left: 7%; }
-  .foto-baile { align-self: flex-end; margin-right: 7%; }
-  .foto-sonrisa { align-self: flex-start; margin-left: 18%; }
-
-  .foto-final {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 0.72;
-    overflow: hidden;
-    background: #243651;
+  .marco-esq--tl {
+    top: -15px;
+    left: -15px;
   }
-  .foto-final-imagen {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 45%;
+  .marco-esq--tr {
+    top: -15px;
+    right: -15px;
   }
-  .foto-final::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(14, 27, 45, 0.42), transparent 30%);
+  .marco-esq--bl {
+    bottom: -15px;
+    left: -15px;
   }
-  .foto-final-nombres {
-    position: absolute;
-    z-index: 1;
-    top: 1.8rem;
-    left: 50%;
-    width: min(78%, 330px);
-    height: auto;
-    transform: translateX(-50%);
-    filter: brightness(0) invert(1);
+  .marco-esq--br {
+    bottom: -15px;
+    right: -15px;
   }
 </style>
