@@ -71,7 +71,7 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    padding: 5rem 1.5rem 3rem;
+    padding: 7rem 1.5rem 3rem;   /* más espacio superior para el racimo grande */
     overflow: hidden;
     text-align: center;
     background: transparent;
@@ -89,14 +89,14 @@
   .flor--tl {
     top: 0;
     left: 0;
-    width: 70%;
-    max-width: 260px;
+    width: 100%;
+    max-width: 340px;
   }
   .flor--tr {
     top: 0;
     right: 0;
-    width: 45%;
-    max-width: 200px;
+    width: 100%;
+    max-width: 340px;
     transform: scaleX(-1);
   }
 
@@ -104,8 +104,14 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 330px;
+    max-width: 380px;   /* mayor anchura para acercar monograma y marco */
     margin: 0 auto;
+  }
+  .monograma {
+    display: block;
+    width: 140px;
+    height: auto;
+    margin: 0 auto 1.5rem;
   }
 
   .monograma {
@@ -118,7 +124,7 @@
   /* Marco ornamental limpio */
   .marco {
     position: relative;
-    padding: 1.8rem 1.2rem 1.2rem;
+    padding: 2.2rem 1.5rem 1.5rem;   /* más espacio interno para que el texto quede centrado como en PDF */
     border: 1px solid rgba(38, 56, 117, 0.35);
   }
   .esq {
@@ -145,13 +151,13 @@
   .save-date__save,
   .save-date__date {
     font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 1.15rem;
+    font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: 0.25em;
   }
   .save-date__the {
     font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 1.6rem;
+    font-size: 2rem;
     line-height: 1;
   }
 
