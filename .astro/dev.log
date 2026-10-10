@@ -114,3 +114,18 @@
 {"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css, /src/styles/global.css","label":"watch","level":"info"}
 {"message":"[200] / 10ms","label":null,"level":"info"}
 {"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:13:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"[200] / 5ms","label":null,"level":"info"}
+{"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:13:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:13:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:13:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:13:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"[200] / 2ms","label":null,"level":"info"}
+{"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:13:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css, /src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 7ms","label":null,"level":"info"}
+{"message":"SaveDateTitle is not defined\n  Stack trace:\n    at eval (/Users/luisalbertosandovalramos/Documents/BodaAK/src/components/Hero.astro:14:5)\n    [...] See full stack trace in the browser, or rerun with --verbose.","label":null,"level":"error"}
+{"message":"/src/components/Hero.astro?astro&type=style&index=0&lang.css, /src/styles/global.css","label":"watch","level":"info"}
+{"message":"[200] / 7ms","label":null,"level":"info"}
