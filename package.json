@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@huggingface/inference": "^4.13.32",
     "@tailwindcss/vite": "4.3.3",
     "astro": "^7.3.5",
     "firebase": "^9.14.0",

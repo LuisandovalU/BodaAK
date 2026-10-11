@@ -77,12 +77,8 @@ const {
 
   body {
     margin: 0;
-    background-color: var(--ak-card-bg);
-    background-image: url('/images/bg-paper-1.jpg');
-    background-size: min(500px, 100%) auto;
-    background-position: center top;
-    background-repeat: repeat-y;
-    color: var(--ak-marino);
+    background-color: var(--ak-crema, #f2f0ea);
+    color: var(--ak-marino, #263875);
   }
 
   /* ==========================================================================
@@ -97,18 +93,16 @@ const {
   .mobile-card {
     position: relative;
     width: 100%;
-    max-width: var(--ak-card-max);
+    max-width: 500px;
     min-height: 100vh;
-    /* ÚNICO fondo de papel del sitio. Se repite en vertical como un pergamino
-       infinito; la textura está empalmada sin costuras, así que no aparece
-       ninguna línea de corte al pasar de una sección a otra. */
-    background-color: var(--ak-card-bg);
+    background-color: var(--ak-crema, #f2f0ea);
     background-image: url('/images/bg-paper-1.jpg');
     background-size: 100% auto;
     background-position: center top;
     background-repeat: repeat-y;
-    /* Sin box-shadow y sin bordes: nada debe leerse como una capa superpuesta. */
+    box-shadow: 0 0 50px rgba(38, 56, 117, 0.12);
     overflow: hidden;
+    margin: 0 auto;
   }
 
   @supports (min-height: 100dvh) {
@@ -119,23 +113,29 @@ const {
   }
 
   /* ==========================================================================
-     4. ANIMACIÓN FLOTANTE EN CSS PURO  (ciclo de 4s)
+     Efecto de Viento Orgánico de Alta Gama ("Brisa Botánica")
      ========================================================================== */
-  @keyframes wind-breeze {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-1deg); }
-    50% { transform: rotate(1deg); }
-    75% { transform: rotate(-0.5deg); }
-    100% { transform: rotate(0deg); }
+  @keyframes floating {
+    0% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(0, -8px, 0); }
+    100% { transform: translate3d(0, 0, 0); }
   }
 
+  @keyframes wind-breeze {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-1.2deg) scale(1.01); }
+    50% { transform: rotate(1.2deg) scale(0.99); }
+    75% { transform: rotate(-0.6deg) scale(1.005); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
 
   .floating-flower {
-    animation: floating 4s ease-in-out infinite, wind-breeze 8s ease-in-out infinite;
-    animation-delay: var(--float-delay, 0s), var(--float-delay, 0s);
+    animation: floating 5s ease-in-out infinite, wind-breeze 9s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
     will-change: transform;
     pointer-events: none;
     user-select: none;
+    transform-origin: bottom center; /* Simula el anclaje natural del tallo */
   }
 
   @media (prefers-reduced-motion: reduce) {

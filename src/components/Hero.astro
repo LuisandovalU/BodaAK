@@ -1,30 +1,29 @@
 ---
 /**
- * Hero.astro — Portada fiel al PDF original
+ * Hero.astro — Portada fiel 1:1 al PDF original
  */
-import SaveDateTitle from "./SaveDateTitle.astro";
 ---
+<section class="hero" id="save-the-date">
+  <!-- Ramo hortensias superior izquierdo (proporción dominante orgánica) -->
+  <img
+    src="/images/flower-corner-left.png"
+    alt=""
+    aria-hidden="true"
+    class="flor flor--tl floating-flower"
+    style="--float-delay: 0s;"
+  />
 
-<section class="hero" id="save-the-date" aria-label="Save the date de Angel y Kenia">
-  <!-- Flor superior izquierda -->
-    <img
-      src="/images/flower-top-left.png"
-      alt=""
-      aria-hidden="true"
-      class="flor flor--tl floating-flower"
-    />
-
-  <!-- Flor superior derecha (espejada para simetría) -->
-    <img
-      src="/images/flower-top-right.png"
-      alt=""
-      aria-hidden="true"
-      class="flor flor--tr floating-flower"
-      style="--float-delay: 1s;"
-    />
+  <!-- Ramo superior derecho (espejado simétrico exacto) -->
+  <img
+    src="/images/flower-corner-left.png"
+    alt=""
+    aria-hidden="true"
+    class="flor flor--tr floating-flower"
+    style="--float-delay: 1.2s;"
+  />
 
   <div class="hero__inner">
-    <!-- Monograma -->
+    <!-- Monograma superior -->
     <img
       src="/images/monograma.png"
       alt="Monograma de Angel y Kenia"
@@ -32,30 +31,34 @@ import SaveDateTitle from "./SaveDateTitle.astro";
       fetchpriority="high"
     />
 
-    <!-- Marco ornamental y textos principales -->
+    <!-- Marco ornamental limpio con las 4 volutas en las esquinas -->
     <div class="marco">
       <img src="/images/marco-tl.png" alt="" aria-hidden="true" class="esq esq--tl" />
       <img src="/images/marco-tr.png" alt="" aria-hidden="true" class="esq esq--tr" />
       <img src="/images/marco-bl.png" alt="" aria-hidden="true" class="esq esq--bl" />
       <img src="/images/marco-br.png" alt="" aria-hidden="true" class="esq esq--br" />
 
-      <SaveDateTitle />
+      <h1 class="save-date">
+        <span class="save-date__save">SAVE</span>
+        <span class="save-date__the">the</span>
+        <span class="save-date__date">DATE</span>
+      </h1>
 
       <p class="fecha">04.04.27</p>
 
       <p class="versiculo">1 Corintios 13:13</p>
     </div>
 
-    <!-- Peonía inferior integrada -->
+    <!-- Peonía inferior integrada orgánicamente -->
     <img
       src="/images/flower-peony.png"
       alt=""
       aria-hidden="true"
       class="peonia floating-flower"
-      style="--float-delay: 1.6s;"
+      style="--float-delay: 2s;"
     />
 
-    <!-- Información de fecha y lugar -->
+    <!-- Datos del evento -->
     <div class="evento">
       <p class="evento__fecha">Domingo 04 | Abril 2027</p>
       <p class="evento__hora">15:30 HRS</p>
@@ -69,32 +72,28 @@ import SaveDateTitle from "./SaveDateTitle.astro";
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    padding: 6rem 1.5rem 3rem;   /* espacio superior para el racimo grande */
+    padding: 4rem 1.5rem 3rem;
     overflow: hidden;
     text-align: center;
     background: transparent;
   }
 
-  /* Esquinas florales absolutas */
+  /* Posicionamiento absoluto de los ramos florales superiores */
   .flor {
     position: absolute;
     z-index: 0;
     pointer-events: none;
-    width: 45%;
-    max-width: 300px;
+    width: 42%;
+    max-width: 210px;
     height: auto;
   }
   .flor--tl {
-    top: 0;
-    left: 0;
-    width: 45%;
-    max-width: 300px;
+    top: -10px;
+    left: -10px;
   }
   .flor--tr {
-    top: 0;
-    right: 0;
-    width: 45%;
-    max-width: 300px;
+    top: -10px;
+    right: -10px;
     transform: scaleX(-1);
   }
 
@@ -102,94 +101,89 @@ import SaveDateTitle from "./SaveDateTitle.astro";
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 420px;   /* mayor anchura para acercar monograma y marco */
+    max-width: 340px;
     margin: 0 auto;
   }
-  .monograma {
-    display: block;
-    width: 160px;
-    height: auto;
-    margin: 0 auto 1.5rem;
-  }
 
   .monograma {
     display: block;
-    width: 110px;
+    width: 120px;
     height: auto;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 1.8rem;
   }
 
-  /* Marco ornamental limpio */
+  /* Marco ornamental */
   .marco {
     position: relative;
-    padding: 2.2rem 1.5rem 1.5rem;   /* más espacio interno para que el texto quede centrado como en PDF */
+    padding: 2.2rem 1.4rem 1.4rem;
     border: 1px solid rgba(38, 56, 117, 0.35);
+    background: transparent;
   }
   .esq {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
     pointer-events: none;
   }
-  .esq--tl { top: -25px; left: -25px; }
-  .esq--tr { top: -25px; right: -25px; }
-  .esq--bl { bottom: -25px; left: -25px; }
-  .esq--br { bottom: -25px; right: -25px; }
+  .esq--tl { top: -24px; left: -24px; }
+  .esq--tr { top: -24px; right: -24px; }
+  .esq--bl { bottom: -24px; left: -24px; }
+  .esq--br { bottom: -24px; right: -24px; }
 
-  /* Tipografía exacta SAVE the DATE */
+  /* Tipografía oficial forzada (Sloop Script Pro) */
   .save-date {
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.35rem;
     margin: 0;
     color: var(--ak-marino, #263875);
   }
   .save-date__save,
   .save-date__date {
     font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 700;
     letter-spacing: 0.25em;
   }
   .save-date__the {
     font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 2.2rem;
+    font-size: 1.7rem;
     line-height: 1;
   }
 
   .fecha {
     margin: 0.9rem 0 0;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: clamp(1.9rem, 8vw, 2.4rem);
+    font-size: clamp(2rem, 8.5vw, 2.4rem);
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     color: var(--ak-marino, #263875);
   }
 
   .versiculo {
-    margin: 0.8rem 0 0;
+    margin: 0.9rem 0 0;
     text-align: right;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
     font-size: 0.85rem;
     font-style: italic;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     color: var(--ak-marino, #263875);
   }
 
   /* Peonía inferior */
   .peonia {
     display: block;
-    width: 90%;
-    max-width: 320px;
+    width: 95%;
+    max-width: 340px;
     height: auto;
-    margin: -1.5rem auto 0.5rem -1.2rem;
+    margin: -1.8rem auto 0.8rem -1.4rem;
   }
 
-  /* Evento */
+  /* Bloque de fecha y salón */
   .evento {
-    margin-top: 2rem;
+    margin-top: 1.8rem;
   }
   .evento__fecha,
   .evento__hora,
@@ -199,9 +193,9 @@ import SaveDateTitle from "./SaveDateTitle.astro";
     margin: 0;
   }
   .evento__fecha {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
   .evento__hora {
     margin-top: 0.3rem;
