@@ -7,20 +7,52 @@
  * ---------------------------------------------------------------------------
  */
 const momentos = [
-  { icono: '/images/icon-detalles-llegada.png', nombre: 'Llegada', hora: '3:30PM' },
-  { icono: '/images/icon-detalles-ceremonia.png', nombre: 'Ceremonia', hora: '3:45PM' },
-  { icono: '/images/icon-detalles-fiesta.png', nombre: 'Fiesta', hora: '5:00PM' },
-  { icono: '/images/icon-detalles-salida.png', nombre: 'Salida', hora: '11:00PM' },
+  {
+    icono: "/images/icon-detalles-llegada.png",
+    nombre: "Llegada",
+    hora: "3:30PM",
+  },
+  {
+    icono: "/images/icon-detalles-ceremonia.png",
+    nombre: "Ceremonia",
+    hora: "3:45PM",
+  },
+  {
+    icono: "/images/icon-detalles-fiesta.png",
+    nombre: "Fiesta",
+    hora: "5:00PM",
+  },
+  {
+    icono: "/images/icon-detalles-salida.png",
+    nombre: "Salida",
+    hora: "11:00PM",
+  },
 ];
 ---
-<section class="seccion detalles" id="detalles">
+
+<section class="seccion detalles relative overflow-hidden" id="detalles">
+  <!-- Flor 9: Decoración floral orgánica -->
+  <img
+    src="/images/flor-9.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor-detalles floating-flower"
+    style="--flower-origin: top right; --float-delay: 1.4s;"
+  />
+
   <h2 class="titulo-seccion">Detalles</h2>
 
   <div class="momentos">
     {
       momentos.map((m) => (
         <div class="momento">
-          <img src={m.icono} alt="" aria-hidden="true" class="momento__icono" loading="lazy" />
+          <img
+            src={m.icono}
+            alt=""
+            aria-hidden="true"
+            class="momento__icono"
+            loading="lazy"
+          />
           <span class="momento__nombre">{m.nombre}</span>
           <span class="momento__hora">{m.hora}</span>
         </div>
@@ -31,7 +63,20 @@ const momentos = [
 
 <style>
   .detalles {
+    position: relative;
     padding-top: 2.25rem;
+  }
+
+  .flor-detalles {
+    position: absolute;
+    top: 5px;
+    right: -28px;
+    width: 26%;
+    max-width: 110px;
+    height: auto;
+    opacity: 0.8;
+    z-index: 0;
+    pointer-events: none;
   }
 
   .momentos {
@@ -56,7 +101,7 @@ const momentos = [
   }
 
   .momento__nombre {
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-family: "The Seasons", "Cormorant Garamond", serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -64,7 +109,7 @@ const momentos = [
   }
 
   .momento__hora {
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    font-family: "The Seasons", "Cormorant Garamond", serif;
     font-size: 0.7rem;
     font-weight: 700;
     color: var(--ak-marino);

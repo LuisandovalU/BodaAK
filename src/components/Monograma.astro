@@ -6,22 +6,46 @@
  * ---------------------------------------------------------------------------
  */
 ---
-<section class="seccion monograma" id="monograma" aria-label="Monograma de Angel y Kenia">
+<section class="seccion monograma relative overflow-hidden" id="monograma" aria-label="Monograma de Angel y Kenia">
+  <!-- Flor 13: Decoración floral orgánica en Monograma -->
+  <img
+    src="/images/flor-13.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor-monograma floating-flower"
+    style="--flower-origin: top center; --float-delay: 2.5s;"
+  />
+
   <img
     src="/images/monograma.png"
     alt="Monograma de Angel y Kenia"
-    class="monograma__imagen"
+    class="monograma__imagen relative z-10"
     loading="lazy"
   />
 </section>
 
 <style>
   .monograma {
+    position: relative;
     padding-top: 2.4rem;
     padding-bottom: 1.4rem;
   }
 
+  .flor-monograma {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%;
+    max-width: 260px;
+    height: auto;
+    opacity: 0.75;
+    z-index: 0;
+    pointer-events: none;
+  }
+
   .monograma__imagen {
+    position: relative;
     display: block;
     width: min(86%, 360px);
     height: auto;

@@ -30,11 +30,13 @@ const {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f5f0e8" />
     <link rel="icon" type="image/png" href="/images/monograma.png" />
+    <link rel="preload" href="/fonts/TheSeasons-Reg.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/TheSeasons-Bd.ttf" as="font" type="font/ttf" crossorigin />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/photo-rsvp.jpg" />
+    <meta property="og:image" content="/images/foto-novios-5.webp" />
 
 
   </head>
@@ -135,7 +137,7 @@ const {
     will-change: transform;
     pointer-events: none;
     user-select: none;
-    transform-origin: bottom center; /* Simula el anclaje natural del tallo */
+    transform-origin: var(--flower-origin, bottom center);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -157,7 +159,7 @@ const {
 
   .titulo-seccion {
     margin: 0 0 0.3rem;
-    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+    font-family: 'Andasia', 'Sloop Script Pro', cursive;
     font-weight: 400;
     font-size: clamp(2.5rem, 13vw, 3.4rem);
     line-height: 1.08;

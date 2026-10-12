@@ -28,6 +28,13 @@
   font-weight: 400;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Andasia';
+  src: url('/fonts/Andasia.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 
 :root {
   --azul-marino: #263875;
@@ -71,7 +78,7 @@ section.bloque {
 }
 
 .font-script {
-  font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+  font-family: 'Andasia', 'Sloop Script Pro', cursive;
   font-weight: 400;
 }
 

@@ -3,18 +3,30 @@
 const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=C.+Benito+Ju%C3%A1rez+36,+Tlacoapa,+Xochimilco,+16000+CDMX';
 ---
 <section class="bloque relative overflow-hidden" id="ubicacion" style="padding: 2.5rem 1.4rem 3rem;">
-  <h2 class="font-script text-4xl sm:text-5xl text-[#263875] mb-2">Ubicación</h2>
+  <!-- Flor 12: Decoración floral Ubicación -->
+  <div class="absolute -left-6 top-6 w-28 opacity-80 pointer-events-none select-none z-0">
+    <img
+      src="/images/flor-12.webp"
+      alt=""
+      class="w-full h-auto floating-flower"
+      style="--flower-origin: center left; --float-delay: 1.3s;"
+    />
+  </div>
+
+  <div class="relative z-10">
+    <h2 class="font-script text-4xl sm:text-5xl text-[#263875] mb-2">Ubicación</h2>
   <p class="font-serif text-[#263875] text-2xl font-semibold m-0 tracking-wide">Salón Bamboo</p>
   <p class="font-serif text-[#263875] text-sm max-w-[32ch] mx-auto mt-2 mb-5 leading-relaxed">
     C. Benito Juárez 36, Tlacoapa, Xochimilco, 16000 Ciudad de México, CDMX
   </p>
 
-  <a
-    href={mapsUrl}
-    target="_blank"
-    rel="noreferrer"
-    class="font-serif text-[#263875] text-base underline underline-offset-2"
-  >
-    Link
-  </a>
+    <a
+      href={mapsUrl}
+      target="_blank"
+      rel="noreferrer"
+      class="font-serif text-[#263875] text-base underline underline-offset-2"
+    >
+      Link
+    </a>
+  </div>
 </section>

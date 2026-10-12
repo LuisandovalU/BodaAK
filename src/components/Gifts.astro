@@ -11,7 +11,16 @@
  */
 const clabe = '638180010146605599';
 ---
-<section class="seccion regalos" id="regalos">
+<section class="seccion regalos relative overflow-hidden" id="regalos">
+  <!-- Flor 11: Decoración floral Regalos -->
+  <img
+    src="/images/flor-11.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor-regalos floating-flower"
+    style="--flower-origin: bottom right; --float-delay: 1.6s;"
+  />
+
   <h2 class="titulo-seccion">Regalos</h2>
 
   <p class="texto texto--principal">
@@ -66,7 +75,20 @@ const clabe = '638180010146605599';
 
 <style>
   .regalos {
+    position: relative;
     padding-bottom: 3rem;
+  }
+
+  .flor-regalos {
+    position: absolute;
+    bottom: -15px;
+    right: -28px;
+    width: 32%;
+    max-width: 140px;
+    height: auto;
+    opacity: 0.85;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .texto--principal {
@@ -75,6 +97,7 @@ const clabe = '638180010146605599';
   }
   .texto--principal em {
     font-style: italic;
+    font-weight: 700;
     color: var(--ak-marino);
   }
 

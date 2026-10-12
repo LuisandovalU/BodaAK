@@ -3,23 +3,59 @@
  * Hero.astro — Portada fiel 1:1 al PDF original
  */
 ---
+
 <section class="hero" id="save-the-date">
-  <!-- Ramo hortensias superior izquierdo (proporción dominante orgánica) -->
+  <!-- Flor 1: Ramo superior izquierdo -->
   <img
-    src="/images/flower-corner-left.png"
+    src="/images/flor-1.webp"
     alt=""
     aria-hidden="true"
     class="flor flor--tl floating-flower"
-    style="--float-delay: 0s;"
+    style="--flower-origin: top left; --float-delay: 0s;"
   />
 
-  <!-- Ramo superior derecho (espejado simétrico exacto) -->
+  <!-- Flor 2: Ramo superior derecho -->
   <img
-    src="/images/flower-corner-left.png"
+    src="/images/flor-2.webp"
     alt=""
     aria-hidden="true"
     class="flor flor--tr floating-flower"
-    style="--float-delay: 1.2s;"
+    style="--flower-origin: top right; --float-delay: 1.2s;"
+  />
+
+  <!-- Flor 3: Ramo floral complementario superior -->
+  <img
+    src="/images/flor-3.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor flor--top-cluster floating-flower"
+    style="--flower-origin: top left; --float-delay: 0.6s;"
+  />
+
+  <!-- El PDF repite un racimo más ligero en la esquina superior derecha. -->
+  <img
+    src="/images/flor-3.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor flor--top-right-cluster"
+  />
+
+  <!-- Flor 4: Borde lateral izquierdo (hojas cruzando el marco) -->
+  <img
+    src="/images/flor-4.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor flor--side-l floating-flower"
+    style="--flower-origin: center left; --float-delay: 0.8s;"
+  />
+
+  <!-- Flor 5: Borde lateral derecho (ramito floral sobre el marco) -->
+  <img
+    src="/images/flor-5.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor flor--side-r floating-flower"
+    style="--flower-origin: center right; --float-delay: 1.6s;"
   />
 
   <div class="hero__inner">
@@ -33,36 +69,63 @@
 
     <!-- Marco ornamental limpio con las 4 volutas en las esquinas -->
     <div class="marco">
-      <img src="/images/marco-tl.png" alt="" aria-hidden="true" class="esq esq--tl" />
-      <img src="/images/marco-tr.png" alt="" aria-hidden="true" class="esq esq--tr" />
-      <img src="/images/marco-bl.png" alt="" aria-hidden="true" class="esq esq--bl" />
-      <img src="/images/marco-br.png" alt="" aria-hidden="true" class="esq esq--br" />
+      <img
+        src="/images/marco-tl.png"
+        alt=""
+        aria-hidden="true"
+        class="esq esq--tl"
+      />
+      <img
+        src="/images/marco-tr.png"
+        alt=""
+        aria-hidden="true"
+        class="esq esq--tr"
+      />
+      <img
+        src="/images/marco-bl.png"
+        alt=""
+        aria-hidden="true"
+        class="esq esq--bl"
+      />
+      <img
+        src="/images/marco-br.png"
+        alt=""
+        aria-hidden="true"
+        class="esq esq--br"
+      />
 
-      <h1 class="save-date">
-        <span class="save-date__save">SAVE</span>
-        <span class="save-date__the">the</span>
-        <span class="save-date__date">DATE</span>
-      </h1>
+      <!-- Imagen oficial SAVE the DATE -->
+      <div class="save-date-wrap">
+        <img
+          src="/images/save-the-date.png"
+          alt="SAVE the DATE"
+          class="save-date-img"
+        />
+      </div>
 
       <p class="fecha">04.04.27</p>
 
       <p class="versiculo">1 Corintios 13:13</p>
     </div>
 
-    <!-- Peonía inferior integrada orgánicamente -->
+    <!-- Flor 6: Centro del Hero con z-index superior POR ENCIMA del marco -->
     <img
-      src="/images/flower-peony.png"
+      src="/images/flor-6.webp"
       alt=""
       aria-hidden="true"
-      class="peonia floating-flower"
-      style="--float-delay: 2s;"
+      class="flor-centro floating-flower"
+      style="--flower-origin: center center; --float-delay: 2.2s;"
     />
 
-    <!-- Datos del evento -->
     <div class="evento">
       <p class="evento__fecha">Domingo 04 | Abril 2027</p>
       <p class="evento__hora">15:30 HRS</p>
-      <p class="evento__lugar">Salón Bamboo</p>
+      <p class="evento__lugar">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 2a7 7 0 0 0-7 7c0 5.06 7 13 7 13s7-7.94 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z" />
+        </svg>
+        Salón Bamboo
+      </p>
     </div>
   </div>
 </section>
@@ -72,139 +135,184 @@
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    padding: 4rem 1.5rem 3rem;
+    padding: 1.25rem 0 2.25rem;
     overflow: hidden;
     text-align: center;
     background: transparent;
   }
 
-  /* Posicionamiento absoluto de los ramos florales superiores */
+  /* Posicionamiento absoluto de los ramos florales */
   .flor {
     position: absolute;
     z-index: 0;
     pointer-events: none;
-    width: 42%;
-    max-width: 210px;
     height: auto;
   }
   .flor--tl {
-    top: -10px;
-    left: -10px;
+    top: 1.5rem;
+    left: -2%;
+    width: 43%;
+    max-width: 215px;
   }
   .flor--tr {
-    top: -10px;
-    right: -10px;
+    top: -2.6rem;
+    left: 47%;
+    width: 32%;
+    max-width: 160px;
+  }
+  .flor--top-cluster {
+    top: -6rem;
+    left: -7%;
+    width: 40%;
+    max-width: 200px;
+    opacity: 0.85;
+  }
+  .flor--top-right-cluster {
+    top: -6.5rem;
+    right: -8%;
+    width: 32%;
+    max-width: 160px;
+    opacity: 0.85;
     transform: scaleX(-1);
+  }
+  .flor--side-l {
+    top: 33%;
+    left: -9%;
+    width: 37%;
+    max-width: 185px;
+    opacity: 0.95;
+  }
+  .flor--side-r {
+    top: 42%;
+    right: -3%;
+    width: 23%;
+    max-width: 115px;
+    opacity: 0.95;
   }
 
   .hero__inner {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 340px;
-    margin: 0 auto;
+    width: 76%;
+    max-width: 390px;
+    margin: 6.7rem auto 0;
   }
 
   .monograma {
     display: block;
-    width: 120px;
+    width: 96px;
     height: auto;
-    margin: 0 auto 1.8rem;
+    margin: 0 auto 1.3rem;
   }
 
   /* Marco ornamental */
   .marco {
     position: relative;
-    padding: 2.2rem 1.4rem 1.4rem;
-    border: 1px solid rgba(38, 56, 117, 0.35);
+    padding: 2.4rem 0.85rem 1.45rem;
     background: transparent;
   }
   .esq {
     position: absolute;
-    width: 48px;
-    height: 48px;
+    width: 48%;
+    height: auto;
     object-fit: contain;
     pointer-events: none;
   }
-  .esq--tl { top: -24px; left: -24px; }
-  .esq--tr { top: -24px; right: -24px; }
-  .esq--bl { bottom: -24px; left: -24px; }
-  .esq--br { bottom: -24px; right: -24px; }
+  .esq--tl {
+    top: 0;
+    left: 0;
+  }
+  .esq--tr {
+    top: 0;
+    right: 0;
+  }
+  .esq--bl {
+    bottom: 0;
+    left: 0;
+  }
+  .esq--br {
+    bottom: 0;
+    right: 0;
+  }
 
-  /* Tipografía oficial forzada (Sloop Script Pro) */
-  .save-date {
+  /* Imagen oficial SAVE the DATE */
+  .save-date-wrap {
     display: flex;
-    align-items: baseline;
     justify-content: center;
-    gap: 0.35rem;
-    margin: 0;
-    color: var(--ak-marino, #263875);
+    align-items: center;
+    margin: 0 auto;
   }
-  .save-date__save,
-  .save-date__date {
-    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-  }
-  .save-date__the {
-    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 1.7rem;
-    line-height: 1;
+  .save-date-img {
+    display: block;
+    width: 49%;
+    max-width: 165px;
+    height: auto;
+    object-fit: contain;
   }
 
   .fecha {
-    margin: 0.9rem 0 0;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 8.5vw, 2.4rem);
+    margin: 0.55rem 0 0;
+    font-family: "The Seasons", "Cormorant Garamond", serif;
+    font-size: clamp(1.45rem, 6.5vw, 1.8rem);
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.06em;
     color: var(--ak-marino, #263875);
+    text-align: center;
   }
 
   .versiculo {
-    margin: 0.9rem 0 0;
+    margin: 1rem 0.1rem 0 0;
     text-align: right;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.85rem;
+    font-family: "The Seasons", "Cormorant Garamond", serif;
+    font-size: 0.78rem;
     font-style: italic;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     color: var(--ak-marino, #263875);
   }
 
-  /* Peonía inferior */
-  .peonia {
+  /* Flor 6: Centro del Hero con z-index superior POR ENCIMA del marco */
+  .flor-centro {
+    position: relative;
+    z-index: 10;
     display: block;
-    width: 95%;
-    max-width: 340px;
+    width: 100%;
+    max-width: 390px;
     height: auto;
-    margin: -1.8rem auto 0.8rem -1.4rem;
+    margin: -3rem auto 0;
+    pointer-events: none;
+    filter: drop-shadow(0 6px 14px rgba(38, 56, 117, 0.1));
   }
 
-  /* Bloque de fecha y salón */
   .evento {
-    margin-top: 1.8rem;
-  }
-  .evento__fecha,
-  .evento__hora,
-  .evento__lugar {
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
+    margin-top: 2rem;
     color: var(--ak-marino, #263875);
+  }
+  .evento p {
     margin: 0;
+    font-family: "The Seasons", "Cormorant Garamond", serif;
+    font-weight: 700;
   }
   .evento__fecha {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-size: clamp(1.12rem, 5vw, 1.42rem);
+    letter-spacing: 0.01em;
   }
   .evento__hora {
-    margin-top: 0.3rem;
-    font-size: 0.95rem;
-    font-weight: 700;
+    margin-top: 0.2rem !important;
+    font-size: clamp(1rem, 4.4vw, 1.22rem);
   }
   .evento__lugar {
-    margin-top: 0.3rem;
-    font-size: 0.9rem;
-    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28rem;
+    margin-top: 0.25rem !important;
+    font-size: clamp(1.15rem, 5.2vw, 1.46rem);
+  }
+  .evento__lugar svg {
+    width: 1.05em;
+    height: 1.05em;
+    fill: currentColor;
   }
 </style>

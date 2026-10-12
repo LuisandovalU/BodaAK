@@ -1,10 +1,34 @@
 ---
 // S2 — Nombres + Countdown + Versículo
 ---
-<section class="bloque relative overflow-hidden" id="nombres" style="padding: 2.5rem 1.4rem 3rem;">
-  <!-- Ramo lateral decorativo flotante -->
-  <div class="absolute -right-6 top-16 w-28 opacity-75 pointer-events-none select-none">
-    <img src="/assets/ramo_vertical_lateral.webp" alt="" class="w-full h-auto" />
+
+<section
+  class="bloque relative overflow-hidden"
+  id="nombres"
+  style="padding: 2.5rem 1.4rem 3rem;"
+>
+  <!-- Flor 7: Lateral derecho decorativo flotante (Countdown) -->
+  <div
+    class="flor-s2-der absolute -right-6 top-14 w-28 opacity-80 pointer-events-none select-none z-0"
+  >
+    <img
+      src="/images/flor-8.webp"
+      alt=""
+      class="w-full h-auto floating-flower"
+      style="--flower-origin: center right; --float-delay: 0.9s;"
+    />
+  </div>
+
+  <!-- Flor 8: Lateral izquierdo decorativo flotante (Countdown / Versículo) -->
+  <div
+    class="flor-s2-izq absolute -left-8 top-64 w-32 opacity-80 pointer-events-none select-none z-0"
+  >
+    <img
+      src="/images/flor-7.webp"
+      alt=""
+      class="w-full h-auto floating-flower"
+      style="--flower-origin: center left; --float-delay: 2.1s;"
+    />
   </div>
 
   <div class="relative z-10">
@@ -19,7 +43,11 @@
 
     <!-- Cuenta regresiva -->
     <div class="mt-8 mb-4">
-      <p class="font-serif italic text-base text-[#263875] tracking-widest mb-1">the countdown</p>
+      <p
+        class="font-serif italic text-base text-[#263875] tracking-widest mb-1"
+      >
+        the countdown
+      </p>
       <p class="font-script text-3xl text-[#263875] mb-4">Forever begins in</p>
 
       <div
@@ -28,30 +56,67 @@
         class="grid grid-cols-4 gap-2.5 max-w-[320px] mx-auto"
       >
         <div class="flex flex-col items-center">
-          <div id="cd-d" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
-          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Días</span>
+          <div
+            id="cd-d"
+            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
+          >
+            00
+          </div>
+          <span
+            class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold"
+            >Días</span
+          >
         </div>
         <div class="flex flex-col items-center">
-          <div id="cd-h" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
-          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Horas</span>
+          <div
+            id="cd-h"
+            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
+          >
+            00
+          </div>
+          <span
+            class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold"
+            >Horas</span
+          >
         </div>
         <div class="flex flex-col items-center">
-          <div id="cd-m" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
-          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Minutos</span>
+          <div
+            id="cd-m"
+            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
+          >
+            00
+          </div>
+          <span
+            class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold"
+            >Minutos</span
+          >
         </div>
         <div class="flex flex-col items-center">
-          <div id="cd-s" class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3">00</div>
-          <span class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold">Segundos</span>
+          <div
+            id="cd-s"
+            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
+          >
+            00
+          </div>
+          <span
+            class="font-serif text-xs text-[#263875] mt-1.5 uppercase tracking-wider font-semibold"
+            >Segundos</span
+          >
         </div>
       </div>
     </div>
 
     <!-- Cita bíblica -->
     <div class="my-8 px-4">
-      <p class="font-serif italic text-base text-[#263875] leading-relaxed max-w-[32ch] mx-auto">
-        “Ahora, pues, permanecen la fe, la esperanza y el amor. Pero el amor es el más importante.”
+      <p
+        class="font-serif italic text-base text-[#263875] leading-relaxed max-w-[32ch] mx-auto"
+      >
+        “Ahora, pues, permanecen la fe, la esperanza y el amor. Pero el amor es
+        el más importante.”
       </p>
-      <p class="font-serif text-sm text-[#263875] tracking-widest mt-2 uppercase font-medium">
+      <p
+        class="font-serif text-sm text-[#263875] tracking-widest mt-2 uppercase font-medium"
+      >
         1 Corintios 13:13
       </p>
     </div>
@@ -59,7 +124,7 @@
     <!-- Fotografía de manos y anillos del diseño de referencia -->
     <div class="foto-compromiso relative mx-auto max-w-[340px] overflow-hidden">
       <img
-        src="/assets/foto_anillos.webp"
+        src="/images/foto-novios-4.webp"
         alt="Manos de Ángel y Kenia con sus anillos"
         class="block w-full h-auto object-cover"
       />
@@ -68,16 +133,20 @@
 </section>
 
 <style>
-  .foto-compromiso { width: min(100%, 340px); }
+  .foto-compromiso {
+    width: min(100%, 340px);
+  }
 </style>
 
 <script>
-  const root = document.getElementById('countdown');
-  const target = new Date(root?.dataset.fecha || '2027-04-04T15:30:00-06:00').getTime();
-  const d = document.getElementById('cd-d');
-  const h = document.getElementById('cd-h');
-  const m = document.getElementById('cd-m');
-  const s = document.getElementById('cd-s');
+  const root = document.getElementById("countdown");
+  const target = new Date(
+    root?.dataset.fecha || "2027-04-04T15:30:00-06:00",
+  ).getTime();
+  const d = document.getElementById("cd-d");
+  const h = document.getElementById("cd-h");
+  const m = document.getElementById("cd-m");
+  const s = document.getElementById("cd-s");
 
   function tick() {
     const diff = target - Date.now();
@@ -86,10 +155,10 @@
     const hh = Math.floor((diff % 864e5) / 36e5);
     const mm = Math.floor((diff % 36e5) / 6e4);
     const ss = Math.floor((diff % 6e4) / 1e3);
-    if (d) d.textContent = String(dd).padStart(2, '0');
-    if (h) h.textContent = String(hh).padStart(2, '0');
-    if (m) m.textContent = String(mm).padStart(2, '0');
-    if (s) s.textContent = String(ss).padStart(2, '0');
+    if (d) d.textContent = String(dd).padStart(2, "0");
+    if (h) h.textContent = String(hh).padStart(2, "0");
+    if (m) m.textContent = String(mm).padStart(2, "0");
+    if (s) s.textContent = String(ss).padStart(2, "0");
   }
   tick();
   setInterval(tick, 1000);

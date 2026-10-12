@@ -30,7 +30,16 @@ const noUtilizar = [
   { hex: '#FFFFFF', nombre: 'Blanco' },
 ];
 ---
-<section class="seccion dresscode" id="dress-code">
+<section class="seccion dresscode relative overflow-hidden" id="dress-code">
+  <!-- Flor 10: Decoración floral Dress Code -->
+  <img
+    src="/images/flor-10.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor-dresscode floating-flower"
+    style="--flower-origin: bottom left; --float-delay: 2s;"
+  />
+
   <!-- ============ Recuadro: la única zona con color sólido ============ -->
   <div class="recuadro">
     <img src="/images/dresscode-corner-1.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tl" />
@@ -74,7 +83,20 @@ const noUtilizar = [
 
 <style>
   .dresscode {
+    position: relative;
     padding-bottom: 3.25rem;
+  }
+
+  .flor-dresscode {
+    position: absolute;
+    bottom: 15px;
+    left: -28px;
+    width: 30%;
+    max-width: 130px;
+    height: auto;
+    opacity: 0.85;
+    z-index: 1;
+    pointer-events: none;
   }
 
   /* ---------- Recuadro azul acero ---------- */
