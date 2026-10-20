@@ -31,52 +31,52 @@ const noUtilizar = [
 ];
 ---
 <section class="seccion dresscode relative overflow-hidden" id="dress-code">
-  <!-- Flor 10: Decoración floral Dress Code -->
-  <img
-    src="/images/flor-10.webp"
-    alt=""
-    aria-hidden="true"
-    class="flor-dresscode floating-flower"
-    style="--flower-origin: bottom left; --float-delay: 2s;"
-  />
-
   <!-- ============ Recuadro: la única zona con color sólido ============ -->
-  <div class="recuadro">
-    <img src="/images/dresscode-corner-1.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tl" />
-    <img src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tr" />
-    <img src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--bl" />
-    <img src="/images/dresscode-corner-1.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--br" />
+    <div class="recuadro-wrapper" data-reveal="fade-up">
+    <div class="recuadro-shadow" aria-hidden="true"></div>
+      <div class="recuadro" data-liquid-glass style="background: rgba(93,124,159,0.82);">
+      <!-- Esquinas ornamentales blancas -->
+      <img src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tl" />
+        <img src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tr" style="transform: rotate(90deg);" />
 
-    <h2 class="recuadro__titulo">Dress Code</h2>
-    <p class="recuadro__gala">Gala</p>
+      <img src="/images/caligrafia-dress-code.webp" alt="Dress Code" class="recuadro__titulo" data-reveal="fade-up" style="width:80%; max-width:200px; display:block; margin:auto;" />
+      <p class="recuadro__gala">GALA</p>
 
-    <div class="siluetas">
-      <figure class="silueta">
-        <figcaption>Mujeres</figcaption>
-        <img src="/images/dresscode-women.png" alt="Silueta de vestido de gala" loading="lazy" />
-      </figure>
-      <figure class="silueta">
-        <figcaption>Hombres</figcaption>
-        <img src="/images/dresscode-men.png" alt="Silueta de traje de gala" loading="lazy" />
-      </figure>
+      <div class="siluetas">
+        <figure class="silueta">
+          <figcaption>Mujeres</figcaption>
+          <img src="/images/dresscode-women.png" alt="Silueta de vestido de gala" loading="lazy" />
+        </figure>
+        <figure class="silueta">
+          <figcaption>Hombres</figcaption>
+          <img src="/images/dresscode-men.png" alt="Silueta de traje de gala" loading="lazy" />
+        </figure>
+      </div>
     </div>
   </div>
 
   <!-- ============ Colores sugeridos (etiqueta debajo) ============ -->
-  <ul class="paleta" aria-label="Colores sugeridos">
-    {sugeridos.slice(0, 5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
-    <li class="paleta__separador" aria-hidden="true" />
-    {sugeridos.slice(5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
-  </ul>
-  <p class="paleta__etiqueta">Colores sugeridos</p>
+    <div class="paleta-container" data-reveal="fade-up">
+    <ul class="paleta paleta--sugeridos" aria-label="Colores sugeridos">
+      <div class="paleta__grupo">
+        {sugeridos.slice(0, 5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+      </div>
+      <div class="paleta__grupo">
+        {sugeridos.slice(5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+      </div>
+    </ul>
+    <p class="paleta__etiqueta">Colores sugeridos</p>
+  </div>
 
   <!-- ============ Colores reservados (una línea roja los cruza) ============ -->
-  <ul class="paleta paleta--no" aria-label="Colores para no utilizar">
-    {noUtilizar.map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
-    <li class="paleta__tachado" aria-hidden="true" />
-  </ul>
+    <div class="paleta-reservados-container" data-reveal="fade-up">
+    <ul class="paleta paleta--no" aria-label="Colores para no utilizar">
+      {noUtilizar.map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+      <li class="paleta__tachado" aria-hidden="true" />
+    </ul>
+  </div>
 
-  <p class="aviso">
+    <p class="aviso" data-reveal="fade-up">
     Colores para no utilizar este día. Serán los colores de la novia, el novio, damas y caballeros de honor.
   </p>
 </section>
@@ -84,168 +84,210 @@ const noUtilizar = [
 <style>
   .dresscode {
     position: relative;
-    padding-bottom: 3.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
   }
 
-  .flor-dresscode {
+  /* ---------- Contenedor y Recuadro con Sombra Desplazada ---------- */
+  .recuadro-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .recuadro-shadow {
     position: absolute;
-    bottom: 15px;
-    left: -28px;
-    width: 30%;
-    max-width: 130px;
-    height: auto;
-    opacity: 0.85;
-    z-index: 1;
-    pointer-events: none;
+    top: -14px;
+    left: -14px;
+    right: 14px;
+    bottom: 14px;
+    background: #9ab0c7;
+    opacity: 0.5;
+    z-index: 0;
   }
 
-  /* ---------- Recuadro azul acero ---------- */
   .recuadro {
     position: relative;
-    max-width: 340px;
-    margin: 0 auto;
-    padding: 1.6rem 1.35rem 1.4rem;
-    border-radius: 10px;
-    background: var(--ak-dresscode);
+    z-index: 1;
+    width: 100%;
+    padding: 2.2rem 1.6rem 2.8rem;
+    background: #5d7c9f;
     color: #fff;
     overflow: hidden;
+    text-align: center;
   }
+
+  /* ---------- Esquinas ornamentales blancas ---------- */
   .recuadro__esquina {
     position: absolute;
-    width: 34px;
-    height: 34px;
+    width: clamp(60px, 18vw, 85px);
+    height: clamp(60px, 18vw, 85px);
     object-fit: contain;
-    opacity: 0.9;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
     pointer-events: none;
   }
   .recuadro__esquina--tl {
-    top: 8px;
-    left: 8px;
+    top: 6px;
+    left: 6px;
   }
   .recuadro__esquina--tr {
-    top: 8px;
-    right: 8px;
+    top: 6px;
+    right: 6px;
+    filter: brightness(0) invert(1) saturate(1.5);
+    opacity: 1;
   }
   .recuadro__esquina--bl {
-    bottom: 8px;
-    left: 8px;
+    bottom: 6px;
+    left: 6px;
   }
   .recuadro__esquina--br {
-    bottom: 8px;
-    right: 8px;
+    bottom: 6px;
+    right: 6px;
   }
 
+  /* ---------- Tipografía interna del recuadro ---------- */
   .recuadro__titulo {
-    margin: 0;
-    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
+    margin: 0.2rem 0 0;
+    font-family: 'Sloop Script Pro', 'Andasia', 'Dancing Script', cursive;
     font-weight: 400;
-    font-size: 2.35rem;
-    line-height: 1.1;
-    color: #fff;
+    font-size: clamp(3.2rem, 12vw, 4.2rem);
+    line-height: 1;
+    color: #ffffff;
+    letter-spacing: 0.02em;
   }
 
   .recuadro__gala {
-    margin: 0.15rem 0 0;
+    margin: 0.4rem 0 0;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.34em;
+    font-size: 1.35rem;
+    font-weight: 400;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #fff;
+    color: #ffffff;
   }
 
-  /* ---------- Siluetas (blancas sobre el recuadro, etiqueta encima) ---------- */
+  /* ---------- Siluetas ---------- */
   .siluetas {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    align-items: end;
-    margin: 1.25rem auto 0;
-    max-width: 300px;
+    gap: 2rem;
+    align-items: start;
+    margin: 2rem auto 0;
+    max-width: 360px;
   }
+
   .silueta {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
   }
+
   .silueta figcaption {
-    margin-bottom: 0.55rem;
+    margin-bottom: 1.1rem;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: #fff;
+    font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: #ffffff;
   }
+
   .silueta img {
     display: block;
     width: auto;
     max-width: 100%;
-    height: clamp(150px, 42vw, 205px);
+    height: clamp(230px, 58vw, 300px);
     object-fit: contain;
   }
 
-  /* ---------- Paletas de colores ---------- */
+  /* ---------- Paleta: Colores sugeridos ---------- */
+  .paleta-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2.8rem;
+    width: 100%;
+  }
+
   .paleta {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 0.55rem;
-    max-width: 320px;
-    margin: 2.1rem auto 0;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
-  .paleta__separador {
-    width: 1.1rem;
-    list-style: none;
+
+  .paleta--sugeridos {
+    gap: 1.8rem;
+  }
+
+  .paleta__grupo {
+    display: flex;
+    gap: 0.55rem;
   }
 
   .color {
-    position: relative;
-    width: 30px;
-    height: 30px;
+    width: clamp(32px, 8vw, 38px);
+    height: clamp(32px, 8vw, 38px);
     border-radius: 50%;
     background: var(--c);
-    /* Hairline sutil solo para que el blanco y el nude se lean sobre el papel */
-    border: 1px solid rgba(38, 56, 117, 0.14);
+    border: 1px solid rgba(38, 56, 117, 0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
   }
 
   .paleta__etiqueta {
-    margin: 0.85rem 0 0;
+    margin: 1.1rem 0 0;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ak-marino);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--ak-marino, #263875);
+    text-align: center;
   }
 
-  /* ---------- No utilizar: UNA línea roja atraviesa los 6 puntos ---------- */
+  /* ---------- Paleta: Colores reservados con tachado ---------- */
+  .paleta-reservados-container {
+    position: relative;
+    margin-top: 2.4rem;
+    display: flex;
+    justify-content: center;
+  }
+
   .paleta--no {
     position: relative;
-    margin-top: 1.9rem;
+    display: flex;
+    gap: 0.55rem;
   }
+
   .paleta__tachado {
     position: absolute;
-    left: -0.3rem;
-    right: -0.3rem;
+    left: -1.2rem;
+    right: -1.2rem;
     top: 50%;
     height: 1.5px;
-    background: #c0392b;
+    background: #d88c85;
+    opacity: 0.85;
     transform: translateY(-50%);
     list-style: none;
     pointer-events: none;
+    z-index: 2;
   }
 
+  /* ---------- Aviso de texto inferior ---------- */
   .aviso {
-    max-width: 32ch;
-    margin: 1.5rem auto 0;
+    max-width: 44ch;
+    margin: 1.6rem auto 0;
+    padding: 0 1.2rem;
     font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.9rem;
-    font-style: italic;
-    line-height: 1.7;
-    color: var(--ak-marino);
+    font-size: 1.05rem;
+    line-height: 1.45;
+    color: var(--ak-marino, #263875);
+    text-align: center;
   }
 </style>

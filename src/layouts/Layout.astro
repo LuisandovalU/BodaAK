@@ -92,26 +92,21 @@ const {
     min-height: 100vh;
   }
 
-    .mobile-card {
-      position: relative;
-      width: 100%;
-      max-width: 500px;
-      min-height: 100vh;
-      background-color: var(--ak-crema, #f2f0ea);
-      background-image: url('/images/bg-paper-1.jpg');
-      background-size: 100% auto;
-      background-position: center top;
-      background-repeat: repeat-y;
-      box-shadow: 0 0 50px rgba(38, 56, 117, 0.12);
-      overflow: hidden;
-      margin: 0 auto;
-      /* Glassmorphism overlay */
-      background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      border-radius: 12px;
-      transition: background 0.3s ease, backdrop-filter 0.3s ease;
-    }
+  .mobile-card {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    min-height: 100vh;
+    background-color: var(--ak-crema, #f2f0ea);
+    background-image: url('/images/bg-paper-1.jpg');
+    background-size: 100% auto;
+    background-position: center top;
+    background-repeat: repeat-y;
+    animation: paper-drift 24s ease-in-out infinite alternate;
+    box-shadow: 0 0 50px rgba(38, 56, 117, 0.12);
+    overflow: hidden;
+    margin: 0 auto;
+  }
 
 
   @supports (min-height: 100dvh) {
@@ -121,13 +116,30 @@ const {
     }
   }
 
+  /* Movimiento muy sutil que conserva la lectura de la textura de papel. */
+  @keyframes paper-drift {
+    from { background-position: center 0; }
+    to { background-position: center 10px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-card {
+      animation: none;
+    }
+  }
+
   /* ==========================================================================
      Efecto de Viento Orgánico de Alta Gama ("Brisa Botánica")
      ========================================================================== */
-  @keyframes floating {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(0, -8px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
+  @keyframes wind-breeze {
+    0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+    12%  { transform: translate3d(3px, -4px, 0) rotate(1.4deg); }
+    28%  { transform: translate3d(6px, -7px, 0) rotate(2.6deg); }
+    45%  { transform: translate3d(8px, -5px, 0) rotate(2deg); }
+    62%  { transform: translate3d(4px, -3px, 0) rotate(0.6deg); }
+    78%  { transform: translate3d(-2px, -1px, 0) rotate(-1.2deg); }
+    90%  { transform: translate3d(-4px, -2px, 0) rotate(-2deg); }
+    100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   }
 
     @keyframes entrySlide {
@@ -148,10 +160,10 @@ const {
                   0 6px 12px rgba(0,0,0,0.10);
     }
     .grow-on-hover {
-      transition: transform .3s ease, box-shadow .3s ease;
+      transition: scale .3s ease, box-shadow .3s ease;
     }
     .grow-on-hover:hover {
-      transform: scale(1.05);
+      scale: 1.05;
       box-shadow: 0 12px 30px rgba(0,0,0,0.12),
                   0 6px 12px rgba(0,0,0,0.08);
     }
@@ -160,8 +172,6 @@ const {
 
 
   .floating-flower {
-    animation: floating 5s ease-in-out infinite, wind-breeze 9s ease-in-out infinite;
-    animation-delay: var(--float-delay, 0s);
     will-change: transform;
     pointer-events: none;
     user-select: none;
@@ -250,18 +260,117 @@ const {
   .mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
+
+/* ============================================================
+   Scroll Reveal — propiedades animadas por el script
+   ============================================================ */
+[data-reveal] {
+  will-change: opacity, transform, filter;
+  transition: opacity 0.05s linear, transform 0.05s linear, filter 0.05s linear;
+}
+
+/* ============================================================
+   Liquid Glass — vidrio esmerilado premium
+   ============================================================ */
+[data-liquid-glass] {
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  box-shadow:
+    0 8px 32px rgba(38, 56, 117, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================
+   Floating flower — el viento se activa DESPUÉS de posicionar
+   ============================================================ */
+.floating-flower {
+  animation: none !important;
+}
+.floating-flower.floating-revealed {
+  animation: wind-breeze 9s ease-in-out infinite !important;
+  animation-delay: var(--float-delay, 0s) !important;
+}
+
+/* ============================================================
+   Accesibilidad — reducción de movimiento
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .floating-flower,
+  .floating-flower.floating-revealed {
+    animation: none !important;
+  }
+}
 </style>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('enter');
-          observer.unobserve(entry.target);
+    const REVEAL_ELEMENTS = document.querySelectorAll('[data-reveal]');
+    let ticking = false;
+    // Estado inicial: ocultar todos los elementos revelables
+    REVEAL_ELEMENTS.forEach((el) => {
+      const dir = el.getAttribute('data-reveal');
+      el.style.opacity = '0';
+      el.style.filter = 'blur(10px)';
+      if (dir === 'slide-left')  el.style.transform = 'translateX(-80px)';
+      if (dir === 'slide-right') el.style.transform = 'translateX(80px)';
+      if (dir === 'fade-up')     el.style.transform = 'translateY(40px)';
+      if (dir === 'slide-up')    el.style.transform = 'translateY(60px)';
+    });
+    function updateReveal() {
+      const vh = window.innerHeight;
+      REVEAL_ELEMENTS.forEach((el) => {
+        if (el.dataset.revealed === 'true') return;
+        const rect = el.getBoundingClientRect();
+        const triggerStart = vh;
+        const triggerEnd   = vh * 0.82;
+        // t = 0 (fuera) → 1 (completamente visible)
+        let t = (triggerStart - rect.top) / (triggerStart - triggerEnd);
+        t = Math.max(0, Math.min(1, t));
+        const dir = el.getAttribute('data-reveal');
+        el.style.opacity = t.toFixed(3);
+        el.style.filter  = `blur(${((1 - t) * 10).toFixed(2)}px)`;
+        if (dir === 'slide-left')  el.style.transform = `translateX(${(1 - t) * -80}px)`;
+        if (dir === 'slide-right') el.style.transform = `translateX(${(1 - t) * 80}px)`;
+        if (dir === 'fade-up')     el.style.transform = `translateY(${(1 - t) * 40}px)`;
+        if (dir === 'slide-up')    el.style.transform = `translateY(${(1 - t) * 60}px)`;
+        if (t >= 1) {
+          el.style.opacity   = '1';
+          el.style.transform = 'none';
+          el.style.filter    = 'blur(0px)';
+          el.dataset.revealed = 'true';
+          // Reactivar la animación flotante si la tenía
+          if (el.classList.contains('floating-flower')) {
+            el.classList.add('floating-revealed');
+          }
         }
       });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        // Activate wind for floating flowers without data-reveal
+        const FLOWERS = document.querySelectorAll('.floating-flower:not([data-reveal])');
+        FLOWERS.forEach((fl) => {
+          if (fl.classList.contains('floating-revealed')) return;
+          const rect = fl.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < vh) {
+            fl.classList.add('floating-revealed');
+          }
+        });
+        ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(updateReveal);
+        ticking = true;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    updateReveal(); // Elementos ya visibles al cargar
   });
 </script>
 

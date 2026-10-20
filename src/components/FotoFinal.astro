@@ -8,18 +8,22 @@
  */
 ---
 <section class="foto-final" aria-label="Ángel y Kenia caminando juntos">
-  <img
-    class="foto-final__imagen"
-    src="/images/foto-novios-final.webp"
-    alt="Ángel y Kenia caminando juntos por un jardín"
-    loading="lazy"
-  />
-  <img
-    class="foto-final__nombres"
-    src="/assets/nombres_angel_y_kenia.webp"
-    alt="Ángel y Kenia"
-    loading="lazy"
-  />
+    <img
+      class="foto-final__imagen"
+      src="/images/foto-novios-final.webp"
+      alt="Ángel y Kenia caminando juntos por un jardín"
+      loading="lazy"
+      data-reveal="slide-up"
+    />
+    <div class="foto-final__nombres-wrap">
+    <img
+      class="foto-final__nombres"
+      src="/assets/nombres_angel_y_kenia.webp"
+      alt="Ángel y Kenia"
+      loading="lazy"
+      data-reveal="slide-up"
+    />
+    </div>
 </section>
 
 <style>
@@ -44,14 +48,17 @@
     inset: 0;
     background: linear-gradient(180deg, rgba(14, 27, 45, 0.42), transparent 30%);
   }
-  .foto-final__nombres {
+  .foto-final__nombres-wrap {
     position: absolute;
     z-index: 1;
     top: 1.8rem;
-    left: 50%;
-    width: min(78%, 330px);
-    height: auto;
-    transform: translateX(-50%);
+    left: 5%;
+    width: min(52%, 260px);
     filter: brightness(0) invert(1);
+  }
+  .foto-final__nombres {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 </style>

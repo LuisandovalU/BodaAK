@@ -24,7 +24,6 @@ export function getDb(): Firestore | undefined {
 
 export interface RSVPData {
   nombre: string;
-  adultos: number;
   asistencia: 'si' | 'no';
   grupo?: 'familia' | 'amistad' | '';
 }

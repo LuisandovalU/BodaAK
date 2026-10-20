@@ -18,12 +18,20 @@ const clabe = '638180010146605599';
     alt=""
     aria-hidden="true"
     class="flor-regalos floating-flower"
-    style="--flower-origin: bottom right; --float-delay: 1.6s;"
+    style="--flower-origin: top left; --float-delay: 1.6s;"
+    data-astro-cid-oqayabyz=""
+  />
+  <img
+    src="/images/flor-12.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor-regalos-right floating-flower"
+    style="--flower-origin: top right; --float-delay: 1.6s;"
   />
 
-  <h2 class="titulo-seccion">Regalos</h2>
+  <img src="/images/caligrafia-regalos.png" alt="Regalos" class="titulo-seccion" data-reveal="fade-up" style="width:80%; max-width:200px; display:block; margin:auto;" />
 
-  <p class="texto texto--principal">
+  <p class="texto texto--principal" data-reveal="fade-up">
     Su presencia es, sin duda, el mejor regalo que podríamos recibir. Si desean acompañarnos con un
     detalle, pueden hacerlo mediante <em>transferencia</em> o, si lo prefieren, también será bien
     recibido un sobre en <em>efectivo</em> el día de la celebración.
@@ -31,12 +39,6 @@ const clabe = '638180010146605599';
 
   <!-- ===================== Datos bancarios sobre el papel ===================== -->
   <div class="datos">
-    <img
-      src="/images/regalo-mono.png"
-      alt=""
-      aria-hidden="true"
-      class="ornato ornato--mono floating-flower"
-    />
     <img
       src="/images/regalo-cajas.png"
       alt=""
@@ -46,16 +48,22 @@ const clabe = '638180010146605599';
     />
 
     <ul class="datos__lista">
-      <li class="dato">
-        <span class="dato__label">CLABE:</span>{' '}
-        <span class="dato__valor mono">{clabe}</span>{' '}
-        <button
-          type="button"
-          id="btn-copiar-clabe"
-          class="btn-copiar-icono"
-          aria-label="Copiar CLABE"
-          title="Copiar CLABE"
-        >
+    <li class="dato">
+      <img
+        src="/images/regalo-mono.png"
+        alt=""
+        aria-hidden="true"
+        class="ornato ornato--mono"
+      />
+      <span class="dato__label">CLABE:</span>{' '}
+      <span class="dato__valor mono">{clabe}</span>{' '}
+      <button
+        type="button"
+        id="btn-copiar-clabe"
+        class="btn-copiar-icono"
+        aria-label="Copiar CLABE"
+        title="Copiar CLABE"
+      >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="9" y="9" width="13" height="13" rx="2"></rect>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -79,16 +87,28 @@ const clabe = '638180010146605599';
     padding-bottom: 3rem;
   }
 
-  .flor-regalos {
-    position: absolute;
-    bottom: -15px;
-    right: -28px;
-    width: 32%;
-    max-width: 140px;
-    height: auto;
+  .flor-regalos[data-astro-cid-oqayabyz] {
     opacity: 0.85;
     z-index: 1;
     pointer-events: none;
+    width: 45%;
+    max-width: 161px;
+    height: auto;
+    position: absolute;
+    top: 5px;
+    left: -28px;
+  }
+
+  .flor-regalos-right[data-astro-cid-oqayabyz][data-astro-cid-oqayabyz] {
+    opacity: 0.85;
+    z-index: 8;
+    pointer-events: none;
+    width: 14%;
+    max-width: 125px;
+    height: auto;
+    position: absolute;
+    top: 10px;
+    right: -32px;
   }
 
   .texto--principal {
@@ -115,10 +135,11 @@ const clabe = '638180010146605599';
     object-fit: contain;
   }
   .ornato--mono {
-    left: -64px;
-    top: 38%;
-    width: 130px;
+    left: -90px;
+    top: -90px;
+    width: 100px;
     opacity: 0.9;
+    animation: none !important;
   }
   .ornato--cajas {
     right: -58px;

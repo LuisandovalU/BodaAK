@@ -8,7 +8,7 @@ import os
 import re
 import sys
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 from rembg import remove, new_session
 
 BASE_DIR = Path("/Users/luisalbertosandovalramos/Documents/BodaAK")
@@ -90,7 +90,81 @@ def process_novios():
             img.save(out_path, format="WEBP", quality=85, method=6)
             print(f"✓ Guardado {out_name} ({out_path.stat().st_size // 1024} KB)")
 
+
+def process_downloads_fotos():
+    """Convierte las fotos adicionales de Descargas/Fotos sin tocar las existentes."""
+    source_dir = Path.home() / "Downloads" / "Fotos"
+    files = sorted(
+        path for path in source_dir.iterdir()
+        if path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}
+    )
+    print("\n--- PROCESANDO FOTOS ADICIONALES ---")
+    print(f"Archivos encontrados: {len(files)}")
+
+    for number, source in enumerate(files, start=6):
+        output_name = f"foto-novios-{number}.webp"
+        destination = OUTPUT_DIR / output_name
+        with Image.open(source) as img:
+            image = ImageOps.exif_transpose(img).convert("RGB")
+            if max(image.size) > 1800:
+                image.thumbnail((1800, 1800), Image.Resampling.LANCZOS)
+            image.save(destination, format="WEBP", quality=86, method=6)
+        print(f"✓ Guardado {output_name} ({destination.stat().st_size // 1024} KB)")
+
+
+def process_desktop_calligraphy():
+    """Exporta las dos caligrafías entregadas en el Escritorio con alfa."""
+    desktop = Path.home() / "Desktop"
+    assets = {
+        "WhatsApp Image 2026-10-03 at 15.04.33.jpeg": "caligrafia-dress-code.webp",
+        "WhatsApp Image 2026-10-03 at 15.04.34.jpeg": "caligrafia-detalles.webp",
+        "caligrafia-asistencia.png": "caligrafia-asistencia.webp",
+        "caligrafia-ubi.png": "caligrafia-ubi.webp",
+        "caligrafia-fbi.png": "caligrafia-fbi.webp",
+    }
+    print("--- PROCESANDO CALIGRAFÍAS DEL ESCRITORIO ---")
+    for source_name, output_name in assets.items():
+        source = desktop / source_name
+        destination = OUTPUT_DIR / output_name
+        if not source.exists():
+            print(f"No se encontró {source_name}")
+            continue
+
+        with Image.open(source) as img:
+            image = img.convert("RGB")
+            image.thumbnail((1800, 1800), Image.Resampling.LANCZOS)
+            # Aísla la tinta del papel escaneado sin dejar textura semitransparente.
+            pixels = []
+            for red, green, blue in image.getdata():
+                if output_name == "caligrafia-dress-code.webp":
+                    # La caligrafía de Dress Code es durazno sobre blanco.
+                    ink_contrast = red - blue
+                    alpha = max(0, min(255, (ink_contrast - 9) * 12))
+                else:
+                    # Las demás caligrafías son azul marino sobre papel cálido.
+                    ink_contrast = blue - max(red, green)
+                    alpha = max(0, min(255, (ink_contrast - 9) * 5))
+                pixels.append((red, green, blue, alpha))
+            transparent = Image.new("RGBA", image.size)
+            transparent.putdata(pixels)
+            bbox = transparent.getchannel("A").getbbox()
+            if bbox:
+                padding = 24
+                left = max(0, bbox[0] - padding)
+                top = max(0, bbox[1] - padding)
+                right = min(transparent.width, bbox[2] + padding)
+                bottom = min(transparent.height, bbox[3] + padding)
+                transparent = transparent.crop((left, top, right, bottom))
+            transparent.save(destination, format="WEBP", quality=92, method=6)
+            print(f"✓ Guardado {output_name} ({destination.stat().st_size // 1024} KB)")
+
 if __name__ == "__main__":
+    if "--downloads-fotos" in sys.argv:
+        process_downloads_fotos()
+        sys.exit(0)
+    if "--desktop-calligraphy" in sys.argv:
+        process_desktop_calligraphy()
+        sys.exit(0)
     process_flores()
     process_novios()
     print("\n¡Procesamiento completo!")

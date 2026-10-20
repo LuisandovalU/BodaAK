@@ -1,336 +1,149 @@
 ---
-/**
- * RSVP.astro — Confirmación de asistencia
- * ---------------------------------------------------------------------------
- * Flujo:
- *   1) El invitado escribe su nombre y confirma  ->  "¡Gracias por tu confirmación!"
- *   2) Elige: "Soy familiar de Angel y Kenia"  |  "Soy amistad de Angel y Kenia"
- *      - Familiar -> muestra SOLO "¡NOS VEMOS ESE DÍA!"
- *      - Amistad  -> datos bancarios + "Envía tu comprobante a" + "¡NOS VEMOS ESE DÍA!"
- * ---------------------------------------------------------------------------
- */
+/** Confirmación de asistencia: respuesta, nombre y vínculo con la pareja. */
 ---
+
 <section class="seccion rsvp" id="rsvp">
-  <img
-    src="/images/flor-15.webp"
-    alt=""
-    aria-hidden="true"
-    class="flor-lateral floating-flower"
-    style="--flower-origin: center right; --float-delay: 1.7s;"
-  />
+  <img src="/images/flor-14.webp" alt="" aria-hidden="true" class="flor-lateral floating-flower" style="--flower-origin: center right; --float-delay: 1.7s;" />
+  <img src="/images/caligrafia-asistencia.webp" alt="Confirmación de asistencia" class="confirmacion-caps" data-reveal="fade-up" />
+  <p class="intro" data-reveal="fade-up">15 de diciembre de 2026. Tu respuesta nos ayudará a preparar cada detalle con cariño.</p>
 
-  <!-- Título como en el PDF: "CONFIRMACIÓN DE" en serif + "asistencia" en script -->
-  <p class="confirmacion-caps">Confirmación de</p>
-  <h2 class="titulo-seccion">asistencia</h2>
-
-  <p class="intro">
-    15 de diciembre de 2026. Su confirmación nos ayudará a preparar cada detalle con el cariño y
-    cuidado que esta celebración merece.
-  </p>
-
-  <!-- ===================== Paso 1: confirmar ===================== -->
-  <form id="rsvp-form" class="formulario" novalidate>
-    <label class="campo">
-      <span class="campo__label">Nombre completo</span>
-      <input
-        id="rsvp-nombre"
-        name="nombre"
-        type="text"
-        autocomplete="name"
-        placeholder="Escribe tu nombre completo"
-        required
-      />
-    </label>
-
-    <label class="campo">
-      <span class="campo__label">Número de adultos</span>
-      <input id="rsvp-adultos" name="adultos" type="number" min="1" max="10" value="1" required />
-    </label>
-
-    <p id="rsvp-error" class="error" role="alert" aria-live="polite"></p>
-
-    <button type="submit" class="btn-primario">Confirmar</button>
-  </form>
-
-  <!-- ===================== Paso 2: resultado ===================== -->
-  <div id="rsvp-result" class="resultado" hidden>
-    <p class="gracias">¡Gracias por tu confirmación!</p>
-
-    <p class="pregunta">Cuéntanos cómo nos acompañas:</p>
-
-    <div class="tipos" role="group" aria-label="Tipo de invitado">
-      <button type="button" class="btn-tipo" data-tipo="familiar" aria-pressed="false">
-        Soy familiar de Angel y Kenia
-      </button>
-      <button type="button" class="btn-tipo" data-tipo="amistad" aria-pressed="false">
-        Soy amistad de Angel y Kenia
-      </button>
-    </div>
-
-    <!-- Familiar: SOLO el mensaje final -->
-    <div id="rsvp-panel-familiar" class="panel" hidden>
-      <p class="nos-vemos">¡NOS VEMOS ESE DÍA!</p>
-    </div>
-
-    <!-- Amistad: datos bancarios + comprobante + mensaje final -->
-    <div id="rsvp-panel-amistad" class="panel" hidden>
-      <div class="banco">
-        <p class="dato">CLABE: 0000 0000 0000 0000</p>
-        <p class="dato">Nombre: asdfghjkl</p>
-        <p class="dato">Banco:</p>
-      </div>
-
-      <p class="enviar">Envía tu comprobante a</p>
-
-      <p class="nos-vemos">¡NOS VEMOS ESE DÍA!</p>
+  <div id="rsvp-inicio" class="rsvp-paso" data-reveal="fade-up">
+    <p class="pregunta">¿Podrás acompañarnos?</p>
+    <div class="opciones-iniciales">
+      <button id="rsvp-confirmar" type="button" class="btn-primario">Confirmo</button>
+      <button id="rsvp-no-asistir" type="button" class="btn-secundario">No podré asistir</button>
     </div>
   </div>
+
+  <div id="rsvp-confirmacion" class="rsvp-paso" hidden>
+    <p class="gracias">¡Gracias por tu confirmación!</p>
+    <label class="campo" for="rsvp-nombre-si">
+      <span class="campo__label">Nombre completo</span>
+      <input id="rsvp-nombre-si" type="text" autocomplete="name" placeholder="Escribe tu nombre completo" />
+    </label>
+    <p class="pregunta">Cuéntanos cómo nos acompañas:</p>
+    <div class="tipos" role="group" aria-label="Vínculo con Ángel y Kenia">
+      <button type="button" class="btn-tipo" data-tipo="familia">Soy familiar de Ángel y Kenia</button>
+      <button type="button" class="btn-tipo" data-tipo="amistad">Soy amistad de Ángel y Kenia</button>
+    </div>
+    <div id="rsvp-panel-familiar" class="panel" hidden><p class="nos-vemos">¡Nos vemos ese día!</p></div>
+    <div id="rsvp-panel-amistad" class="panel" hidden>
+      <div class="banco"><p class="dato">CLABE: 0000 0000 0000 0000</p><p class="dato">Nombre: asdfghjkl</p><p class="dato">Banco:</p></div>
+      <p class="enviar">Envía tu comprobante a</p>
+      <p class="nos-vemos">¡Nos vemos ese día!</p>
+    </div>
+  </div>
+
+  <div id="rsvp-declinacion" class="rsvp-paso" hidden>
+    <p class="gracias">Lo lamentamos mucho</p>
+    <p class="mensaje-declinacion">Entendemos que no puedas acompañarnos. Te tendremos presente en este día tan especial.</p>
+    <label class="campo" for="rsvp-nombre-no">
+      <span class="campo__label">Nombre completo</span>
+      <input id="rsvp-nombre-no" type="text" autocomplete="name" placeholder="Escribe tu nombre completo" />
+    </label>
+    <button id="rsvp-guardar-no" type="button" class="btn-primario">Enviar respuesta</button>
+    <p id="rsvp-no-guardado" class="nos-vemos" hidden>Gracias por avisarnos.</p>
+  </div>
+
+  <p id="rsvp-error" class="error" role="alert" aria-live="polite"></p>
 </section>
 
 <style>
-  .rsvp {
-    padding-bottom: 3.25rem;
-    overflow: hidden;
-  }
-
-  .confirmacion-caps {
-    margin: 0 0 0.2rem;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--ak-marino);
-  }
-
-  .flor-lateral {
-    position: absolute;
-    top: 40%;
-    right: -36px;
-    width: 32%;
-    max-width: 145px;
-    height: auto;
-    opacity: 0.85;
-  }
-
-  .intro {
-    max-width: 34ch;
-    margin: 0 auto;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--ak-principal);
-  }
-
-  /* ---------- Formulario ---------- */
-  .formulario {
-    max-width: 330px;
-    margin: 1.85rem auto 0;
-    text-align: left;
-  }
-
-  .campo {
-    display: block;
-  }
-  .campo + .campo {
-    margin-top: 1rem;
-  }
-  .campo__label {
-    display: block;
-    margin-bottom: 0.35rem;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ak-principal);
-  }
-  .campo input {
-    width: 100%;
-    padding: 0.65rem 0.8rem;
-    border: 1px solid rgba(38, 56, 117, 0.3);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.9);
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 1rem;
-    color: var(--ak-marino);
-  }
-  .campo input:focus {
-    outline: none;
-    border-color: var(--ak-boton);
-    box-shadow: 0 0 0 3px rgba(82, 111, 157, 0.18);
-  }
-
-  .error {
-    min-height: 1.1em;
-    margin: 0.7rem 0 0;
-    text-align: center;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.76rem;
-    font-weight: 700;
-    color: #a5352b;
-  }
-
-  .formulario .btn-primario {
-    margin-top: 1.15rem;
-  }
-
-  /* ---------- Resultado ---------- */
-  .resultado {
-    max-width: 330px;
-    margin: 1.85rem auto 0;
-  }
-
-  .gracias {
-    margin: 0;
-    font-family: 'Sloop Script Pro', 'Dancing Script', cursive;
-    font-size: 2rem;
-    line-height: 1.25;
-    color: var(--ak-marino);
-  }
-
-  .pregunta {
-    margin: 1.35rem 0 0.85rem;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ak-acero);
-  }
-
-  .tipos {
-    display: grid;
-    gap: 0.6rem;
-  }
-
-  .btn-tipo {
-    padding: 0.85rem 1rem;
-    border: 1px solid rgba(38, 56, 117, 0.35);
-    border-radius: 0;
-    background: rgba(255, 255, 255, 0.72);
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.92rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    color: var(--ak-principal);
-    cursor: pointer;
-    transition:
-      background-color 0.18s ease,
-      border-color 0.18s ease,
-      color 0.18s ease;
-  }
-  .btn-tipo:hover {
-    border-color: var(--ak-boton);
-    color: var(--ak-marino);
-  }
-  .btn-tipo[aria-pressed='true'] {
-    background: var(--ak-boton);
-    border-color: var(--ak-boton);
-    color: #fff;
-  }
-
-  .panel {
-    margin-top: 1.6rem;
-    animation: aparecer 0.45s ease both;
-  }
-
-  @keyframes aparecer {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  .banco {
-    padding: 1.2rem 1.15rem;
-    border: 1px solid rgba(38, 56, 117, 0.28);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.82);
-    text-align: left;
-  }
-  .banco .dato + .dato {
-    margin-top: 0.4rem;
-    padding-top: 0.4rem;
-    border-top: 1px solid rgba(38, 56, 117, 0.12);
-  }
-
-  .enviar {
-    margin: 1.3rem 0 0;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    color: var(--ak-principal);
-  }
-
-  .nos-vemos {
-    margin: 1.5rem 0 0;
-    font-family: 'The Seasons', 'Cormorant Garamond', serif;
-    font-size: clamp(1.35rem, 6.5vw, 1.7rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    color: var(--ak-marino);
-  }
-  .panel .nos-vemos:only-child {
-    margin-top: 0.5rem;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .panel {
-      animation: none;
-    }
-  }
+  .rsvp { padding-bottom: 3.25rem; overflow: hidden; }
+  .confirmacion-caps { display: block; width: 80%; max-width: 250px; margin: 0 auto 0.2rem; }
+  .flor-lateral { position: absolute; top: 10%; right: -36px; width: 32%; max-width: 145px; height: auto; opacity: 0.85; }
+  .intro, .mensaje-declinacion { max-width: 34ch; margin: 0 auto; font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 0.95rem; line-height: 1.75; color: var(--ak-principal); }
+  .rsvp-paso { max-width: 330px; margin: 1.85rem auto 0; }
+  .pregunta { margin: 0 0 0.85rem; font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ak-acero); }
+  .opciones-iniciales, .tipos { display: grid; gap: 0.7rem; }
+  .btn-secundario, .btn-tipo { width: 100%; padding: 0.85rem 1rem; border: 1px solid rgba(38, 56, 117, 0.35); border-radius: 0; background: rgba(255, 255, 255, 0.72); font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 0.98rem; font-weight: 700; color: var(--ak-principal); cursor: pointer; }
+  .btn-secundario:hover, .btn-tipo:hover { border-color: var(--ak-boton); color: var(--ak-marino); }
+  .campo { display: block; margin: 1.25rem 0; text-align: left; }
+  .campo__label { display: block; margin-bottom: 0.35rem; font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ak-principal); }
+  .campo input { box-sizing: border-box; width: 100%; padding: 0.65rem 0.8rem; border: 1px solid rgba(38, 56, 117, 0.3); border-radius: 4px; background: rgba(255, 255, 255, 0.9); font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 1rem; color: var(--ak-marino); }
+  .campo input:focus { outline: none; border-color: var(--ak-boton); box-shadow: 0 0 0 3px rgba(82, 111, 157, 0.18); }
+  .gracias { margin: 0; font-family: "Andasia", "Sloop Script Pro", cursive; font-size: 2.2rem; line-height: 1.2; color: var(--ak-marino); }
+  .mensaje-declinacion { margin-top: 0.85rem; }
+  .panel { margin-top: 1.6rem; animation: aparecer 0.45s ease both; }
+  @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .banco { padding: 1.2rem 1.15rem; border: 1px solid rgba(38, 56, 117, 0.28); border-radius: 8px; background: rgba(255, 255, 255, 0.82); text-align: left; }
+  .banco .dato + .dato { margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid rgba(38, 56, 117, 0.12); }
+  .enviar { margin: 1.3rem 0 0; font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 0.95rem; font-style: italic; color: var(--ak-principal); }
+  .nos-vemos { margin: 1.5rem 0 0; font-family: "The Seasons", "Cormorant Garamond", serif; font-size: clamp(1.35rem, 6.5vw, 1.7rem); font-weight: 700; letter-spacing: 0.08em; color: var(--ak-marino); }
+  .error { min-height: 1.1em; max-width: 330px; margin: 0.7rem auto 0; font-family: "The Seasons", "Cormorant Garamond", serif; font-size: 0.76rem; font-weight: 700; color: #a5352b; }
+  button:disabled { cursor: wait; opacity: 0.65; }
+  @media (prefers-reduced-motion: reduce) { .panel { animation: none; } }
 </style>
 
 <script>
-  const form = document.getElementById('rsvp-form') as HTMLFormElement | null;
-  const errorBox = document.getElementById('rsvp-error');
-  const resultado = document.getElementById('rsvp-result');
-  const panelFamiliar = document.getElementById('rsvp-panel-familiar');
-  const panelAmistad = document.getElementById('rsvp-panel-amistad');
-  const botonesTipo = document.querySelectorAll<HTMLButtonElement>('.btn-tipo');
+  import { submitRSVP } from "../lib/firebase";
 
-  /** Paso 1 — validar y mostrar "¡Gracias por tu confirmación!" */
-  form?.addEventListener('submit', (evento) => {
-    evento.preventDefault();
+  const inicio = document.getElementById("rsvp-inicio");
+  const confirmacion = document.getElementById("rsvp-confirmacion");
+  const declinacion = document.getElementById("rsvp-declinacion");
+  const errorBox = document.getElementById("rsvp-error");
+  const nombreSi = document.getElementById("rsvp-nombre-si") as HTMLInputElement | null;
+  const nombreNo = document.getElementById("rsvp-nombre-no") as HTMLInputElement | null;
+  const panelFamiliar = document.getElementById("rsvp-panel-familiar");
+  const panelAmistad = document.getElementById("rsvp-panel-amistad");
+  const guardadoNo = document.getElementById("rsvp-no-guardado");
+  const botonesTipo = document.querySelectorAll<HTMLButtonElement>(".btn-tipo");
+  const botonNo = document.getElementById("rsvp-guardar-no") as HTMLButtonElement | null;
 
-    const datos = new FormData(form);
-    const nombre = String(datos.get('nombre') ?? '').trim();
-    const adultos = Number(datos.get('adultos') ?? 1);
+  function mostrarPaso(paso: HTMLElement | null) {
+    [inicio, confirmacion, declinacion].forEach((elemento) => { if (elemento) elemento.hidden = elemento !== paso; });
+    if (errorBox) errorBox.textContent = "";
+    paso?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
+  function nombreValido(input: HTMLInputElement | null) {
+    const nombre = input?.value.trim() ?? "";
     if (!nombre) {
-      if (errorBox) errorBox.textContent = 'Por favor escribe tu nombre completo.';
-      return;
+      if (errorBox) errorBox.textContent = "Por favor escribe tu nombre completo.";
+      input?.focus();
+      return "";
     }
-    if (!Number.isInteger(adultos) || adultos < 1 || adultos > 10) {
-      if (errorBox) errorBox.textContent = 'Indica un número de adultos entre 1 y 10.';
-      return;
-    }
+    return nombre;
+  }
 
-    if (errorBox) errorBox.textContent = '';
-    form.hidden = true;
-    if (resultado) {
-      resultado.hidden = false;
-      resultado.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  async function guardar(nombre: string, asistencia: "si" | "no", grupo: "familia" | "amistad" | "" = "") {
+    try {
+      await submitRSVP({ nombre, asistencia, grupo });
+      return true;
+    } catch {
+      if (errorBox) errorBox.textContent = "No pudimos registrar tu respuesta. Inténtalo de nuevo.";
+      return false;
     }
+  }
+
+  document.getElementById("rsvp-confirmar")?.addEventListener("click", () => mostrarPaso(confirmacion));
+  document.getElementById("rsvp-no-asistir")?.addEventListener("click", () => mostrarPaso(declinacion));
+
+  botonesTipo.forEach((boton) => {
+    boton.addEventListener("click", async () => {
+      const nombre = nombreValido(nombreSi);
+      if (!nombre) return;
+      const grupo = boton.dataset.tipo as "familia" | "amistad";
+      botonesTipo.forEach((otro) => { otro.disabled = true; });
+      const guardado = await guardar(nombre, "si", grupo);
+      if (!guardado) {
+        botonesTipo.forEach((otro) => { otro.disabled = false; });
+        return;
+      }
+      if (panelFamiliar) panelFamiliar.hidden = grupo !== "familia";
+      if (panelAmistad) panelAmistad.hidden = grupo !== "amistad";
+    });
   });
 
-  /** Paso 2 — familiar vs amistad */
-  botonesTipo.forEach((boton) => {
-    boton.addEventListener('click', () => {
-      const esFamiliar = boton.dataset.tipo === 'familiar';
-
-      botonesTipo.forEach((otro) => {
-        const activo = otro === boton;
-        otro.setAttribute('aria-pressed', String(activo));
-      });
-
-      if (panelFamiliar) panelFamiliar.hidden = !esFamiliar;
-      if (panelAmistad) panelAmistad.hidden = esFamiliar;
-    });
+  botonNo?.addEventListener("click", async () => {
+    const nombre = nombreValido(nombreNo);
+    if (!nombre) return;
+    botonNo.disabled = true;
+    const guardado = await guardar(nombre, "no");
+    botonNo.disabled = false;
+    if (guardado) {
+      botonNo.hidden = true;
+      if (guardadoNo) guardadoNo.hidden = false;
+    }
   });
 </script>

@@ -31,15 +31,16 @@ const avisos = [
 ---
 <section class="seccion importante relative overflow-hidden" id="importante">
   <!-- Flor 16: Decoración floral final de avisos importantes -->
-  <img
-    src="/images/flor-16.webp"
-    alt=""
-    aria-hidden="true"
-    class="flor-importante floating-flower"
-    style="--flower-origin: bottom left; --float-delay: 2.2s;"
-  />
+    <img
+      src="/images/flor-16.webp"
+      alt=""
+      aria-hidden="true"
+      class="flor-importante floating-flower"
+      data-reveal="slide-left"
+      style="--flower-origin: bottom left; --float-delay: 2.2s;"
+    />
 
-  <h2 class="titulo-seccion">Importante</h2>
+  <img src="/images/caligrafia-importante.png" alt="Importante" class="titulo-seccion" data-reveal="fade-up" style="width:80%; max-width:200px; display:block; margin:auto;" />
 
   <ol class="avisos">
     {
@@ -58,23 +59,25 @@ const avisos = [
   </ol>
 </section>
 
-<style>
-  .importante {
+
+  <style>
+.importante {
     position: relative;
     padding-bottom: 3.5rem;
   }
 
-  .flor-importante {
-    position: absolute;
-    top: 1.2rem;
-    right: -12%;
-    width: 42%;
-    max-width: 180px;
-    height: auto;
-    opacity: 0.85;
-    z-index: 0;
-    pointer-events: none;
-  }
+    .flor-importante[data-astro-cid-orvbs7lc] {
+        opacity: 0.85;
+        z-index: 0;
+        pointer-events: none;
+        width: 26%;
+        max-width: 161px;
+        height: auto;
+        position: absolute;
+        top: -9.5rem;
+        left: -9%;
+        rotate: 90deg;
+    }
 
   .avisos {
     position: relative;

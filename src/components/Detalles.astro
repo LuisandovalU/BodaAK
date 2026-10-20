@@ -31,18 +31,27 @@ const momentos = [
 ---
 
 <section class="seccion detalles relative overflow-hidden" id="detalles">
-  <!-- Flor 9: Decoración floral orgánica -->
-  <img
-    src="/images/flor-9.webp"
-    alt=""
-    aria-hidden="true"
-    class="flor-detalles floating-flower"
-    style="--flower-origin: top right; --float-delay: 1.4s;"
-  />
+  <!-- Composiciones florales laterales, como en la sección del PDF. -->
+    <img
+      src="/images/flor-10.webp"
+      alt=""
+      aria-hidden="true"
+      class="flor-detalles flor-detalles--izquierda"
+      data-reveal="slide-left"
+      style="top: 0.8rem; left: -22%; width: 36%; max-width: 185px; height: auto; opacity: 1; z-index: 999; pointer-events: none; filter: blur(0px); transform: none;"
+    />
+    <img
+      src="/images/flor-10.webp"
+      alt=""
+      aria-hidden="true"
+      class="flor-detalles flor-detalles--derecha"
+      data-reveal="slide-right"
+      style="position:absolute; top:1rem; right:-18%; width:36%; max-width:185px; height:auto; opacity:0.95; z-index:999; pointer-events:none;"
+    />
 
-  <h2 class="titulo-seccion">Detalles</h2>
+  <img src="/images/caligrafia-detalles.webp" alt="Detalles" class="titulo-seccion detalles__titulo" data-reveal="fade-up" style="width:80%; max-width:200px; display:block; margin:auto;" />
 
-  <div class="momentos">
+  <div class="momentos detalles__contenido" data-reveal="fade-up">
     {
       momentos.map((m) => (
         <div class="momento">
@@ -64,45 +73,68 @@ const momentos = [
 <style>
   .detalles {
     position: relative;
-    padding-top: 2.25rem;
+    isolation: isolate;
+    padding-top: 6.5rem;
+    padding-bottom: 3.5rem;
   }
 
   .flor-detalles {
     position: absolute;
-    top: 5px;
-    right: -28px;
-    width: 26%;
-    max-width: 110px;
+    top: 1rem;
+    width: 36%;
+    max-width: 185px;
     height: auto;
-    opacity: 0.8;
-    z-index: 0;
+    opacity: 0.86;
+    z-index: 999;
     pointer-events: none;
+  }
+
+  .flor-detalles--izquierda {
+    left: -20%;
+    scale: -1 1;
+    transform-origin: top center;
+  }
+
+  .flor-detalles--derecha {
+    right: -18%;
+    rotate: 20deg;
+    transform-origin: 41%;
+  }
+
+  .detalles__titulo,
+  .detalles__contenido {
+    position: relative;
+    z-index: 1;
+  }
+
+  .detalles__titulo {
+    font-size: clamp(3.35rem, 17vw, 4.6rem);
   }
 
   .momentos {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.4rem;
-    max-width: 340px;
-    margin: 1.6rem auto 0;
+    max-width: 430px;
+    margin: 3rem auto 0;
   }
 
   .momento {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.6rem;
   }
 
   .momento__icono {
-    width: clamp(38px, 11vw, 52px);
-    height: clamp(38px, 11vw, 52px);
+    width: clamp(52px, 14vw, 72px);
+    height: clamp(52px, 14vw, 72px);
     object-fit: contain;
   }
 
   .momento__nombre {
     font-family: "The Seasons", "Cormorant Garamond", serif;
-    font-size: 0.8rem;
+    font-size: 1.05rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--ak-marino);
@@ -110,7 +142,7 @@ const momentos = [
 
   .momento__hora {
     font-family: "The Seasons", "Cormorant Garamond", serif;
-    font-size: 0.7rem;
+    font-size: 0.95rem;
     font-weight: 700;
     color: var(--ak-marino);
     opacity: 0.85;

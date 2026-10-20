@@ -6,31 +6,78 @@
  * volutas ornamentales. La foto final se movió a FotoFinal.astro.
  * ---------------------------------------------------------------------------
  */
+const fotosRotativas = Array.from({ length: 19 }, (_, index) => {
+  const numero = index + 2;
+  return {
+    src: `/images/foto-novios-${numero}.webp`,
+    alt: `Fotografía de Ángel y Kenia ${numero - 1}`,
+  };
+});
+
 const fotos = [
-  { src: '/images/foto-novios-1.webp', alt: 'Ángel y Kenia abrazados de espaldas', clase: 'foto-espaldas' },
-  { src: '/images/foto-novios-2.webp', alt: 'Ángel y Kenia bailando juntos', clase: 'foto-baile' },
-  { src: '/images/foto-novios-3.webp', alt: 'Ángel y Kenia sonriendo durante su sesión', clase: 'foto-sonrisa' },
+  {
+    src: "/images/foto-novios-1.webp",
+    alt: "Ángel y Kenia abrazados de espaldas",
+    clase: "foto-espaldas",
+    rotativa: false,
+  },
+  {
+    src: "/images/foto-novios-2.webp",
+    alt: "Ángel y Kenia bailando juntos",
+    clase: "foto-baile",
+    rotativa: true,
+  },
+  {
+    src: "/images/foto-novios-3.webp",
+    alt: "Ángel y Kenia sonriendo durante su sesión",
+    clase: "foto-sonrisa",
+    rotativa: true,
+  },
 ];
 ---
+
 <section class="seccion galeria relative overflow-hidden" id="galeria">
   <!-- Flor decorativa 14 en la galería -->
-  <img
-    src="/images/flor-14.webp"
-    alt=""
-    aria-hidden="true"
-    class="flor-galeria floating-flower"
-    style="--flower-origin: bottom right; --float-delay: 1.8s;"
-  />
+    <img
+      src="/images/flor-15.webp"
+      alt=""
+      aria-hidden="true"
+      class="flor-galeria floating-flower"
+      data-reveal="slide-left"
+      style="--flower-origin: bottom right; --float-delay: 1.8s;"
+    />
 
   <div class="galeria-fotos" aria-label="Fotografías de Ángel y Kenia">
-    {
-      fotos.map((f) => (
-        <figure class={`foto ${f.clase}`}>
-          <img class="marco-esq marco-esq--tl" src="/images/marco-tl.png" alt="" aria-hidden="true" />
-          <img class="marco-esq marco-esq--tr" src="/images/marco-tr.png" alt="" aria-hidden="true" />
-          <img class="marco-esq marco-esq--bl" src="/images/marco-bl.png" alt="" aria-hidden="true" />
-          <img class="marco-esq marco-esq--br" src="/images/marco-br.png" alt="" aria-hidden="true" />
-          <img class="foto__imagen" src={f.src} alt={f.alt} loading="lazy" />
+        {
+          fotos.map((f, i) => (
+            <figure
+              class={`foto ${f.clase}`}
+              data-reveal={i % 2 === 0 ? 'slide-left' : 'slide-right'}
+            >
+            {i === 0 && (
+              <img
+                class="marco-esq marco-esq--tl"
+                src="/images/marco-tl.png"
+                alt=""
+                aria-hidden="true"
+              />
+            )}
+            {i === 2 && (
+              <img
+                class="marco-esq marco-esq--br"
+                src="/images/marco-br.png"
+                alt=""
+                aria-hidden="true"
+              />
+            )}
+
+          <img
+            class="foto__imagen"
+            src={f.src}
+            alt={f.alt}
+            loading="lazy"
+            data-photo-rotator={f.rotativa ? JSON.stringify(fotosRotativas) : undefined}
+          />
         </figure>
       ))
     }
@@ -46,7 +93,7 @@ const fotos = [
 
   .flor-galeria {
     position: absolute;
-    top: 31%;
+    top: 45%;
     left: -11%;
     width: 47%;
     max-width: 190px;
@@ -90,6 +137,10 @@ const fotos = [
     width: 100%;
     height: auto;
     object-fit: cover;
+    transition: opacity 360ms ease;
+  }
+  .foto__imagen--cambiando {
+    opacity: 0;
   }
   .foto-espaldas .foto__imagen {
     aspect-ratio: 0.78;
@@ -126,3 +177,39 @@ const fotos = [
     right: -15px;
   }
 </style>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reducedMotion) {
+    document.querySelectorAll('[data-photo-rotator]').forEach((image, position) => {
+      const photos = JSON.parse(image.dataset.photoRotator || '[]');
+      if (photos.length < 2) return;
+
+      let current = Math.max(0, photos.findIndex((photo) => photo.src === image.getAttribute('src')));
+      const interval = 5000 + position * 1000;
+
+      window.setInterval(() => {
+        image.classList.add('foto__imagen--cambiando');
+        window.setTimeout(() => {
+          const visibleElsewhere = new Set(
+            Array.from(document.querySelectorAll('[data-photo-rotator]'))
+              .filter((otherImage) => otherImage !== image)
+              .map((otherImage) => otherImage.getAttribute('src')),
+          );
+
+          let attempts = 0;
+          do {
+            current = (current + position + 1) % photos.length;
+            attempts += 1;
+          } while (visibleElsewhere.has(photos[current].src) && attempts < photos.length);
+
+          const nextPhoto = photos[current];
+          image.setAttribute('src', nextPhoto.src);
+          image.setAttribute('alt', nextPhoto.alt);
+          image.classList.remove('foto__imagen--cambiando');
+        }, 360);
+      }, interval);
+    });
+  }
+</script>

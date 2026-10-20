@@ -11,55 +11,56 @@
   <div
     class="flor-s2-der absolute -right-6 top-14 w-28 opacity-80 pointer-events-none select-none z-0"
   >
-    <img
-      src="/images/flor-8.webp"
-      alt=""
-      class="w-full h-auto floating-flower"
-      style="--flower-origin: center right; --float-delay: 0.9s;"
-    />
+        <img
+          src="/images/flor-8.webp"
+          alt=""
+          class="w-full h-auto floating-flower"
+          data-reveal="slide-right"
+          style="--flower-origin: center right; --float-delay: 0.9s;"
+        />
   </div>
 
   <!-- Flor 8: Lateral izquierdo decorativo flotante (Countdown / Versículo) -->
   <div
     class="flor-s2-izq absolute -left-8 top-64 w-32 opacity-80 pointer-events-none select-none z-0"
   >
-    <img
-      src="/images/flor-7.webp"
-      alt=""
-      class="w-full h-auto floating-flower"
-      style="--flower-origin: center left; --float-delay: 2.1s;"
-    />
+        <img
+          src="/images/flor-7.webp"
+          alt=""
+          class="w-full h-auto floating-flower"
+          data-reveal="slide-left"
+          style="--flower-origin: center left; --float-delay: 2.1s;"
+        />
   </div>
 
   <div class="relative z-10">
     <!-- Nombres en caligrafía original -->
     <div class="my-6 flex justify-center">
-      <img
-        src="/assets/nombres_angel_y_kenia.webp"
-        alt="Ángel y Kenia"
-        class="w-full max-w-[320px] h-auto object-contain select-none"
-      />
+        <img
+          src="/assets/nombres_angel_y_kenia.webp"
+          alt="Ángel y Kenia"
+          class="w-full max-w-[320px] h-auto object-contain select-none"
+          data-reveal="fade-up"
+        />
     </div>
 
     <!-- Cuenta regresiva -->
     <div class="mt-8 mb-4">
-      <p
-        class="font-serif italic text-base text-[#263875] tracking-widest mb-1"
-      >
-        the countdown
-      </p>
-      <p class="font-script text-3xl text-[#263875] mb-4">Forever begins in</p>
+        <img src="/images/caligrafia-fbi.webp" alt="Countdown" class="font-serif italic text-base text-[#263875] tracking-widest mb-1" data-reveal="fade-up" style="width:80%; max-width:200px; display:block; margin:auto;" />
 
-      <div
-        id="countdown"
-        data-fecha="2027-04-04T15:30:00-06:00"
-        class="grid grid-cols-4 gap-2.5 max-w-[320px] mx-auto"
-      >
+        <div
+          id="countdown"
+          data-fecha="2027-04-04T15:30:00-06:00"
+          class="grid grid-cols-4 gap-2.5 max-w-[320px] mx-auto"
+          data-reveal="fade-up"
+        >
         <div class="flex flex-col items-center">
-          <div
-            id="cd-d"
-            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
-          >
+        <div
+          id="cd-d"
+          data-liquid-glass
+          class="w-full text-white font-serif font-bold text-2xl py-3"
+          style="background: rgba(82,111,157,0.75);"
+        >
             00
           </div>
           <span
@@ -68,10 +69,12 @@
           >
         </div>
         <div class="flex flex-col items-center">
-          <div
-            id="cd-h"
-            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
-          >
+        <div
+          id="cd-h"
+          data-liquid-glass
+          class="w-full text-white font-serif font-bold text-2xl py-3"
+          style="background: rgba(82,111,157,0.75);"
+        >
             00
           </div>
           <span
@@ -80,10 +83,12 @@
           >
         </div>
         <div class="flex flex-col items-center">
-          <div
-            id="cd-m"
-            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
-          >
+        <div
+          id="cd-m"
+          data-liquid-glass
+          class="w-full text-white font-serif font-bold text-2xl py-3"
+          style="background: rgba(82,111,157,0.75);"
+        >
             00
           </div>
           <span
@@ -92,10 +97,12 @@
           >
         </div>
         <div class="flex flex-col items-center">
-          <div
-            id="cd-s"
-            class="w-full bg-[#526f9d] text-white font-serif font-bold text-2xl py-3"
-          >
+            <div
+              id="cd-s"
+              data-liquid-glass
+              class="w-full text-white font-serif font-bold text-2xl py-3"
+              style="background: rgba(82,111,157,0.75);"
+            >
             00
           </div>
           <span
@@ -107,12 +114,11 @@
     </div>
 
     <!-- Cita bíblica -->
-    <div class="my-8 px-4">
+        <div class="my-8 px-4" data-reveal="fade-up">
       <p
         class="font-serif italic text-base text-[#263875] leading-relaxed max-w-[32ch] mx-auto font-bold"
       >
-        “Ahora, pues, permanecen la fe, la esperanza y el amor. Pero el amor es
-        el más importante.”
+        C. Benito Juárez 36, Tlacoapa, Xochimilco, 16000 Ciudad de México, CDMX
       </p>
       <p
         class="font-serif text-sm text-[#263875] tracking-widest mt-2 uppercase font-medium font-bold"
@@ -122,9 +128,9 @@
     </div>
 
     <!-- Fotografía de manos y anillos del diseño de referencia -->
-    <div class="foto-compromiso relative mx-auto max-w-[340px] overflow-hidden">
+        <div class="foto-compromiso relative mx-auto max-w-[340px] overflow-hidden" data-reveal="fade-up">
       <img
-        src="/images/foto-novios-4.webp"
+        src="/images/foto-novios-1.webp"
         alt="Manos de Ángel y Kenia con sus anillos"
         class="block w-full h-auto object-cover"
       />

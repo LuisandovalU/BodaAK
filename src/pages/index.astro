@@ -13,6 +13,7 @@
 import Layout from '../layouts/Layout.astro';
 
 import Hero from '../components/Hero.astro';
+import MusicPlayer from '../components/MusicPlayer.astro';
 import S2Names from '../components/S2_Names.astro';
 import Detalles from '../components/Detalles.astro';
 import DressCode from '../components/DressCode.astro';
@@ -26,14 +27,18 @@ import FotoFinal from '../components/FotoFinal.astro';
 ---
 <Layout>
   <Hero />
+  <MusicPlayer />
   <S2Names />
   <Detalles />
   <DressCode />
   <Gifts />
-  <S5Ubicacion />
-  <Monograma />
-  <S8Galeria />
-  <RSVP />
-  <ImportantNotes />
-  <FotoFinal />
+    <S5Ubicacion />
+
+    <div class="important-wrapper" style="--mt: 2rem; --ml: 0; --mr: 0; --mb: 0; --tx: 0; --ty: 0;">
+      <ImportantNotes />
+    </div>
+    <Monograma />
+    <S8Galeria />
+    <RSVP />
+    <FotoFinal />
 </Layout>
