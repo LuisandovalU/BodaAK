@@ -22,7 +22,6 @@ const sugeridos = [
 ];
 
 const noUtilizar = [
-  { hex: '#1E2A38', nombre: 'Azul marino' },
   { hex: '#4A5F7F', nombre: 'Azul principal' },
   { hex: '#8FA0C0', nombre: 'Azul acero' },
   { hex: '#C5D5E8', nombre: 'Azul claro' },
@@ -53,19 +52,6 @@ const noUtilizar = [
         </figure>
       </div>
     </div>
-  </div>
-
-  <!-- ============ Colores sugeridos (etiqueta debajo) ============ -->
-    <div class="paleta-container" data-reveal="fade-up">
-    <ul class="paleta paleta--sugeridos" aria-label="Colores sugeridos">
-      <div class="paleta__grupo">
-        {sugeridos.slice(0, 5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
-      </div>
-      <div class="paleta__grupo">
-        {sugeridos.slice(5).map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
-      </div>
-    </ul>
-    <p class="paleta__etiqueta">Colores sugeridos</p>
   </div>
 
   <!-- ============ Colores reservados (una línea roja los cruza) ============ -->

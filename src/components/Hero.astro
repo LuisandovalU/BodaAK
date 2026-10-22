@@ -2,6 +2,7 @@
 /**
  * Hero.astro — Portada fiel 1:1 al PDF original
  */
+import MusicPlayer from './MusicPlayer.astro';
 ---
 
 <section class="hero enter" id="save-the-date">
@@ -93,12 +94,11 @@
         <img
           src="/images/save-the-date.png"
           alt="SAVE the DATE"
-          class="save-date-img elevated"
+          class="save-date-img"
         />
 
     </div>
 
-      <p class="fecha">04.04.27</p>
 
 
     </div>
@@ -112,7 +112,9 @@
       style="--flower-origin: center center; --float-delay: 2.2s;"
     />
 
-    <div class="evento scroll-reveal">
+    <MusicPlayer />
+
+    <div class="evento">
       <p class="evento__fecha">Domingo 04 | Abril 2027</p>
       <p class="evento__hora">15:30 HRS</p>
       <p class="evento__lugar">
@@ -245,6 +247,9 @@
       max-width: 165px;
       height: auto;
       object-fit: contain;
+      mix-blend-mode: multiply;
+      background: transparent;
+      box-shadow: none;
       animation: breathing 4s ease-in-out infinite;
     }
 
@@ -283,7 +288,7 @@
   }
 
   .evento {
-    margin-top: 2rem;
+    margin-top: 0.5rem;
     color: var(--ak-marino, #263875);
   }
   .evento p {
