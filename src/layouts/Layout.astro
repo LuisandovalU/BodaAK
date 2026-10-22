@@ -37,11 +37,53 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/images/foto-novios-5.webp" />
-
-
+    <link rel="preload" href="/images/bg-paper-1.jpg" as="image" />
+    <link rel="preload" href="/images/monograma.png" as="image" />
+    <style is:inline>
+      #ak-loader{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#f2f0ea url('/images/bg-paper-1.jpg') center top/min(500px,100%) auto repeat;transition:opacity .8s ease,visibility .8s ease}
+      #ak-loader.is-hidden{opacity:0;visibility:hidden}
+      #ak-loader .ak-loader__inner{display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+      #ak-loader img{width:92px;height:auto;animation:akBreath 2.4s ease-in-out infinite}
+      #ak-loader .ak-loader__line{width:70px;height:1px;background:rgba(38,56,117,.18);overflow:hidden;position:relative}
+      #ak-loader .ak-loader__line::after{content:"";position:absolute;inset:0;background:#263875;transform:translateX(-100%);animation:akLine 1.6s ease-in-out infinite}
+      @keyframes akBreath{0%,100%{opacity:.55;transform:scale(.97)}50%{opacity:1;transform:scale(1)}}
+      @keyframes akLine{to{transform:translateX(100%)}}
+      html.ak-loading{overflow:hidden}
+    </style>
   </head>
 
   <body>
+    <div id="ak-loader" aria-hidden="true">
+      <div class="ak-loader__inner">
+        <img src="/images/monograma.png" alt="" />
+        <span class="ak-loader__line"></span>
+      </div>
+    </div>
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('ak-loading');
+        var done = false;
+        function hide() {
+          if (done) return; done = true;
+          var l = document.getElementById('ak-loader');
+          root.classList.remove('ak-loading');
+          if (l) { l.classList.add('is-hidden'); setTimeout(function () { l.remove(); }, 900); }
+          window.scrollTo(0, 0);
+        }
+        setTimeout(hide, 4000); // nunca bloquear más de 4s
+        document.addEventListener('DOMContentLoaded', function () {
+          var hero = document.querySelector('.hero');
+          var imgs = hero ? Array.prototype.slice.call(hero.querySelectorAll('img')) : [];
+          var waits = imgs.map(function (img) {
+            img.loading = 'eager';
+            return img.complete ? Promise.resolve() : (img.decode ? img.decode().catch(function () {}) : new Promise(function (r) { img.onload = img.onerror = r; }));
+          });
+          if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+          Promise.all(waits).then(function () { setTimeout(hide, 250); });
+        });
+      })();
+    </script>
     <div class="app-shell">
       <main class="mobile-card">
         <slot />

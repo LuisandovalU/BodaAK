@@ -3,14 +3,14 @@
  * S8_Galeria.astro — Galería de fotografías (fiel al PDF)
  * ---------------------------------------------------------------------------
  * Fotos escalonadas, cada una dentro de un marco fino con 4 esquinas de
- * volutas ornamentales. La foto final se movió a FotoFinal.astro.
+ * volutas ornamentales. Las 3 fotografías rotan continuamente.
  * ---------------------------------------------------------------------------
  */
-const fotosRotativas = Array.from({ length: 19 }, (_, index) => {
-  const numero = index + 2;
+const fotosRotativas = Array.from({ length: 20 }, (_, index) => {
+  const numero = index + 1;
   return {
     src: `/images/foto-novios-${numero}.webp`,
-    alt: `Fotografía de Ángel y Kenia ${numero - 1}`,
+    alt: `Fotografía de Ángel y Kenia ${numero}`,
   };
 });
 
@@ -19,7 +19,7 @@ const fotos = [
     src: "/images/foto-novios-1.webp",
     alt: "Ángel y Kenia abrazados de espaldas",
     clase: "foto-espaldas",
-    rotativa: false,
+    rotativa: true,
   },
   {
     src: "/images/foto-novios-2.webp",
@@ -38,44 +38,51 @@ const fotos = [
 
 <section class="seccion galeria relative overflow-hidden" id="galeria">
   <!-- Flor decorativa 14 en la galería -->
-    <img
-      src="/images/flor-15.webp"
-      alt=""
-      aria-hidden="true"
-      class="flor-galeria floating-flower"
-      data-reveal="slide-left"
-      style="--flower-origin: bottom right; --float-delay: 1.8s;"
-    />
+  <img
+    loading="lazy"
+    decoding="async"
+    src="/images/flor-15.webp"
+    alt=""
+    aria-hidden="true"
+    class="flor-galeria floating-flower"
+    data-reveal="slide-left"
+    style="--flower-origin: bottom right; --float-delay: 1.8s;"
+  />
 
   <div class="galeria-fotos" aria-label="Fotografías de Ángel y Kenia">
-        {
-          fotos.map((f, i) => (
-            <figure
-              class={`foto ${f.clase}`}
-              data-reveal={i % 2 === 0 ? 'slide-left' : 'slide-right'}
-            >
-            {i === 0 && (
-              <img
-                class="marco-esq marco-esq--tl"
-                src="/images/marco-tl.png"
-                alt=""
-                aria-hidden="true"
-              />
-            )}
-            {i === 2 && (
-              <img
-                class="marco-esq marco-esq--br"
-                src="/images/marco-br.png"
-                alt=""
-                aria-hidden="true"
-              />
-            )}
+    {
+      fotos.map((f, i) => (
+        <figure
+          class={`foto ${f.clase}`}
+          data-reveal={i % 2 === 0 ? 'slide-left' : 'slide-right'}
+        >
+          {i === 0 && (
+            <img
+              loading="lazy"
+              decoding="async"
+              class="marco-esq marco-esq--tl"
+              src="/images/marco-tl.png"
+              alt=""
+              aria-hidden="true"
+            />
+          )}
+          {i === 2 && (
+            <img
+              loading="lazy"
+              decoding="async"
+              class="marco-esq marco-esq--br"
+              src="/images/marco-br.png"
+              alt=""
+              aria-hidden="true"
+            />
+          )}
 
           <img
             class="foto__imagen"
             src={f.src}
             alt={f.alt}
             loading="lazy"
+            decoding="async"
             data-photo-rotator={f.rotativa ? JSON.stringify(fotosRotativas) : undefined}
           />
         </figure>
@@ -117,7 +124,8 @@ const fotos = [
     margin: 0;
     padding: 7px;
     border: 1px solid rgba(38, 56, 117, 0.4);
-    background: transparent;
+    background: #e9e4da; /* Fondo cálido papel para que no se vea blanco al cambiar */
+    overflow: hidden;
   }
   .foto-espaldas {
     align-self: flex-start;
@@ -137,10 +145,18 @@ const fotos = [
     width: 100%;
     height: auto;
     object-fit: cover;
-    transition: opacity 360ms ease;
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1),
+                transform 700ms cubic-bezier(0.4, 0, 0.2, 1),
+                filter 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform, filter;
   }
   .foto__imagen--cambiando {
     opacity: 0;
+    transform: scale(1.04);
+    filter: blur(4px);
   }
   .foto-espaldas .foto__imagen {
     aspect-ratio: 0.78;
@@ -179,23 +195,30 @@ const fotos = [
 </style>
 
 <script>
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rotators = Array.from(document.querySelectorAll<HTMLImageElement>('[data-photo-rotator]'));
 
-  if (!reducedMotion) {
-    document.querySelectorAll('[data-photo-rotator]').forEach((image, position) => {
-      const photos = JSON.parse(image.dataset.photoRotator || '[]');
+  if (rotators.length) {
+    type Foto = { src: string; alt: string };
+
+    rotators.forEach((image, position) => {
+      const photos: Foto[] = JSON.parse(image.dataset.photoRotator || '[]');
       if (photos.length < 2) return;
 
       let current = Math.max(0, photos.findIndex((photo) => photo.src === image.getAttribute('src')));
-      const interval = 5000 + position * 1000;
+      // Tiempos desfasados para que no cambien al mismo tiempo
+      const interval = 4500 + position * 1400;
 
       window.setInterval(() => {
+        if (document.hidden) return;
+
         image.classList.add('foto__imagen--cambiando');
+
         window.setTimeout(() => {
           const visibleElsewhere = new Set(
-            Array.from(document.querySelectorAll('[data-photo-rotator]'))
-              .filter((otherImage) => otherImage !== image)
-              .map((otherImage) => otherImage.getAttribute('src')),
+            rotators
+              .filter((other) => other !== image)
+              .map((other) => other.getAttribute('src'))
+              .filter(Boolean),
           );
 
           let attempts = 0;
@@ -205,10 +228,26 @@ const fotos = [
           } while (visibleElsewhere.has(photos[current].src) && attempts < photos.length);
 
           const nextPhoto = photos[current];
-          image.setAttribute('src', nextPhoto.src);
-          image.setAttribute('alt', nextPhoto.alt);
-          image.classList.remove('foto__imagen--cambiando');
-        }, 360);
+          
+          // Pre-cargar la imagen en memoria antes de mostrarla para evitar parpadeos
+          const preload = new Image();
+          preload.src = nextPhoto.src;
+          const aplicarNuevaFoto = () => {
+            image.setAttribute('src', nextPhoto.src);
+            image.setAttribute('alt', nextPhoto.alt);
+            // Pequeño frame para reactivar la animación suavemente
+            requestAnimationFrame(() => {
+              image.classList.remove('foto__imagen--cambiando');
+            });
+          };
+
+          if (preload.complete) {
+            aplicarNuevaFoto();
+          } else {
+            preload.onload = aplicarNuevaFoto;
+            preload.onerror = aplicarNuevaFoto;
+          }
+        }, 700);
       }, interval);
     });
   }
