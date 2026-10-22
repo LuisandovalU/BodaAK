@@ -62,7 +62,7 @@ body {
      nada de ruido, viñetas ni degradados por sección. */
   background-color: var(--crema);
   color: var(--azul-marino);
-  font-family: 'The Seasons', 'Cormorant Garamond', serif;
+  font-family: 'Cormorant Garamond', 'The Seasons', Georgia, serif;
   -webkit-font-smoothing: antialiased;
 }
 
