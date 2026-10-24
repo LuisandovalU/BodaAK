@@ -23,7 +23,10 @@ export function getDb(): Firestore | undefined {
 }
 
 export interface RSVPData {
+  /** Nombre completo (nombres + apellidos), se conserva por compatibilidad. */
   nombre: string;
+  nombres: string;
+  apellidos: string;
   asistencia: 'si' | 'no';
   grupo?: 'familia' | 'amistad' | '';
 }

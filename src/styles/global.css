@@ -1,40 +1,9 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/TheSeasons-Reg.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/TheSeasons-Bd.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'The Seasons';
-  src: url('/fonts/TheSeasons-BdIt.ttf') format('truetype');
-  font-style: italic;
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Sloop Script Pro';
-  src: url('/fonts/SloopScriptPro-Regular.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Andasia';
-  src: url('/fonts/Andasia.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
+/* Tipografía: Fraunces (serif, completa desde Google Fonts, ver Layout.astro).
+   Las antiguas The Seasons / Andasia / Sloop eran subconjuntos extraídos de un
+   PDF con sólo unas cuantas letras; cada glifo faltante caía en otra fuente y
+   por eso el texto se veía disparejo. */
 
 :root {
   --azul-marino: #263875;
@@ -62,7 +31,14 @@ body {
      nada de ruido, viñetas ni degradados por sección. */
   background-color: var(--crema);
   color: var(--azul-marino);
-  font-family: 'Cormorant Garamond', 'The Seasons', Georgia, serif;
+  /* Una sola serif para que cada letra conserve la misma proporción en todo
+     el sitio, incluso si el dispositivo no tiene fuentes adicionales. */
+  font-family: 'Fraunces', Georgia, serif;
+  /* Estilo suave (parecido a The Seasons) y números alineados como en el
+     diseño original: "04 | Abril 2027", "15:30 HRS". Se heredan a todo. */
+  font-variation-settings: 'SOFT' 100, 'WONK' 0;
+  font-variant-numeric: lining-nums;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -78,11 +54,11 @@ section.bloque {
 }
 
 .font-script {
-  font-family: 'Andasia', 'Sloop Script Pro', cursive;
+  font-family: 'Great Vibes', cursive;
   font-weight: 400;
 }
 
-.font-serif { font-family: 'The Seasons', 'Cormorant Garamond', serif; }
+.font-serif { font-family: 'Fraunces', 'Cormorant Garamond', serif; }
 .font-playfair { font-family: 'Playfair Display', serif; font-style: italic; }
 
 /* ---------------------------------------------------------------------------
