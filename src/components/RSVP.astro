@@ -34,7 +34,13 @@
     </div>
     <div id="rsvp-panel-familiar" class="panel" hidden><p class="nos-vemos">¡Nos vemos ese día!</p></div>
     <div id="rsvp-panel-amistad" class="panel" hidden>
+      <div class="costo">
+        <p class="costo__titulo">Costo por boleto individual</p>
+        <p class="costo__monto">$350 pesos</p>
+      </div>
+      <p class="paso-pago"><strong>Paso 1.</strong> Haz tu depósito o transferencia a esta cuenta:</p>
       <div class="banco"><p class="dato">CLABE: 638180010146605599</p><p class="dato">Nombre: Ángel Adrián Zamora Morales</p><p class="dato">Banco: NU</p><p class="dato">Concepto: BODA</p></div>
+      <p class="paso-pago"><strong>Paso 2.</strong> Envía tu comprobante de pago por WhatsApp al número de Samuel Montalvo (56 2086 2829):</p>
       <a class="enviar" href="https://wa.me/525620862829" target="_blank" rel="noopener noreferrer" aria-label="Enviar comprobante por WhatsApp a Samuel Montalvo">
         <span class="enviar__texto">Envía tu comprobante a</span>
         <span class="enviar__nombre">Samuel Montalvo</span>
@@ -83,6 +89,10 @@
   .mensaje-declinacion { margin-top: 0.85rem; }
   .panel { margin-top: 1.6rem; animation: aparecer 0.45s ease both; }
   @keyframes aparecer { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  .costo { padding: 0.9rem 1rem; border: 1px solid rgba(38, 56, 117, 0.28); border-radius: 8px; background: rgba(38, 56, 117, 0.06); text-align: center; }
+  .costo__titulo { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .costo__monto { margin-top: 0.2rem; font-size: 1.8rem; font-weight: 700; }
+  .paso-pago { margin: 1rem 0 0.6rem; font-size: 0.95rem; line-height: 1.4; text-align: left; }
   .banco { padding: 1.2rem 1.15rem; border: 1px solid rgba(38, 56, 117, 0.28); border-radius: 8px; background: rgba(255, 255, 255, 0.82); text-align: left; }
   .banco .dato + .dato { margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid rgba(38, 56, 117, 0.12); }
   .enviar { display: block; width: fit-content; margin: 1.3rem auto 0; padding: 0.55rem 1.1rem; border: 1px solid rgba(38, 56, 117, 0.28); border-radius: 999px; background: rgba(255, 255, 255, 0.6); font-family: "Fraunces", "Cormorant Garamond", serif; line-height: 1.35; text-align: center; text-decoration: none; color: var(--ak-marino); transition: background-color 0.15s ease, transform 0.15s ease; }
