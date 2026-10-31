@@ -20,5 +20,10 @@ pnpm-debug.log*
 # macOS
 .DS_Store
 
+# AWS Amplify (generados)
+.amplify/
+amplify_outputs*
+amplifyconfiguration*
+
 # scratch environment
 scratch/.venv/

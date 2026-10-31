@@ -12,17 +12,24 @@
     "@huggingface/inference": "^4.13.32",
     "@tailwindcss/vite": "4.3.3",
     "astro": "^7.3.5",
+    "aws-amplify": "^6.22.2",
     "firebase": "^9.14.0",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.25.1",
+    "@aws-amplify/backend-cli": "^1.10.0",
     "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "aws-cdk-lib": "^2.275.0",
+    "constructs": "^10.8.1",
+    "esbuild": "^0.28.2",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^1.7.0",
     "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
     "typescript": "^5.7.0"
   }
 }
