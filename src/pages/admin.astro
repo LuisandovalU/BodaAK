@@ -1,7 +1,8 @@
 ---
 /**
- * Panel privado para la persona responsable de los pagos.
- * Requiere iniciar sesión con un usuario de Cognito del grupo "admins".
+ * Panel privado de confirmaciones y pagos · Ángel & Kenia
+ * Estética alineada con la invitación (pergamino, marino, Fraunces/Cormorant)
+ * con soporte explícito de color-scheme: light para evitar inversión por Dark Mode.
  */
 ---
 <!doctype html>
@@ -10,94 +11,849 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Panel de pagos · Ángel & Kenia</title>
+    <meta name="color-scheme" content="light" />
+    <title>Panel de Invitados y Pagos · Ángel & Kenia</title>
     <link rel="icon" type="image/png" href="/images/monograma.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <main class="wrap">
-      <header class="top">
-        <h1>Panel de pagos</h1>
-        <button id="btn-salir" type="button" class="link" hidden>Cerrar sesión</button>
+    <!-- ================= VISTA 1: LOGIN CENTRADO ================= -->
+    <section id="vista-login" class="login-screen" hidden>
+      <div class="login-card">
+        <img src="/images/monograma.png" alt="Ángel & Kenia" class="login-logo" />
+        <div class="login-head">
+          <p class="login-eyebrow">Ángel & Kenia · 04.04.2027</p>
+          <h1 id="login-titulo">Control de Invitados y Pagos</h1>
+          <p id="login-subtitulo" class="login-sub">
+            Ingresa con tu cuenta de administrador para gestionar confirmaciones y comprobantes.
+          </p>
+        </div>
+
+        <form id="form-login" class="login-form" novalidate>
+          <div id="paso-credenciales" class="campos">
+            <label class="campo">
+              <span>Correo electrónico</span>
+              <input
+                id="login-email"
+                type="email"
+                autocomplete="username"
+                placeholder="correo@ejemplo.com"
+                required
+              />
+            </label>
+
+            <label class="campo">
+              <span>Contraseña</span>
+              <div class="input-pass">
+                <input
+                  id="login-pass"
+                  type="password"
+                  autocomplete="current-password"
+                  placeholder="••••••••"
+                  required
+                />
+                <button type="button" id="toggle-pass" class="btn-ojo" aria-label="Mostrar u ocultar contraseña">
+                  Ver
+                </button>
+              </div>
+            </label>
+          </div>
+
+          <div id="paso-nueva-pass" class="campos" hidden>
+            <div class="banner-info">
+              Por seguridad, en tu primer acceso debes elegir tu contraseña definitiva.
+              <small>Mínimo 8 caracteres, incluyendo mayúscula, minúscula, número y símbolo (ej. <code>BodaAK2027!</code>).</small>
+            </div>
+            <label class="campo">
+              <span>Nueva contraseña definitiva</span>
+              <input
+                id="login-nueva"
+                type="password"
+                autocomplete="new-password"
+                placeholder="Escribe tu nueva contraseña"
+                minlength="8"
+              />
+            </label>
+          </div>
+
+          <p id="login-error" class="login-error" role="alert" hidden></p>
+
+          <button type="submit" id="btn-entrar" class="btn-principal">
+            Entrar al panel
+          </button>
+        </form>
+
+        <a href="/" class="volver-invitacion">← Volver a la invitación</a>
+      </div>
+    </section>
+
+    <!-- ================= VISTA 2: DASHBOARD ================= -->
+    <div id="vista-panel" class="dashboard" hidden>
+      <header class="topbar">
+        <div class="topbar__inner">
+          <div class="topbar__brand">
+            <img src="/images/monograma.png" alt="" class="topbar__logo" />
+            <div>
+              <span class="topbar__eyebrow">Ángel & Kenia · Boda</span>
+              <h1 class="topbar__title">Panel de Invitados y Pagos</h1>
+            </div>
+          </div>
+          <div class="topbar__actions">
+            <span id="admin-email" class="admin-badge"></span>
+            <button id="btn-exportar" type="button" class="btn-sec">Descargar CSV</button>
+            <button id="btn-salir" type="button" class="btn-sec btn-sec--danger">Cerrar sesión</button>
+          </div>
+        </div>
       </header>
 
-      <p id="aviso" class="aviso" hidden></p>
+      <main class="contenedor">
+        <!-- Guía rápida de uso -->
+        <aside class="guia">
+          <div class="guia__titulo">¿Cómo registrar un comprobante?</div>
+          <ol class="guia__pasos">
+            <li><strong>1. Busca al invitado</strong> por su nombre o filtra en la pestaña <em>Por pagar</em>.</li>
+            <li><strong>2. Verifica su transferencia</strong> ($350 MXN por boleto de amistad).</li>
+            <li><strong>3. Haz clic en el botón <span class="pill-demo">Marcar como pagado</span></strong> a la derecha de su nombre. ¡El cambio se guarda al instante!</li>
+          </ol>
+        </aside>
 
-      <!-- Inicio de sesión -->
-      <form id="form-login" class="card" hidden>
-        <h2>Iniciar sesión</h2>
-        <label>Correo<input id="login-email" type="email" autocomplete="username" required /></label>
-        <label>Contraseña<input id="login-pass" type="password" autocomplete="current-password" required /></label>
-        <label id="campo-nueva" hidden>Nueva contraseña (primer inicio)
-          <input id="login-nueva" type="password" autocomplete="new-password" minlength="8" />
-        </label>
-        <button type="submit" class="btn">Entrar</button>
-        <p id="login-error" class="error"></p>
-      </form>
+        <p id="aviso" class="aviso" hidden></p>
 
-      <!-- Panel -->
-      <section id="panel" hidden>
-        <div class="stats">
-          <div><span id="st-confirmados">0</span><small>Asistirán</small></div>
-          <div><span id="st-pendientes">0</span><small>Amistades por pagar</small></div>
-          <div><span id="st-pagados">0</span><small>Amistades pagadas</small></div>
-          <div><span id="st-total">$0</span><small>Recaudado</small></div>
-        </div>
+        <!-- Tarjetas de resumen -->
+        <section class="kpis" aria-label="Resumen general">
+          <article class="kpi">
+            <span class="kpi__label">Total que asistirán</span>
+            <strong id="st-confirmados" class="kpi__num">0</strong>
+            <small id="st-desglose" class="kpi__sub">0 familia · 0 amistades · 0 no asisten</small>
+          </article>
+          <article class="kpi kpi--warn">
+            <span class="kpi__label">Amistades por pagar</span>
+            <strong id="st-pendientes" class="kpi__num">0</strong>
+            <small class="kpi__sub">Comprobante pendiente</small>
+          </article>
+          <article class="kpi kpi--ok">
+            <span class="kpi__label">Amistades pagadas</span>
+            <strong id="st-pagados" class="kpi__num">0</strong>
+            <small class="kpi__sub">Boleto liquidado ($350)</small>
+          </article>
+          <article class="kpi kpi--navy">
+            <span class="kpi__label">Total recaudado</span>
+            <strong id="st-total" class="kpi__num">$0</strong>
+            <small id="st-meta" class="kpi__sub">De $0 esperados</small>
+          </article>
+        </section>
 
-        <div class="filtros">
-          <div class="tabs" role="tablist">
-            <button type="button" data-filtro="pendiente" class="tab activo">Por pagar</button>
-            <button type="button" data-filtro="pagado" class="tab">Pagados</button>
-            <button type="button" data-filtro="todos" class="tab">Todos</button>
+        <!-- Barra de herramientas: pestañas + buscador -->
+        <section class="toolbar">
+          <div class="tabs" role="tablist" aria-label="Filtrar invitados">
+            <button type="button" data-filtro="pendiente" class="tab activo">
+              Por pagar <span id="badge-pendiente" class="tab__count">0</span>
+            </button>
+            <button type="button" data-filtro="pagado" class="tab">
+              Pagados <span id="badge-pagado" class="tab__count">0</span>
+            </button>
+            <button type="button" data-filtro="familia" class="tab">
+              Familia <span id="badge-familia" class="tab__count">0</span>
+            </button>
+            <button type="button" data-filtro="no" class="tab">
+              No asisten <span id="badge-no" class="tab__count">0</span>
+            </button>
+            <button type="button" data-filtro="todos" class="tab">
+              Todos <span id="badge-todos" class="tab__count">0</span>
+            </button>
           </div>
-          <input id="buscar" type="search" placeholder="Buscar por nombre…" />
-          <button id="btn-recargar" type="button" class="link">↻ Recargar</button>
-        </div>
 
-        <ul id="lista" class="lista"></ul>
-        <p id="vacio" class="vacio" hidden>No hay registros en esta vista.</p>
-      </section>
-    </main>
+          <div class="toolbar__right">
+            <input id="buscar" type="search" placeholder="Buscar invitado por nombre o apellido…" />
+            <button id="btn-recargar" type="button" class="btn-sec" title="Actualizar lista">↻ Actualizar</button>
+          </div>
+        </section>
 
-    <style>
-      :root { --marino: #263875; --boton: #526f9d; --crema: #f2f0ea; --ok: #2e7d4f; --pend: #b26a00; }
-      * { box-sizing: border-box; }
-      body { margin: 0; background: var(--crema); color: var(--marino); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
-      .wrap { max-width: 720px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
-      .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-      h1 { font-size: 1.4rem; margin: 0.5rem 0 1rem; }
-      h2 { font-size: 1.1rem; margin: 0 0 1rem; }
-      .card { background: #fff; border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 18px rgba(38,56,117,.08); display: grid; gap: .8rem; max-width: 380px; margin: 2rem auto; }
-      label { display: grid; gap: .3rem; font-size: .85rem; font-weight: 500; }
-      input { font: inherit; padding: .65rem .75rem; border: 1px solid #cfd5e3; border-radius: 8px; color: inherit; }
-      .btn { font: inherit; font-weight: 600; padding: .75rem; border: 0; border-radius: 8px; background: var(--boton); color: #fff; cursor: pointer; }
-      .btn:disabled, .estado:disabled { opacity: .6; cursor: wait; }
-      .link { font: inherit; background: none; border: 0; color: var(--boton); cursor: pointer; text-decoration: underline; }
-      .error { color: #a5352b; font-size: .85rem; min-height: 1em; margin: 0; }
-      .aviso { background: #fff4e0; border: 1px solid #f0c987; padding: .8rem 1rem; border-radius: 8px; }
-      .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1rem; }
-      .stats div { background: #fff; border-radius: 10px; padding: .75rem .5rem; text-align: center; box-shadow: 0 2px 10px rgba(38,56,117,.06); }
-      .stats span { display: block; font-size: 1.4rem; font-weight: 700; }
-      .stats small { font-size: .72rem; opacity: .8; }
-      .filtros { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-bottom: .8rem; }
-      .tabs { display: flex; background: #fff; border-radius: 8px; padding: 3px; }
-      .tab { font: inherit; font-size: .85rem; border: 0; background: none; padding: .45rem .8rem; border-radius: 6px; cursor: pointer; color: inherit; }
-      .tab.activo { background: var(--marino); color: #fff; }
-      #buscar { flex: 1; min-width: 160px; }
-      .lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
-      .item { background: #fff; border-radius: 10px; padding: .8rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-shadow: 0 2px 10px rgba(38,56,117,.05); }
-      .item__nombre { font-weight: 600; }
-      .item__meta { font-size: .78rem; opacity: .75; margin-top: .15rem; }
-      .estado { font: inherit; font-size: .82rem; font-weight: 600; border-radius: 999px; padding: .45rem .9rem; cursor: pointer; border: 2px solid; white-space: nowrap; }
-      .estado--pendiente { color: var(--pend); border-color: var(--pend); background: #fff8ec; }
-      .estado--pagado { color: #fff; border-color: var(--ok); background: var(--ok); }
-      .etiqueta { font-size: .78rem; opacity: .7; white-space: nowrap; }
-      .vacio { text-align: center; opacity: .7; margin-top: 2rem; }
-      @media (max-width: 520px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+        <!-- Tabla / Lista de invitados -->
+        <section class="tabla-card">
+          <div class="tabla-head">
+            <span>Invitado</span>
+            <span>Vínculo / Asistencia</span>
+            <span>Fecha registro</span>
+            <span class="align-right">Estado de pago ($350)</span>
+          </div>
+          <ul id="lista" class="lista"></ul>
+          <div id="vacio" class="vacio" hidden>
+            <p class="vacio__titulo">No hay invitados en esta vista</p>
+            <p class="vacio__sub">Cuando los invitados confirmen en la invitación o cambies de filtro, aparecerán aquí.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <style is:global>
+      :root {
+        color-scheme: light only;
+        --marino: #263875;
+        --marino-oscuro: #1a2754;
+        --boton: #526f9d;
+        --crema: #f2f0ea;
+        --papel: #faf8f3;
+        --borde: #dcd7cc;
+        --texto: #1f2a44;
+        --texto-suave: #5a657d;
+        --ok: #1f7a4c;
+        --ok-bg: #e7f6ee;
+        --pend: #a85d00;
+        --pend-bg: #fff4e2;
+        --peligro: #a5352b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: var(--crema) !important;
+        background-image: url('/images/bg-paper-1.jpg');
+        background-size: 560px auto;
+        color: var(--texto) !important;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ================= LOGIN ================= */
+      .login-screen {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 1.5rem 1rem;
+      }
+      .login-Screen[hidden],
+      .login-screen[hidden],
+      .dashboard[hidden] {
+        display: none !important;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 430px;
+        background: #ffffff;
+        border: 1px solid var(--borde);
+        border-radius: 18px;
+        padding: 2.25rem 2rem 1.85rem;
+        box-shadow: 0 20px 50px rgba(38, 56, 117, 0.12);
+        text-align: center;
+      }
+
+      .login-logo {
+        width: 68px;
+        height: auto;
+        margin: 0 auto 0.75rem;
+        display: block;
+      }
+
+      .login-eyebrow {
+        margin: 0;
+        font-size: 0.76rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--boton);
+        font-weight: 600;
+      }
+
+      .login-head h1 {
+        margin: 0.35rem 0 0.45rem;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.85rem;
+        font-weight: 700;
+        color: var(--marino);
+        line-height: 1.15;
+      }
+
+      .login-sub {
+        margin: 0 0 1.4rem;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: var(--texto-suave);
+      }
+
+      .login-form {
+        text-align: left;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .campos {
+        display: grid;
+        gap: 0.95rem;
+      }
+      .campos[hidden] {
+        display: none !important;
+      }
+
+      .campo {
+        display: grid;
+        gap: 0.38rem;
+      }
+
+      .campo > span {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--marino);
+      }
+
+      .campo input {
+        width: 100%;
+        font: inherit;
+        font-size: 0.95rem;
+        padding: 0.72rem 0.85rem;
+        border: 1.5px solid #cbd2e0;
+        border-radius: 10px;
+        background: #ffffff !important;
+        color: var(--texto) !important;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .campo input:focus {
+        outline: none;
+        border-color: var(--marino);
+        box-shadow: 0 0 0 3px rgba(38, 56, 117, 0.12);
+      }
+
+      .input-pass {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input-pass input {
+        padding-right: 3.6rem;
+      }
+      .btn-ojo {
+        position: absolute;
+        right: 0.5rem;
+        border: 0;
+        background: #eef1f7;
+        color: var(--marino);
+        font-size: 0.76rem;
+        font-weight: 600;
+        padding: 0.35rem 0.6rem;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .banner-info {
+        background: #eef3fb;
+        border: 1px solid #c5d4ec;
+        color: var(--marino);
+        border-radius: 10px;
+        padding: 0.75rem 0.9rem;
+        font-size: 0.84rem;
+        line-height: 1.45;
+        display: grid;
+        gap: 0.35rem;
+      }
+
+      .login-error {
+        margin: 0;
+        background: #fdecec;
+        border: 1px solid #f5bcbc;
+        color: var(--peligro);
+        padding: 0.65rem 0.85rem;
+        border-radius: 9px;
+        font-size: 0.84rem;
+        font-weight: 500;
+      }
+
+      .btn-principal {
+        width: 100%;
+        font: inherit;
+        font-size: 0.96rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        padding: 0.82rem 1rem;
+        border: 0;
+        border-radius: 10px;
+        background: var(--marino);
+        color: #ffffff;
+        cursor: pointer;
+        transition: background 0.15s ease, transform 0.1s ease;
+      }
+      .btn-principal:hover {
+        background: var(--marino-oscuro);
+      }
+      .btn-principal:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+
+      .volver-invitacion {
+        display: inline-block;
+        margin-top: 1.25rem;
+        font-size: 0.83rem;
+        color: var(--texto-suave);
+        text-decoration: none;
+      }
+      .volver-invitacion:hover {
+        color: var(--marino);
+        text-decoration: underline;
+      }
+
+      /* ================= DASHBOARD ================= */
+      .topbar {
+        background: #ffffff;
+        border-bottom: 1px solid var(--borde);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+
+      .topbar__inner {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0.85rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+      }
+
+      .topbar__brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .topbar__logo {
+        width: 40px;
+        height: auto;
+      }
+
+      .topbar__eyebrow {
+        display: block;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--boton);
+        font-weight: 600;
+      }
+
+      .topbar__title {
+        margin: 0;
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.45rem;
+        font-weight: 700;
+        color: var(--marino);
+      }
+
+      .topbar__actions {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+      }
+
+      .admin-badge {
+        font-size: 0.8rem;
+        color: var(--texto-suave);
+        background: var(--papel);
+        border: 1px solid var(--borde);
+        padding: 0.35rem 0.7rem;
+        border-radius: 999px;
+      }
+
+      .btn-sec {
+        font: inherit;
+        font-size: 0.83rem;
+        font-weight: 600;
+        padding: 0.5rem 0.85rem;
+        border-radius: 8px;
+        border: 1px solid #cbd2e0;
+        background: #ffffff;
+        color: var(--marino);
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .btn-sec:hover {
+        background: #f2f5fa;
+      }
+      .btn-sec--danger {
+        color: var(--peligro);
+        border-color: #e8c2be;
+      }
+      .btn-sec--danger:hover {
+        background: #fdecec;
+      }
+
+      .contenedor {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 1.5rem 1.25rem 3.5rem;
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      .guia {
+        background: #ffffff;
+        border: 1px solid var(--borde);
+        border-left: 4px solid var(--marino);
+        border-radius: 12px;
+        padding: 0.95rem 1.15rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.65rem 1.25rem;
+        box-shadow: 0 4px 14px rgba(38, 56, 117, 0.05);
+      }
+      .guia__titulo {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: var(--marino);
+      }
+      .guia__pasos {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 1.25rem;
+        font-size: 0.83rem;
+        color: var(--texto-suave);
+      }
+      .pill-demo {
+        display: inline-block;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        background: var(--pend-bg);
+        color: var(--pend);
+        border: 1px solid var(--pend);
+        font-weight: 600;
+        font-size: 0.75rem;
+      }
+
+      .aviso {
+        margin: 0;
+        background: #fff4e0;
+        border: 1px solid #ecc478;
+        color: #784800;
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+        font-size: 0.88rem;
+      }
+
+      /* KPIs */
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.9rem;
+      }
+
+      .kpi {
+        background: #ffffff;
+        border: 1px solid var(--borde);
+        border-radius: 14px;
+        padding: 1.05rem 1.15rem;
+        box-shadow: 0 4px 14px rgba(38, 56, 117, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .kpi__label {
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--texto-suave);
+      }
+      .kpi__num {
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: var(--marino);
+        line-height: 1.15;
+        font-variant-numeric: tabular-nums;
+      }
+      .kpi--warn .kpi__num {
+        color: var(--pend);
+      }
+      .kpi--ok .kpi__num {
+        color: var(--ok);
+      }
+      .kpi--navy {
+        background: var(--marino);
+        border-color: var(--marino);
+      }
+      .kpi--navy .kpi__label,
+      .kpi--navy .kpi__sub {
+        color: rgba(255, 255, 255, 0.78);
+      }
+      .kpi--navy .kpi__num {
+        color: #ffffff;
+      }
+      .kpi__sub {
+        font-size: 0.76rem;
+        color: var(--texto-suave);
+      }
+
+      /* Toolbar */
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        background: #ffffff;
+        border: 1px solid var(--borde);
+        padding: 0.3rem;
+        border-radius: 11px;
+      }
+
+      .tab {
+        font: inherit;
+        font-size: 0.83rem;
+        font-weight: 600;
+        border: 0;
+        background: transparent;
+        color: var(--texto-suave);
+        padding: 0.48rem 0.8rem;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .tab:hover {
+        color: var(--marino);
+        background: #f3f5fa;
+      }
+      .tab.activo {
+        background: var(--marino);
+        color: #ffffff;
+      }
+      .tab__count {
+        font-size: 0.72rem;
+        padding: 0.1rem 0.45rem;
+        border-radius: 999px;
+        background: rgba(38, 56, 117, 0.1);
+        color: inherit;
+      }
+      .tab.activo .tab__count {
+        background: rgba(255, 255, 255, 0.22);
+      }
+
+      .toolbar__right {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        flex: 1;
+        min-width: 260px;
+        justify-content: flex-end;
+      }
+
+      #buscar {
+        flex: 1;
+        max-width: 320px;
+        font: inherit;
+        font-size: 0.88rem;
+        padding: 0.55rem 0.85rem;
+        border-radius: 9px;
+        border: 1px solid #cbd2e0;
+        background: #ffffff !important;
+        color: var(--texto) !important;
+      }
+
+      /* Tabla / Lista */
+      .tabla-card {
+        background: #ffffff;
+        border: 1px solid var(--borde);
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(38, 56, 117, 0.06);
+        overflow: hidden;
+      }
+
+      .tabla-head {
+        display: grid;
+        grid-template-columns: 2fr 1.1fr 0.9fr 1.3fr;
+        gap: 0.75rem;
+        padding: 0.75rem 1.25rem;
+        background: var(--papel);
+        border-bottom: 1px solid var(--borde);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--texto-suave);
+      }
+
+      .align-right {
+        text-align: right;
+      }
+
+      .lista {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .item {
+        display: grid;
+        grid-template-columns: 2fr 1.1fr 0.9fr 1.3fr;
+        gap: 0.75rem;
+        align-items: center;
+        padding: 0.9rem 1.25rem;
+        border-bottom: 1px solid #efece4;
+        transition: background 0.12s ease;
+      }
+      .item:last-child {
+        border-bottom: 0;
+      }
+      .item:hover {
+        background: #fbfaf7;
+      }
+
+      .item__nombre {
+        font-weight: 600;
+        color: var(--texto);
+        font-size: 0.95rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 0.25rem 0.65rem;
+        border-radius: 999px;
+        width: fit-content;
+      }
+      .badge--amistad {
+        background: #eef3fb;
+        color: var(--marino);
+      }
+      .badge--familia {
+        background: #f3efe6;
+        color: #5c4b28;
+      }
+      .badge--no {
+        background: #f5e9e8;
+        color: #8c3b35;
+      }
+
+      .item__fecha {
+        font-size: 0.82rem;
+        color: var(--texto-suave);
+      }
+
+      .item__accion {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .estado {
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        border-radius: 999px;
+        padding: 0.48rem 0.95rem;
+        cursor: pointer;
+        border: 1.5px solid;
+        white-space: nowrap;
+        transition: transform 0.1s ease, filter 0.15s ease;
+      }
+      .estado:hover {
+        filter: brightness(0.97);
+      }
+      .estado:active {
+        transform: scale(0.98);
+      }
+      .estado:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+      .estado--pendiente {
+        color: var(--pend);
+        border-color: #e09b3e;
+        background: var(--pend-bg);
+      }
+      .estado--pagado {
+        color: #ffffff;
+        border-color: var(--ok);
+        background: var(--ok);
+      }
+
+      .etiqueta-sincosto {
+        font-size: 0.8rem;
+        color: var(--texto-suave);
+        font-style: italic;
+      }
+
+      .vacio {
+        text-align: center;
+        padding: 3rem 1.5rem;
+      }
+      .vacio__titulo {
+        margin: 0 0 0.35rem;
+        font-weight: 600;
+        color: var(--marino);
+        font-size: 1.02rem;
+      }
+      .vacio__sub {
+        margin: 0;
+        font-size: 0.86rem;
+        color: var(--texto-suave);
+      }
+
+      @media (max-width: 820px) {
+        .kpis {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .tabla-head {
+          display: none;
+        }
+        .item {
+          grid-template-columns: 1fr auto;
+          gap: 0.35rem 0.75rem;
+        }
+        .item__fecha {
+          grid-column: 1;
+          font-size: 0.76rem;
+        }
+        .item__accion {
+          grid-column: 2;
+          grid-row: 1 / span 3;
+          align-self: center;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .login-card {
+          padding: 1.75rem 1.35rem;
+        }
+        .toolbar__right {
+          width: 100%;
+        }
+        #buscar {
+          max-width: none;
+        }
+      }
     </style>
 
     <script>
       import { generateClient } from "aws-amplify/data";
-      import { signIn, signOut, confirmSignIn, getCurrentUser } from "aws-amplify/auth";
+      import { signIn, signOut, confirmSignIn, getCurrentUser, fetchUserAttributes } from "aws-amplify/auth";
       import type { Schema } from "../../amplify/data/resource";
       import { configureAmplify } from "../lib/aws";
 
@@ -106,34 +862,72 @@
       type Registro = {
         id: string;
         nombre: string;
+        nombres?: string;
+        apellidos?: string;
         asistencia?: "si" | "no" | null;
         grupo?: string | null;
         estadoPago?: "pendiente" | "pagado" | null;
         createdAt: string;
       };
 
+      type Filtro = "pendiente" | "pagado" | "familia" | "no" | "todos";
+
       const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
-      const aviso = $("aviso");
+      const vistaLogin = $("vista-login");
+      const vistaPanel = $("vista-panel");
       const formLogin = $<HTMLFormElement>("form-login");
+      const pasoCredenciales = $("paso-credenciales");
+      const pasoNuevaPass = $("paso-nueva-pass");
       const loginError = $("login-error");
-      const campoNueva = $("campo-nueva");
-      const panel = $("panel");
-      const btnSalir = $<HTMLButtonElement>("btn-salir");
+      const btnEntrar = $<HTMLButtonElement>("btn-entrar");
+      const inputPass = $<HTMLInputElement>("login-pass");
+      const togglePass = $<HTMLButtonElement>("toggle-pass");
+      const aviso = $("aviso");
       const lista = $("lista");
       const vacio = $("vacio");
       const buscar = $<HTMLInputElement>("buscar");
 
       let registros: Registro[] = [];
-      let filtro: "pendiente" | "pagado" | "todos" = "pendiente";
+      let filtro: Filtro = "pendiente";
       let esperandoNuevaPass = false;
       let client: ReturnType<typeof generateClient<Schema>>;
 
+      togglePass.addEventListener("click", () => {
+        const esPass = inputPass.type === "password";
+        inputPass.type = esPass ? "text" : "password";
+        togglePass.textContent = esPass ? "Ocultar" : "Ver";
+      });
+
+      function mostrarErrorLogin(msg: string) {
+        if (!msg) {
+          loginError.hidden = true;
+          loginError.textContent = "";
+          return;
+        }
+        loginError.textContent = traducirError(msg);
+        loginError.hidden = false;
+      }
+
+      function traducirError(msg: string): string {
+        if (/Incorrect username or password|NotAuthorizedException/i.test(msg)) {
+          return "Correo o contraseña incorrectos. Verifica tus datos.";
+        }
+        if (/UserNotFoundException/i.test(msg)) {
+          return "No existe un usuario con ese correo.";
+        }
+        if (/InvalidPasswordException|Password did not conform/i.test(msg)) {
+          return "La nueva contraseña debe tener al menos 8 caracteres, mayúscula, minúscula, número y símbolo (ej. BodaAK2027!).";
+        }
+        return msg;
+      }
+
       function mostrarAviso(texto: string) {
         aviso.textContent = texto;
-        aviso.hidden = false;
+        aviso.hidden = !texto;
       }
 
       const esAmistad = (r: Registro) => r.asistencia === "si" && r.grupo === "amistad";
+      const esFamilia = (r: Registro) => r.asistencia === "si" && r.grupo === "familia";
       const estadoDe = (r: Registro) => r.estadoPago ?? "pendiente";
 
       async function tieneSesion(): Promise<boolean> {
@@ -146,6 +940,7 @@
       }
 
       async function cargar() {
+        mostrarAviso("");
         const todos: Registro[] = [];
         let nextToken: string | null | undefined;
         do {
@@ -159,17 +954,32 @@
       }
 
       function pintar() {
+        const asisten = registros.filter((r) => r.asistencia === "si");
+        const noAsisten = registros.filter((r) => r.asistencia === "no");
+        const familias = registros.filter(esFamilia);
         const amistades = registros.filter(esAmistad);
-        const pagados = amistades.filter((r) => estadoDe(r) === "pagado").length;
-        $("st-confirmados").textContent = String(registros.filter((r) => r.asistencia === "si").length);
-        $("st-pendientes").textContent = String(amistades.length - pagados);
-        $("st-pagados").textContent = String(pagados);
-        $("st-total").textContent = `$${(pagados * PRECIO_BOLETO).toLocaleString("es-MX")}`;
+        const pagados = amistades.filter((r) => estadoDe(r) === "pagado");
+        const pendientes = amistades.filter((r) => estadoDe(r) === "pendiente");
+
+        $("st-confirmados").textContent = String(asisten.length);
+        $("st-desglose").textContent = `${familias.length} familia · ${amistades.length} amistades · ${noAsisten.length} no asisten`;
+        $("st-pendientes").textContent = String(pendientes.length);
+        $("st-pagados").textContent = String(pagados.length);
+        $("st-total").textContent = `$${(pagados.length * PRECIO_BOLETO).toLocaleString("es-MX")}`;
+        $("st-meta").textContent = `De $${(amistades.length * PRECIO_BOLETO).toLocaleString("es-MX")} esperados`;
+
+        $("badge-pendiente").textContent = String(pendientes.length);
+        $("badge-pagado").textContent = String(pagados.length);
+        $("badge-familia").textContent = String(familias.length);
+        $("badge-no").textContent = String(noAsisten.length);
+        $("badge-todos").textContent = String(registros.length);
 
         const q = buscar.value.trim().toLowerCase();
         const visibles = registros.filter((r) => {
           if (q && !r.nombre.toLowerCase().includes(q)) return false;
           if (filtro === "todos") return true;
+          if (filtro === "familia") return esFamilia(r);
+          if (filtro === "no") return r.asistencia === "no";
           return esAmistad(r) && estadoDe(r) === filtro;
         });
 
@@ -181,43 +991,65 @@
         const li = document.createElement("li");
         li.className = "item";
 
-        const info = document.createElement("div");
         const nombre = document.createElement("div");
         nombre.className = "item__nombre";
         nombre.textContent = r.nombre;
-        const meta = document.createElement("div");
-        meta.className = "item__meta";
-        const vinculo = r.asistencia === "no" ? "No asistirá" : r.grupo === "familia" ? "Familia" : r.grupo === "amistad" ? "Amistad" : "—";
-        meta.textContent = `${vinculo} · ${new Date(r.createdAt).toLocaleDateString("es-MX", { day: "numeric", month: "short" })}`;
-        info.append(nombre, meta);
-        li.append(info);
+
+        const vinculo = document.createElement("div");
+        const badge = document.createElement("span");
+        if (r.asistencia === "no") {
+          badge.className = "badge badge--no";
+          badge.textContent = "No asistirá";
+        } else if (r.grupo === "familia") {
+          badge.className = "badge badge--familia";
+          badge.textContent = "Familiar";
+        } else {
+          badge.className = "badge badge--amistad";
+          badge.textContent = "Amistad ($350)";
+        }
+        vinculo.append(badge);
+
+        const fecha = document.createElement("div");
+        fecha.className = "item__fecha";
+        fecha.textContent = new Date(r.createdAt).toLocaleDateString("es-MX", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+
+        const accion = document.createElement("div");
+        accion.className = "item__accion";
 
         if (esAmistad(r)) {
           const estado = estadoDe(r);
           const btn = document.createElement("button");
           btn.type = "button";
           btn.className = `estado estado--${estado}`;
-          btn.textContent = estado === "pagado" ? "✓ Pagado" : "Pendiente";
-          btn.title = estado === "pagado" ? "Marcar como pendiente" : "Marcar como pagado";
+          btn.textContent = estado === "pagado" ? "✓ Pagado ($350)" : "Marcar como pagado";
+          btn.title = estado === "pagado" ? "Haz clic si necesitas regresarlo a pendiente" : "Haz clic cuando recibas su comprobante";
           btn.addEventListener("click", () => cambiarEstado(r, btn));
-          li.append(btn);
+          accion.append(btn);
         } else {
           const etiqueta = document.createElement("span");
-          etiqueta.className = "etiqueta";
-          etiqueta.textContent = r.asistencia === "no" ? "" : "Sin costo";
-          li.append(etiqueta);
+          etiqueta.className = "etiqueta-sincosto";
+          etiqueta.textContent = r.asistencia === "no" ? "—" : "Sin costo de boleto";
+          accion.append(etiqueta);
         }
+
+        li.append(nombre, vinculo, fecha, accion);
         return li;
       }
 
       async function cambiarEstado(r: Registro, btn: HTMLButtonElement) {
         const nuevo = estadoDe(r) === "pagado" ? "pendiente" : "pagado";
-        if (nuevo === "pendiente" && !confirm(`¿Regresar a "${r.nombre}" a pendiente?`)) return;
+        if (nuevo === "pendiente" && !confirm(`¿Regresar a "${r.nombre}" a estado PENDIENTE de pago?`)) return;
         btn.disabled = true;
+        btn.textContent = "Guardando…";
         const res = await client.models.RSVP.update({ id: r.id, estadoPago: nuevo }, { selectionSet: ["id", "estadoPago"] });
         if (res.errors?.length) {
           btn.disabled = false;
           alert("No se pudo actualizar: " + res.errors.map((e) => e.message).join("; "));
+          pintar();
           return;
         }
         r.estadoPago = nuevo;
@@ -225,10 +1057,13 @@
       }
 
       async function entrarAlPanel() {
-        formLogin.hidden = true;
-        panel.hidden = false;
-        btnSalir.hidden = false;
+        vistaLogin.hidden = true;
+        vistaPanel.hidden = false;
         client = generateClient<Schema>({ authMode: "userPool" });
+        try {
+          const attrs = await fetchUserAttributes().catch(() => ({}));
+          if (attrs.email) $("admin-email").textContent = attrs.email;
+        } catch { /* noop */ }
         try {
           await cargar();
         } catch (e) {
@@ -238,55 +1073,101 @@
 
       formLogin.addEventListener("submit", async (ev) => {
         ev.preventDefault();
-        loginError.textContent = "";
-        const boton = formLogin.querySelector("button") as HTMLButtonElement;
-        boton.disabled = true;
+        mostrarErrorLogin("");
+        btnEntrar.disabled = true;
+        const textoOriginal = btnEntrar.textContent;
+        btnEntrar.textContent = "Verificando…";
+
         try {
           if (!esperandoNuevaPass) {
-            // Si había una sesión vieja en el navegador, la cerramos antes de entrar.
+            const email = $<HTMLInputElement>("login-email").value.trim();
+            const password = inputPass.value;
+            if (!email || !password) {
+              mostrarErrorLogin("Por favor escribe tu correo y contraseña.");
+              return;
+            }
             await signOut().catch(() => {});
-          }
-          const paso = esperandoNuevaPass
-            ? await confirmSignIn({ challengeResponse: $<HTMLInputElement>("login-nueva").value })
-            : await signIn({ username: $<HTMLInputElement>("login-email").value.trim(), password: $<HTMLInputElement>("login-pass").value });
-
-          if (paso.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
-            esperandoNuevaPass = true;
-            campoNueva.hidden = false;
-            $<HTMLInputElement>("login-nueva").required = true;
-            loginError.textContent = "Es tu primer inicio: elige una nueva contraseña (mín. 8 caracteres, mayúscula, número y símbolo).";
-          } else if (paso.isSignedIn) {
-            await entrarAlPanel();
+            const paso = await signIn({ username: email, password });
+            if (paso.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
+              esperandoNuevaPass = true;
+              pasoCredenciales.hidden = true;
+              pasoNuevaPass.hidden = false;
+              $("login-titulo").textContent = "Elige tu nueva contraseña";
+              $("login-subtitulo").textContent = "Solo se pide esta primera vez para activar tu cuenta.";
+              btnEntrar.textContent = "Guardar contraseña y entrar";
+              $<HTMLInputElement>("login-nueva").focus();
+              return;
+            }
+            if (paso.isSignedIn) {
+              await entrarAlPanel();
+            }
+          } else {
+            const nueva = $<HTMLInputElement>("login-nueva").value;
+            if (nueva.length < 8) {
+              mostrarErrorLogin("La nueva contraseña debe tener al menos 8 caracteres.");
+              return;
+            }
+            const paso = await confirmSignIn({ challengeResponse: nueva });
+            if (paso.isSignedIn) {
+              await entrarAlPanel();
+            }
           }
         } catch (e) {
-          loginError.textContent = (e as Error).message || "No se pudo iniciar sesión.";
+          mostrarErrorLogin((e as Error).message || "No se pudo iniciar sesión.");
         } finally {
-          boton.disabled = false;
+          btnEntrar.disabled = false;
+          if (!esperandoNuevaPass) btnEntrar.textContent = textoOriginal;
         }
       });
 
-      btnSalir.addEventListener("click", async () => {
+      $("btn-salir").addEventListener("click", async () => {
         await signOut();
         location.reload();
+      });
+
+      $("btn-exportar").addEventListener("click", () => {
+        if (!registros.length) return alert("Aún no hay registros para exportar.");
+        const filas = [
+          ["Nombre completo", "Nombres", "Apellidos", "Asistencia", "Vínculo", "Estado de pago", "Fecha registro"],
+          ...registros.map((r) => [
+            r.nombre,
+            r.nombres ?? "",
+            r.apellidos ?? "",
+            r.asistencia ?? "",
+            r.grupo ?? "",
+            esAmistad(r) ? estadoDe(r) : "N/A",
+            new Date(r.createdAt).toLocaleString("es-MX"),
+          ]),
+        ];
+        const csv = "\uFEFF" + filas.map((f) => f.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `invitados-boda-ak-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
       });
 
       document.querySelectorAll<HTMLButtonElement>(".tab").forEach((tab) => {
         tab.addEventListener("click", () => {
           document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("activo", t === tab));
-          filtro = tab.dataset.filtro as typeof filtro;
+          filtro = tab.dataset.filtro as Filtro;
           pintar();
         });
       });
+
       buscar.addEventListener("input", pintar);
       $("btn-recargar").addEventListener("click", () => cargar().catch((e) => mostrarAviso((e as Error).message)));
 
       (async () => {
         if (!configureAmplify()) {
-          mostrarAviso("El backend de AWS todavía no está desplegado (falta amplify_outputs.json).");
+          vistaLogin.hidden = false;
+          mostrarErrorLogin("El backend de AWS todavía no está desplegado.");
           return;
         }
         if (await tieneSesion()) await entrarAlPanel();
-        else formLogin.hidden = false;
+        else vistaLogin.hidden = false;
       })();
     </script>
   </body>
