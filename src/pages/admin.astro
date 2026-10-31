@@ -1,0 +1,295 @@
+---
+/**
+ * Panel privado para la persona responsable de los pagos.
+ * Requiere iniciar sesión con un usuario de Cognito del grupo "admins".
+ */
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Panel de pagos · Ángel & Kenia</title>
+    <link rel="icon" type="image/png" href="/images/monograma.png" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="top">
+        <h1>Panel de pagos</h1>
+        <button id="btn-salir" type="button" class="link" hidden>Cerrar sesión</button>
+      </header>
+
+      <p id="aviso" class="aviso" hidden></p>
+
+      <!-- Inicio de sesión -->
+      <form id="form-login" class="card" hidden>
+        <h2>Iniciar sesión</h2>
+        <label>Correo<input id="login-email" type="email" autocomplete="username" required /></label>
+        <label>Contraseña<input id="login-pass" type="password" autocomplete="current-password" required /></label>
+        <label id="campo-nueva" hidden>Nueva contraseña (primer inicio)
+          <input id="login-nueva" type="password" autocomplete="new-password" minlength="8" />
+        </label>
+        <button type="submit" class="btn">Entrar</button>
+        <p id="login-error" class="error"></p>
+      </form>
+
+      <!-- Panel -->
+      <section id="panel" hidden>
+        <div class="stats">
+          <div><span id="st-confirmados">0</span><small>Asistirán</small></div>
+          <div><span id="st-pendientes">0</span><small>Amistades por pagar</small></div>
+          <div><span id="st-pagados">0</span><small>Amistades pagadas</small></div>
+          <div><span id="st-total">$0</span><small>Recaudado</small></div>
+        </div>
+
+        <div class="filtros">
+          <div class="tabs" role="tablist">
+            <button type="button" data-filtro="pendiente" class="tab activo">Por pagar</button>
+            <button type="button" data-filtro="pagado" class="tab">Pagados</button>
+            <button type="button" data-filtro="todos" class="tab">Todos</button>
+          </div>
+          <input id="buscar" type="search" placeholder="Buscar por nombre…" />
+          <button id="btn-recargar" type="button" class="link">↻ Recargar</button>
+        </div>
+
+        <ul id="lista" class="lista"></ul>
+        <p id="vacio" class="vacio" hidden>No hay registros en esta vista.</p>
+      </section>
+    </main>
+
+    <style>
+      :root { --marino: #263875; --boton: #526f9d; --crema: #f2f0ea; --ok: #2e7d4f; --pend: #b26a00; }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--crema); color: var(--marino); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .wrap { max-width: 720px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+      .top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+      h1 { font-size: 1.4rem; margin: 0.5rem 0 1rem; }
+      h2 { font-size: 1.1rem; margin: 0 0 1rem; }
+      .card { background: #fff; border-radius: 12px; padding: 1.25rem; box-shadow: 0 4px 18px rgba(38,56,117,.08); display: grid; gap: .8rem; max-width: 380px; margin: 2rem auto; }
+      label { display: grid; gap: .3rem; font-size: .85rem; font-weight: 500; }
+      input { font: inherit; padding: .65rem .75rem; border: 1px solid #cfd5e3; border-radius: 8px; color: inherit; }
+      .btn { font: inherit; font-weight: 600; padding: .75rem; border: 0; border-radius: 8px; background: var(--boton); color: #fff; cursor: pointer; }
+      .btn:disabled, .estado:disabled { opacity: .6; cursor: wait; }
+      .link { font: inherit; background: none; border: 0; color: var(--boton); cursor: pointer; text-decoration: underline; }
+      .error { color: #a5352b; font-size: .85rem; min-height: 1em; margin: 0; }
+      .aviso { background: #fff4e0; border: 1px solid #f0c987; padding: .8rem 1rem; border-radius: 8px; }
+      .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .6rem; margin-bottom: 1rem; }
+      .stats div { background: #fff; border-radius: 10px; padding: .75rem .5rem; text-align: center; box-shadow: 0 2px 10px rgba(38,56,117,.06); }
+      .stats span { display: block; font-size: 1.4rem; font-weight: 700; }
+      .stats small { font-size: .72rem; opacity: .8; }
+      .filtros { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-bottom: .8rem; }
+      .tabs { display: flex; background: #fff; border-radius: 8px; padding: 3px; }
+      .tab { font: inherit; font-size: .85rem; border: 0; background: none; padding: .45rem .8rem; border-radius: 6px; cursor: pointer; color: inherit; }
+      .tab.activo { background: var(--marino); color: #fff; }
+      #buscar { flex: 1; min-width: 160px; }
+      .lista { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+      .item { background: #fff; border-radius: 10px; padding: .8rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: .8rem; box-shadow: 0 2px 10px rgba(38,56,117,.05); }
+      .item__nombre { font-weight: 600; }
+      .item__meta { font-size: .78rem; opacity: .75; margin-top: .15rem; }
+      .estado { font: inherit; font-size: .82rem; font-weight: 600; border-radius: 999px; padding: .45rem .9rem; cursor: pointer; border: 2px solid; white-space: nowrap; }
+      .estado--pendiente { color: var(--pend); border-color: var(--pend); background: #fff8ec; }
+      .estado--pagado { color: #fff; border-color: var(--ok); background: var(--ok); }
+      .etiqueta { font-size: .78rem; opacity: .7; white-space: nowrap; }
+      .vacio { text-align: center; opacity: .7; margin-top: 2rem; }
+      @media (max-width: 520px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+
+    <script>
+      import { generateClient } from "aws-amplify/data";
+      import { signIn, signOut, confirmSignIn, getCurrentUser, fetchAuthSession } from "aws-amplify/auth";
+      import type { Schema } from "../../amplify/data/resource";
+      import { configureAmplify } from "../lib/aws";
+
+      const PRECIO_BOLETO = 350;
+
+      type Registro = {
+        id: string;
+        nombre: string;
+        asistencia?: "si" | "no" | null;
+        grupo?: string | null;
+        estadoPago?: "pendiente" | "pagado" | null;
+        createdAt: string;
+      };
+
+      const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+      const aviso = $("aviso");
+      const formLogin = $<HTMLFormElement>("form-login");
+      const loginError = $("login-error");
+      const campoNueva = $("campo-nueva");
+      const panel = $("panel");
+      const btnSalir = $<HTMLButtonElement>("btn-salir");
+      const lista = $("lista");
+      const vacio = $("vacio");
+      const buscar = $<HTMLInputElement>("buscar");
+
+      let registros: Registro[] = [];
+      let filtro: "pendiente" | "pagado" | "todos" = "pendiente";
+      let esperandoNuevaPass = false;
+      let client: ReturnType<typeof generateClient<Schema>>;
+
+      function mostrarAviso(texto: string) {
+        aviso.textContent = texto;
+        aviso.hidden = false;
+      }
+
+      const esAmistad = (r: Registro) => r.asistencia === "si" && r.grupo === "amistad";
+      const estadoDe = (r: Registro) => r.estadoPago ?? "pendiente";
+
+      async function esAdmin(): Promise<boolean> {
+        try {
+          await getCurrentUser();
+        } catch {
+          return false;
+        }
+        const session = await fetchAuthSession();
+        const grupos = (session.tokens?.accessToken.payload["cognito:groups"] as string[] | undefined) ?? [];
+        if (!grupos.includes("admins")) {
+          mostrarAviso("Tu usuario no pertenece al grupo \"admins\". Pide que te agreguen en la consola de AWS.");
+          return false;
+        }
+        return true;
+      }
+
+      async function cargar() {
+        const todos: Registro[] = [];
+        let nextToken: string | null | undefined;
+        do {
+          const res = await client.models.RSVP.list({ limit: 1000, nextToken });
+          if (res.errors?.length) throw new Error(res.errors.map((e) => e.message).join("; "));
+          todos.push(...(res.data as Registro[]));
+          nextToken = res.nextToken;
+        } while (nextToken);
+        registros = todos.sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+        pintar();
+      }
+
+      function pintar() {
+        const amistades = registros.filter(esAmistad);
+        const pagados = amistades.filter((r) => estadoDe(r) === "pagado").length;
+        $("st-confirmados").textContent = String(registros.filter((r) => r.asistencia === "si").length);
+        $("st-pendientes").textContent = String(amistades.length - pagados);
+        $("st-pagados").textContent = String(pagados);
+        $("st-total").textContent = `$${(pagados * PRECIO_BOLETO).toLocaleString("es-MX")}`;
+
+        const q = buscar.value.trim().toLowerCase();
+        const visibles = registros.filter((r) => {
+          if (q && !r.nombre.toLowerCase().includes(q)) return false;
+          if (filtro === "todos") return true;
+          return esAmistad(r) && estadoDe(r) === filtro;
+        });
+
+        lista.replaceChildren(...visibles.map(crearItem));
+        vacio.hidden = visibles.length > 0;
+      }
+
+      function crearItem(r: Registro): HTMLLIElement {
+        const li = document.createElement("li");
+        li.className = "item";
+
+        const info = document.createElement("div");
+        const nombre = document.createElement("div");
+        nombre.className = "item__nombre";
+        nombre.textContent = r.nombre;
+        const meta = document.createElement("div");
+        meta.className = "item__meta";
+        const vinculo = r.asistencia === "no" ? "No asistirá" : r.grupo === "familia" ? "Familia" : r.grupo === "amistad" ? "Amistad" : "—";
+        meta.textContent = `${vinculo} · ${new Date(r.createdAt).toLocaleDateString("es-MX", { day: "numeric", month: "short" })}`;
+        info.append(nombre, meta);
+        li.append(info);
+
+        if (esAmistad(r)) {
+          const estado = estadoDe(r);
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = `estado estado--${estado}`;
+          btn.textContent = estado === "pagado" ? "✓ Pagado" : "Pendiente";
+          btn.title = estado === "pagado" ? "Marcar como pendiente" : "Marcar como pagado";
+          btn.addEventListener("click", () => cambiarEstado(r, btn));
+          li.append(btn);
+        } else {
+          const etiqueta = document.createElement("span");
+          etiqueta.className = "etiqueta";
+          etiqueta.textContent = r.asistencia === "no" ? "" : "Sin costo";
+          li.append(etiqueta);
+        }
+        return li;
+      }
+
+      async function cambiarEstado(r: Registro, btn: HTMLButtonElement) {
+        const nuevo = estadoDe(r) === "pagado" ? "pendiente" : "pagado";
+        if (nuevo === "pendiente" && !confirm(`¿Regresar a "${r.nombre}" a pendiente?`)) return;
+        btn.disabled = true;
+        const res = await client.models.RSVP.update({ id: r.id, estadoPago: nuevo }, { selectionSet: ["id", "estadoPago"] });
+        if (res.errors?.length) {
+          btn.disabled = false;
+          alert("No se pudo actualizar: " + res.errors.map((e) => e.message).join("; "));
+          return;
+        }
+        r.estadoPago = nuevo;
+        pintar();
+      }
+
+      async function entrarAlPanel() {
+        formLogin.hidden = true;
+        panel.hidden = false;
+        btnSalir.hidden = false;
+        client = generateClient<Schema>({ authMode: "userPool" });
+        try {
+          await cargar();
+        } catch (e) {
+          mostrarAviso("No se pudo cargar la lista: " + (e as Error).message);
+        }
+      }
+
+      formLogin.addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        loginError.textContent = "";
+        const boton = formLogin.querySelector("button") as HTMLButtonElement;
+        boton.disabled = true;
+        try {
+          const paso = esperandoNuevaPass
+            ? await confirmSignIn({ challengeResponse: $<HTMLInputElement>("login-nueva").value })
+            : await signIn({ username: $<HTMLInputElement>("login-email").value.trim(), password: $<HTMLInputElement>("login-pass").value });
+
+          if (paso.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
+            esperandoNuevaPass = true;
+            campoNueva.hidden = false;
+            $<HTMLInputElement>("login-nueva").required = true;
+            loginError.textContent = "Es tu primer inicio: elige una nueva contraseña (mín. 8 caracteres, mayúscula, número y símbolo).";
+          } else if (paso.isSignedIn && (await esAdmin())) {
+            await entrarAlPanel();
+          }
+        } catch (e) {
+          loginError.textContent = (e as Error).message || "No se pudo iniciar sesión.";
+        } finally {
+          boton.disabled = false;
+        }
+      });
+
+      btnSalir.addEventListener("click", async () => {
+        await signOut();
+        location.reload();
+      });
+
+      document.querySelectorAll<HTMLButtonElement>(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("activo", t === tab));
+          filtro = tab.dataset.filtro as typeof filtro;
+          pintar();
+        });
+      });
+      buscar.addEventListener("input", pintar);
+      $("btn-recargar").addEventListener("click", () => cargar().catch((e) => mostrarAviso((e as Error).message)));
+
+      (async () => {
+        if (!configureAmplify()) {
+          mostrarAviso("El backend de AWS todavía no está desplegado (falta amplify_outputs.json).");
+          return;
+        }
+        if (await esAdmin()) await entrarAlPanel();
+        else formLogin.hidden = false;
+      })();
+    </script>
+  </body>
+</html>

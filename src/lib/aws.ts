@@ -13,14 +13,22 @@ const outputsModules = import.meta.glob<{ default: Record<string, unknown> }>(
 );
 const outputs = Object.values(outputsModules)[0]?.default;
 
+let configured = false;
 let client: ReturnType<typeof generateClient<Schema>> | undefined;
 
-function getClient() {
-  if (!outputs) return undefined;
-  if (!client) {
+/** Configura Amplify una sola vez. Devuelve false si aún no hay backend. */
+export function configureAmplify(): boolean {
+  if (!outputs) return false;
+  if (!configured) {
     Amplify.configure(outputs);
-    client = generateClient<Schema>({ authMode: 'apiKey' });
+    configured = true;
   }
+  return true;
+}
+
+function getClient() {
+  if (!configureAmplify()) return undefined;
+  if (!client) client = generateClient<Schema>({ authMode: 'apiKey' });
   return client;
 }
 
