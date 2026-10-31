@@ -16,17 +16,20 @@ const schema = a.schema({
       grupo: a.string(),
       /**
        * Estado del pago del boleto (solo aplica a "amistad").
-       * Vacío = pendiente. Solo el grupo "admins" puede leerlo o cambiarlo,
-       * así un invitado no puede marcarse como pagado desde el formulario.
+       * Vacío = pendiente. Cualquier usuario autenticado en /admin puede
+       * leerlo y cambiarlo; un invitado anónimo no puede tocarlo.
        */
-      estadoPago: a.ref('EstadoPago').authorization((allow) => [allow.group('admins')]),
+      estadoPago: a
+        .ref('EstadoPago')
+        .authorization((allow) => [allow.authenticated(), allow.group('admins')]),
     })
     .authorization((allow) => [
       // Los invitados (anónimos, con API key) solo pueden CREAR respuestas;
       // no pueden leer, editar ni borrar las de otras personas.
       allow.publicApiKey().to(['create']),
-      // La persona responsable (usuario de Cognito en el grupo "admins")
-      // puede ver la lista, cambiar el estado de pago y borrar duplicados.
+      // Cualquier usuario creado en Cognito puede usar el panel /admin
+      // sin necesidad de configurar grupos manualmente.
+      allow.authenticated().to(['read', 'update', 'delete']),
       allow.group('admins').to(['read', 'update', 'delete']),
     ]),
 });
