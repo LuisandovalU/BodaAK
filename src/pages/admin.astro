@@ -759,7 +759,28 @@
 
       .item__accion {
         display: flex;
+        align-items: center;
         justify-content: flex-end;
+        gap: 0.45rem;
+      }
+
+      .btn-borrar {
+        border: 1px solid #e8c2be;
+        background: #ffffff;
+        color: var(--peligro);
+        border-radius: 8px;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .btn-borrar:hover {
+        background: #fdecec;
+      }
+      .btn-borrar:disabled {
+        opacity: 0.5;
+        cursor: wait;
       }
 
       .estado {
@@ -1036,8 +1057,31 @@
           accion.append(etiqueta);
         }
 
+        const btnBorrar = document.createElement("button");
+        btnBorrar.type = "button";
+        btnBorrar.className = "btn-borrar";
+        btnBorrar.textContent = "Eliminar";
+        btnBorrar.title = "Eliminar este registro";
+        btnBorrar.addEventListener("click", () => eliminarRegistro(r, btnBorrar));
+        accion.append(btnBorrar);
+
         li.append(nombre, vinculo, fecha, accion);
         return li;
+      }
+
+      async function eliminarRegistro(r: Registro, btn: HTMLButtonElement) {
+        if (!confirm(`¿Seguro que quieres eliminar el registro de "${r.nombre}"? Esta acción no se puede deshacer.`)) return;
+        btn.disabled = true;
+        btn.textContent = "Borrando…";
+        const res = await client.models.RSVP.delete({ id: r.id }, { selectionSet: ["id"] });
+        if (res.errors?.length) {
+          btn.disabled = false;
+          btn.textContent = "Eliminar";
+          alert("No se pudo eliminar: " + res.errors.map((e) => e.message).join("; "));
+          return;
+        }
+        registros = registros.filter((item) => item.id !== r.id);
+        pintar();
       }
 
       async function cambiarEstado(r: Registro, btn: HTMLButtonElement) {
