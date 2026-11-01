@@ -57,7 +57,7 @@ const noUtilizar = [
   <!-- ============ Colores reservados (una línea roja los cruza) ============ -->
     <div class="paleta-reservados-container" data-reveal="fade-up">
     <ul class="paleta paleta--no" aria-label="Colores para no utilizar">
-      {noUtilizar.map((c) => <li class="color" style={`--c: ${c.hex}`} title={c.nombre} />)}
+      {noUtilizar.map((c) => <li class="color" style={`background-color: ${c.hex}; --c: ${c.hex};`} title={c.nombre} />)}
       <li class="paleta__tachado" aria-hidden="true" />
     </ul>
   </div>
@@ -222,10 +222,13 @@ const noUtilizar = [
     width: clamp(32px, 8vw, 38px);
     height: clamp(32px, 8vw, 38px);
     border-radius: 50%;
-    background: var(--c);
+    background-color: var(--c) !important;
     border: 1px solid rgba(38, 56, 117, 0.12);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     flex-shrink: 0;
+    forced-color-adjust: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .paleta__etiqueta {
