@@ -25,7 +25,7 @@ const momentos = [
   {
     icono: "/images/icon-detalles-salida.png",
     nombre: "Salida",
-    hora: "10:30PM",
+    hora: "11:00PM",
   },
 ];
 ---
@@ -36,17 +36,17 @@ const momentos = [
       src="/images/flor-10.webp"
       alt=""
       aria-hidden="true"
-      class="flor-detalles flor-detalles--izquierda"
+      class="flor-detalles flor-detalles--izquierda floating-flower"
       data-reveal="slide-left"
-      style="top: 0.8rem; left: -22%; width: 36%; max-width: 185px; height: auto; opacity: 1; z-index: 999; pointer-events: none; filter: blur(0px); transform: none;"
+      style="--flower-origin: top left; --float-delay: 0.6s; top: 0.8rem; left: -22%; width: 36%; max-width: 185px; height: auto; opacity: 1; z-index: 0; pointer-events: none; filter: blur(0px); transform: none;"
     />
     <img loading="lazy" decoding="async"
       src="/images/flor-10.webp"
       alt=""
       aria-hidden="true"
-      class="flor-detalles flor-detalles--derecha"
+      class="flor-detalles flor-detalles--derecha floating-flower"
       data-reveal="slide-right"
-      style="position:absolute; top:1rem; right:-18%; width:36%; max-width:185px; height:auto; opacity:0.95; z-index:999; pointer-events:none;"
+      style="--flower-origin: top right; --float-delay: 1.8s; position:absolute; top:1rem; right:-18%; width:36%; max-width:185px; height:auto; opacity:0.95; z-index:0; pointer-events:none;"
     />
 
   <img loading="lazy" decoding="async" src="/images/caligrafia-detalles.webp" alt="Detalles" class="titulo-seccion detalles__titulo" data-reveal="fade-up" style="width:80%; max-width:200px; display:block; margin:auto;" />
@@ -85,7 +85,7 @@ const momentos = [
     max-width: 185px;
     height: auto;
     opacity: 0.86;
-    z-index: 999;
+    z-index: 0;
     pointer-events: none;
   }
 
@@ -113,8 +113,8 @@ const momentos = [
 
   .momentos {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.4rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.2rem;
     max-width: 430px;
     margin: 3rem auto 0;
   }
@@ -134,7 +134,8 @@ const momentos = [
 
   .momento__nombre {
     font-family: "Fraunces", "Cormorant Garamond", serif;
-    font-size: 1.05rem;
+    font-size: clamp(0.82rem, 3.9vw, 1.05rem);
+    white-space: nowrap;
     font-weight: 500;
     letter-spacing: 0.04em;
     color: var(--ak-marino);
@@ -142,7 +143,8 @@ const momentos = [
 
   .momento__hora {
     font-family: "Fraunces", "Cormorant Garamond", serif;
-    font-size: 0.95rem;
+    font-size: clamp(0.78rem, 3.6vw, 0.95rem);
+    white-space: nowrap;
     font-weight: 500;
     color: var(--ak-marino);
     opacity: 0.85;

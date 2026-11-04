@@ -33,7 +33,7 @@ const noUtilizar = [
   <!-- ============ Recuadro: la única zona con color sólido ============ -->
     <div class="recuadro-wrapper" data-reveal="fade-up">
     <div class="recuadro-shadow" aria-hidden="true"></div>
-      <div class="recuadro" data-liquid-glass style="background: rgba(93,124,159,0.82);">
+      <div class="recuadro" data-liquid-glass style="background: #627fa5;">
       <!-- Esquinas ornamentales blancas -->
       <img loading="lazy" decoding="async" src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tl" />
         <img loading="lazy" decoding="async" src="/images/dresscode-corner-2.png" alt="" aria-hidden="true" class="recuadro__esquina recuadro__esquina--tr" style="transform: rotate(90deg);" />
@@ -80,8 +80,10 @@ const noUtilizar = [
   /* ---------- Contenedor y Recuadro con Sombra Desplazada ---------- */
   .recuadro-wrapper {
     position: relative;
-    width: 90%;
-    max-width: 440px;
+    width: calc(100% - 3.5rem);
+    max-width: 400px;
+    box-sizing: border-box;
+    align-self: center;
     margin: 0 auto;
   }
 
@@ -97,6 +99,8 @@ const noUtilizar = [
   }
 
   .recuadro {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     position: relative;
     z-index: 1;
     width: 100%;
@@ -148,6 +152,7 @@ const noUtilizar = [
   }
 
   .recuadro__gala {
+    opacity: 1;
     margin: 0.4rem 0 0;
     font-family: 'Fraunces', 'Cormorant Garamond', serif;
     font-size: 1.35rem;
@@ -161,7 +166,7 @@ const noUtilizar = [
   .siluetas {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1rem;
     align-items: start;
     margin: 2rem auto 0;
     max-width: 360px;
@@ -172,6 +177,7 @@ const noUtilizar = [
     flex-direction: column;
     align-items: center;
     margin: 0;
+    min-width: 0;
   }
 
   .silueta figcaption {
@@ -181,6 +187,12 @@ const noUtilizar = [
     font-weight: 400;
     letter-spacing: 0.02em;
     color: #ffffff;
+  }
+
+  .recuadro__titulo,
+  .silueta img {
+    filter: brightness(0) invert(1) drop-shadow(0 0 0.6px #fffdf6) drop-shadow(0 0 0.6px #fffdf6);
+    opacity: 1 !important;
   }
 
   .silueta img {
