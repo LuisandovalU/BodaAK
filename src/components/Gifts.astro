@@ -124,11 +124,12 @@ const clabe = '638180010146605599';
   /* ---------- Datos bancarios ---------- */
   .datos {
     position: relative;
-    max-width: 340px;
-    padding-left: 3.4rem;
+    max-width: 350px;
+    padding-left: 3.6rem;
+    padding-right: 0.25rem;
     box-sizing: border-box;
     font-size: 0.85rem;
-    margin: 2rem auto 0;
+    margin: 3.2rem auto 0;
     text-align: left;
   }
 
@@ -146,7 +147,7 @@ const clabe = '638180010146605599';
   }
   .ornato--cajas {
     right: -6px;
-    top: -62px;
+    top: -52px;
     width: 76px;
     opacity: 0.9;
   }
@@ -158,8 +159,10 @@ const clabe = '638180010146605599';
   }
   .dato {
     display: flex;
-    flex-wrap: nowrap;
-    white-space: nowrap;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    gap: 0.25rem;
     align-items: center;
     gap: 0.35rem;
   }
@@ -174,12 +177,14 @@ const clabe = '638180010146605599';
     color: var(--ak-marino);
   }
   .mono {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    letter-spacing: 0;
     font-weight: 500;
     letter-spacing: 0.02em;
   }
 
   .btn-copiar-icono {
+    flex: none;
     display: inline-flex;
     width: 26px;
     height: 26px;
